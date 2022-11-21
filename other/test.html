@@ -1,7 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+<script>
+
+    const code = `
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
-
 function App() {
   const [count, setCount] = useState(0)
 
@@ -32,3 +42,26 @@ function App() {
 }
 
 export default App
+`
+    const babelConfig = {
+        "babelrc": false,
+        "filename": "repl.jsx",
+        "sourceMap": false,
+        "assumptions": {},
+        "presets": [
+            [
+                "react",
+                {
+                    "runtime": "classic"
+                }
+            ]
+        ],
+        "plugins": [],
+        "sourceType": "module"
+    }
+    console.log(babelConfig)
+    const transformed = Babel.transform(code, babelConfig);
+    console.log(transformed.code)
+</script>
+</body>
+</html>
