@@ -1,3 +1,4 @@
+import '../../asset/header.css'
 export function PlayHeader() {
-  return <div>header</div>
+  return <div className="play-header">header</div>
 }

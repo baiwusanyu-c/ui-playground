@@ -6,7 +6,13 @@
   "scripts": {
     "build": "vite build"
   },
+  "dependencies": {
+  },
   "devDependencies": {
+    "@types/codemirror": "^5.60.2",
+    "codemirror": "^5.62.3",
+    "fflate": "^0.7.3",
+    "hash-sum": "^2.0.0",
     "vite": "^3.2.3"
   }
 }
