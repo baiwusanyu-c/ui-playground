@@ -34,3 +34,7 @@ export function atou(base64: string): string {
   // https://base64.guru/developers/javascript/examples/unicode-strings
   return decodeURIComponent(escape(binary))
 }
+
+export const extend = (objFir: any, objSec: any) => {
+  return Object.assign({}, objFir, objSec)
+}
