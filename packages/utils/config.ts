@@ -28,10 +28,14 @@ export const defaultConfig: playConfig = {
     subTitle: 'playground',
     logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
     homePage: 'https://ant.design/docs/react/introduce-cn',
-    uiCDN: '',
+
+    uiCDN: 'https://data.jsdelivr.com/v1/package/npm/ant-design-vue',
     uiVersion: 'latest',
-    libCDN: '',
+    uiMinVersion: '3.0.0',
+    libCDN: 'https://data.jsdelivr.com/v1/package/npm/vue',
     libVersion: 'latest',
+    libMinVersion: '3.2.0',
+
     iconList: [
       {
         url: 'https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg',
@@ -42,6 +46,7 @@ export const defaultConfig: playConfig = {
         link: 'https://github.com/ant-design/ant-design',
       },
     ],
+
     dark: true,
     cdnList: [],
   },

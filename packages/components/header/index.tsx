@@ -1,15 +1,18 @@
 import '../../asset/header.scss'
 import PropTypes from 'prop-types'
-import { Dropdown, Select, Space } from 'antd'
-import { useState } from 'react'
+import { Dropdown, Select } from 'antd'
+import { useEffect, useState } from 'react'
 import type { MenuProps } from 'antd'
+import { useMount } from 'ahooks'
 import type { headerOption, iconItem } from '../../utils/config'
 import { CarbonSun } from '../icon/sun'
 import { CarbonSetting } from '../icon/setting'
 import { CarbonMoon } from '../icon/moon'
+import { versionStore } from '../../store/version'
+import type { ISelectItem } from '../../utils'
+import { createSelectList } from '../../utils'
 // TODO：CDN
 // TODO: Dark
-// TODO: version
 // TODO: mobile
 
 interface IHeaderProps {
@@ -22,44 +25,28 @@ PlayHeader.propTypes = {
 export function PlayHeader(props: IHeaderProps) {
   /** ******************* 设置版本 **********************/
 
-  const uiVersionList = [
-    {
-      value: 'jack',
-      label: 'Jack',
-    },
-    {
-      value: 'lucy',
-      label: 'Lucy',
-    },
-    {
-      value: 'disabled',
-      disabled: true,
-      label: 'Disabled',
-    },
-    {
-      value: 'Yiminghe',
-      label: 'yiminghe',
-    },
-  ]
-  const libVersionList = [
-    {
-      value: 'jack',
-      label: 'Jack',
-    },
-    {
-      value: 'lucy',
-      label: 'Lucy',
-    },
-    {
-      value: 'disabled',
-      disabled: true,
-      label: 'Disabled',
-    },
-    {
-      value: 'Yiminghe',
-      label: 'yiminghe',
-    },
-  ]
+  // 初始化版本
+  const [uiVersion] = useState<string>(props.config.uiVersion!)
+  const [libVersion] = useState<string>(props.config.libVersion!)
+  useMount(() => {
+    versionStore.init(props.config)
+  })
+
+  const [uiVersionList, setUiList] = useState<Array<ISelectItem>>([])
+  const [libVersionList, setLibList] = useState<Array<ISelectItem>>([])
+  useEffect(() => {
+    versionStore.getVersion('ui').then((res: any) => {
+      setUiList(createSelectList(res, 'uiVersionList'))
+    })
+    versionStore.getVersion('lib').then((res: any) => {
+      setLibList(createSelectList(res, 'libVersionList'))
+    })
+  }, [setUiList, setLibList])
+
+  const handleSelect = (data: string, type: 'ui' | 'lib') => {
+    versionStore.setVersion(data, type)
+  }
+
   /** ******************* 相关连接图标设置 **********************/
 
   const iconList = (list?: Array<iconItem>) => {
@@ -107,13 +94,15 @@ export function PlayHeader(props: IHeaderProps) {
         <div className="header-right">
             <span>version:</span>
             <Select
-                defaultValue="lucy"
+                onChange={data => handleSelect(data, 'ui')}
+                defaultValue={uiVersion}
                 style={{ width: 120, margin: '0 10px' }}
                 options={uiVersionList}
             />
             <span>dep version:</span>
             <Select
-                defaultValue="lucy"
+                onChange={data => handleSelect(data, 'lib')}
+                defaultValue={libVersion}
                 style={{ width: 120, margin: '0 10px' }}
                 options={libVersionList}
             />
@@ -124,9 +113,7 @@ export function PlayHeader(props: IHeaderProps) {
               : <CarbonSun className="icon" onClick={setDarkClass}/>}
 
             <Dropdown menu={{ items }}>
-                <Space>
                     <CarbonSetting className="icon"/>
-                </Space>
             </Dropdown>
         </div>
       </div>
