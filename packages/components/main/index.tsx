@@ -1,6 +1,7 @@
 import '../../asset/main.css'
 import { Layout } from '../layout'
 import { versionStore } from '../../store/version'
+import { depsStore } from '../../store/deps'
 
 function testE() {
   return <div style={{ width: '50%' }}></div>
@@ -8,7 +9,9 @@ function testE() {
 export function PlayMain() {
   const handleClick = () => {
     console.log(versionStore.uiVersion)
+    console.log(depsStore)
   }
+  console.log(depsStore)
 
   // TODO：layout
   const layout = 'h'

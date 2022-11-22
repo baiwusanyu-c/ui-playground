@@ -3,24 +3,36 @@ export declare interface iconItem {
   link: string
   url: string
 }
+export declare interface CDNItem {
+  link: string
+  name: string
+}
+
 export declare interface headerOption {
   title: string
   subTitle: string
   logo: string
   homePage: string
-  uiCDN?: string
+  uiVersionLink?: string
   uiVersion?: string
   uiMinVersion?: string
-  libCDN?: string
+  libVersionLink?: string
   libVersion?: string
   libMinVersion?: string
   iconList?: Array<iconItem>
   dark: boolean
-  cdnList: Array<string>
+  cdnList: Array<CDNItem>
+  cdnSet: Function
 }
-
+export declare interface importItem {
+  name: string
+  pkgName: string
+  indexPath: string
+  type: 'lib' | 'ui' | 'other'
+}
 export declare interface playConfig {
   headerOption: headerOption
+  importMap: Array<importItem>
 }
 export const defaultConfig: playConfig = {
   headerOption: {
@@ -29,10 +41,10 @@ export const defaultConfig: playConfig = {
     logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
     homePage: 'https://ant.design/docs/react/introduce-cn',
 
-    uiCDN: 'https://data.jsdelivr.com/v1/package/npm/ant-design-vue',
+    uiVersionLink: 'https://data.jsdelivr.com/v1/package/npm/ant-design-vue',
     uiVersion: 'latest',
     uiMinVersion: '3.0.0',
-    libCDN: 'https://data.jsdelivr.com/v1/package/npm/vue',
+    libVersionLink: 'https://data.jsdelivr.com/v1/package/npm/vue',
     libVersion: 'latest',
     libMinVersion: '3.2.0',
 
@@ -48,8 +60,36 @@ export const defaultConfig: playConfig = {
     ],
 
     dark: true,
-    cdnList: [],
+    cdnList: [{
+      name: 'unpkg',
+      link: 'https://unpkg.com/',
+    },
+    {
+      name: 'jsdelivr',
+      link: 'https://fastly.jsdelivr.net/npm/',
+    }],
+    cdnSet: () => {},
   },
+  importMap: [
+    {
+      name: '@vue/runtime-dom',
+      pkgName: '@vue/runtime-dom',
+      indexPath: '/dist/runtime-dom.esm-browser.js',
+      type: 'lib',
+    },
+    {
+      name: ' @vue/compiler-sfc',
+      pkgName: ' @vue/compiler-sfc',
+      indexPath: '/dist/runtime-sfc.esm-browser.js',
+      type: 'lib',
+    },
+    {
+      name: 'ant-design-vue',
+      pkgName: 'ant-design-vue',
+      indexPath: '/dist/antd.min.js',
+      type: 'ui',
+    },
+  ],
 }
 
 export const mergeConfig = (config: playConfig, defaultConfigs = defaultConfig) => {

@@ -48,11 +48,11 @@ export const versionStore = {
   init(config: headerOption): void {
     this.uiVersion = config.uiVersion || 'latest'
     this.uiMinVersion = config.uiMinVersion!
-    this.uiVersionLink = config.uiCDN || 'latest'
+    this.uiVersionLink = config.uiVersionLink || 'latest'
 
     this.libVersion = config.libVersion || 'latest'
     this.libMinVersion = config.libMinVersion!
-    this.libVersionLink = config.libCDN || 'latest'
+    this.libVersionLink = config.libVersionLink || 'latest'
   },
 
   setVersion(version: string, type: 'ui' | 'lib'): void {

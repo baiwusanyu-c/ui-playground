@@ -11,6 +11,7 @@ import { CarbonMoon } from '../icon/moon'
 import { versionStore } from '../../store/version'
 import type { ISelectItem } from '../../utils'
 import { createSelectList, getStorage, setStorage } from '../../utils'
+import { depsStore } from '../../store/deps'
 // TODO：CDN
 
 interface IHeaderProps {
@@ -27,10 +28,10 @@ export function PlayHeader(props: IHeaderProps) {
   const [uiVersion] = useState<string>(props.config.uiVersion!)
   const [libVersion] = useState<string>(props.config.libVersion!)
   useMount(() => {
-    versionStore.init(props.config)
     setDarkClass(true)
   })
 
+  versionStore.init(props.config)
   const [uiVersionList, setUiList] = useState<Array<ISelectItem>>([])
   const [libVersionList, setLibList] = useState<Array<ISelectItem>>([])
   useEffect(() => {
@@ -80,19 +81,18 @@ export function PlayHeader(props: IHeaderProps) {
     const htmlEl = document.querySelector('html') as Element
     htmlEl.className = isDark ? 'dark' : ''
   }, [isDark])
+
   /** ******************* cdn 设置 **********************/
 
-  const items: MenuProps['items'] = [
-    {
-      key: 'awdawd',
-      label: <span>awdqwdasdadqw</span>,
-    },
-    {
-      key: 'asfaegerg',
-      label: <span>yiminghe</span>,
-    },
-  ]
-
+  const items: MenuProps['items'] = props.config.cdnList.map((val) => {
+    return { value: val.link, label: val.name, key: val.link }
+  })
+  const handleSelectCDN = (e: any) => {
+    const cdnType = e.domEvent.currentTarget.innerText
+    const uiVersion = versionStore.uiVersion
+    const libVersion = versionStore.libVersion
+    depsStore.setDepsByCDN(cdnType, uiVersion, libVersion)
+  }
   return (
       <div className="play-header">
         <div className="header-left">
@@ -125,7 +125,7 @@ export function PlayHeader(props: IHeaderProps) {
               ? <CarbonMoon className="icon" onClick={() => setDarkClass(undefined, false)}/>
               : <CarbonSun className="icon" onClick={() => setDarkClass(undefined, true)}/>}
 
-            <Dropdown menu={{ items }}>
+            <Dropdown menu={{ items, onClick: e => handleSelectCDN(e) }}>
                     <CarbonSetting className="icon"/>
             </Dropdown>
         </div>
