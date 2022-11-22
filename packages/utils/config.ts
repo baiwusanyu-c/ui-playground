@@ -42,7 +42,7 @@ export const defaultConfig: playConfig = {
         link: 'https://react.docschina.org/',
       },
       {
-        url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg-blog.csdnimg.cn%2Fimg_convert%2F47127ad9b60270905b13deb37587cb09.png&refer=http%3A%2F%2Fimg-blog.csdnimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1671631806&t=640a8b430f6c933f5f43b0044948d6da',
+        url: 'https://github.githubassets.com/favicons/favicon.svg',
         link: 'https://github.com/ant-design/ant-design',
       },
     ],

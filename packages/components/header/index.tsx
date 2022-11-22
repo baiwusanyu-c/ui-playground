@@ -10,10 +10,8 @@ import { CarbonSetting } from '../icon/setting'
 import { CarbonMoon } from '../icon/moon'
 import { versionStore } from '../../store/version'
 import type { ISelectItem } from '../../utils'
-import { createSelectList } from '../../utils'
+import { createSelectList, getStorage, setStorage } from '../../utils'
 // TODO：CDN
-// TODO: Dark
-// TODO: mobile
 
 interface IHeaderProps {
   config: headerOption
@@ -30,6 +28,7 @@ export function PlayHeader(props: IHeaderProps) {
   const [libVersion] = useState<string>(props.config.libVersion!)
   useMount(() => {
     versionStore.init(props.config)
+    setDarkClass(true)
   })
 
   const [uiVersionList, setUiList] = useState<Array<ISelectItem>>([])
@@ -66,9 +65,21 @@ export function PlayHeader(props: IHeaderProps) {
   /** ******************* 设置黑暗模式 **********************/
 
   const [isDark, setDark] = useState(props.config.dark)
-  const setDarkClass = () => {
-    setDark(!isDark)
+  function setDarkClass(isInit?: boolean, dark?: boolean) {
+    if (isInit) {
+      const cache = getStorage('dark')
+      if (!(!cache && cache !== false && cache !== 'false'))
+        setDark(cache)
+    }
+    else {
+      setStorage('dark', (dark!).toString())
+      setDark(dark!)
+    }
   }
+  useEffect(() => {
+    const htmlEl = document.querySelector('html') as Element
+    htmlEl.className = isDark ? 'dark' : ''
+  }, [isDark])
   /** ******************* cdn 设置 **********************/
 
   const items: MenuProps['items'] = [
@@ -92,15 +103,17 @@ export function PlayHeader(props: IHeaderProps) {
             <span>{props.config.subTitle}</span>
         </div>
         <div className="header-right">
-            <span>version:</span>
+            <span className="version-label">version:</span>
             <Select
+                className="version-select"
                 onChange={data => handleSelect(data, 'ui')}
                 defaultValue={uiVersion}
                 style={{ width: 120, margin: '0 10px' }}
                 options={uiVersionList}
             />
-            <span>dep version:</span>
+            <span className="version-label">dep version: {isDark}</span>
             <Select
+                className="version-select"
                 onChange={data => handleSelect(data, 'lib')}
                 defaultValue={libVersion}
                 style={{ width: 120, margin: '0 10px' }}
@@ -109,8 +122,8 @@ export function PlayHeader(props: IHeaderProps) {
             {iconList(props.config.iconList)}
 
             {isDark
-              ? <CarbonMoon className="icon" onClick={setDarkClass}/>
-              : <CarbonSun className="icon" onClick={setDarkClass}/>}
+              ? <CarbonMoon className="icon" onClick={() => setDarkClass(undefined, false)}/>
+              : <CarbonSun className="icon" onClick={() => setDarkClass(undefined, true)}/>}
 
             <Dropdown menu={{ items }}>
                     <CarbonSetting className="icon"/>

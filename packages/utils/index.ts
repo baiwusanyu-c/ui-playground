@@ -45,3 +45,15 @@ export const createSelectList = (list: Array<string>, key: string) => {
     return { value: val, label: val, key: val + key }
   })
 }
+
+export function setStorage(key: string, data: string) {
+  if (!localStorage)
+    return
+
+  if (key != null && data != null)
+    localStorage.setItem(key, data)
+}
+
+export function getStorage(key: string) {
+  return localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key)!) : null
+}
