@@ -1,10 +1,10 @@
 import type { playConfig } from '../utils/config'
 import { mergeConfig } from '../utils/config'
+import { depsStore } from '../store/deps'
 import { PlayMain } from './main'
 import { PlayHeader } from './header'
 import '../asset/index.css'
 import 'antd/dist/reset.css'
-import { depsStore } from '../store/deps'
 
 export declare interface PlayGroundProps {
   config: playConfig

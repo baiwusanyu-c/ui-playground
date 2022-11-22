@@ -29,11 +29,13 @@ export declare interface importItem {
   pkgName: string
   indexPath: string
   type: 'lib' | 'ui' | 'other'
+  cdnLink?: string // 'other' 类型才传
 }
 export declare interface playConfig {
   headerOption: headerOption
   importMap: Array<importItem>
 }
+export const jsdelivrLink = 'https://fastly.jsdelivr.net/'
 export const defaultConfig: playConfig = {
   headerOption: {
     title: 'Ant Design',
@@ -66,9 +68,18 @@ export const defaultConfig: playConfig = {
     },
     {
       name: 'jsdelivr',
-      link: 'https://fastly.jsdelivr.net/npm/',
-    }],
-    cdnSet: () => {},
+      link: jsdelivrLink,
+    }, {
+      name: 'toaw',
+      link: 'https://toaw.com/',
+    },
+    ],
+    cdnSet: (
+      link: string,
+      pkgName: string,
+      version: string,
+      indexPath: string,
+    ) => `${link}${pkgName}@${version}${indexPath}`,
   },
   importMap: [
     {
@@ -79,7 +90,7 @@ export const defaultConfig: playConfig = {
     },
     {
       name: ' @vue/compiler-sfc',
-      pkgName: ' @vue/compiler-sfc',
+      pkgName: '@vue/compiler-sfc',
       indexPath: '/dist/runtime-sfc.esm-browser.js',
       type: 'lib',
     },
@@ -88,6 +99,13 @@ export const defaultConfig: playConfig = {
       pkgName: 'ant-design-vue',
       indexPath: '/dist/antd.min.js',
       type: 'ui',
+    },
+    {
+      name: 'ant-design-other',
+      pkgName: 'ant-design-other',
+      indexPath: '/dist/other.min.js',
+      type: 'other',
+      cdnLink: jsdelivrLink,
     },
   ],
 }

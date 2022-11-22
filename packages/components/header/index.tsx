@@ -12,6 +12,7 @@ import { versionStore } from '../../store/version'
 import type { ISelectItem } from '../../utils'
 import { createSelectList, getStorage, setStorage } from '../../utils'
 import { depsStore } from '../../store/deps'
+import { jsdelivrLink } from '../../utils/config'
 // TODO：CDN
 
 interface IHeaderProps {
@@ -27,8 +28,17 @@ export function PlayHeader(props: IHeaderProps) {
   // 初始化版本
   const [uiVersion] = useState<string>(props.config.uiVersion!)
   const [libVersion] = useState<string>(props.config.libVersion!)
+  let cdnType = 'jsdelivr'
+  let cdnLink = jsdelivrLink
   useMount(() => {
     setDarkClass(true)
+    // 初始化 cdn
+    depsStore.setDepsByCDN(
+      cdnLink,
+      cdnType,
+      uiVersion,
+      libVersion,
+      props.config.cdnSet)
   })
 
   versionStore.init(props.config)
@@ -45,6 +55,15 @@ export function PlayHeader(props: IHeaderProps) {
 
   const handleSelect = (data: string, type: 'ui' | 'lib') => {
     versionStore.setVersion(data, type)
+    // 更新 cdn
+    const uiVersion = versionStore.uiVersion
+    const libVersion = versionStore.libVersion
+    depsStore.setDepsByCDN(
+      cdnLink,
+      cdnType,
+      uiVersion,
+      libVersion,
+      props.config.cdnSet)
   }
 
   /** ******************* 相关连接图标设置 **********************/
@@ -88,10 +107,14 @@ export function PlayHeader(props: IHeaderProps) {
     return { value: val.link, label: val.name, key: val.link }
   })
   const handleSelectCDN = (e: any) => {
-    const cdnType = e.domEvent.currentTarget.innerText
     const uiVersion = versionStore.uiVersion
     const libVersion = versionStore.libVersion
-    depsStore.setDepsByCDN(cdnType, uiVersion, libVersion)
+    depsStore.setDepsByCDN(
+      cdnLink = e.key,
+      cdnType = e.domEvent.currentTarget.innerText,
+      uiVersion,
+      libVersion,
+      props.config.cdnSet)
   }
   return (
       <div className="play-header">
