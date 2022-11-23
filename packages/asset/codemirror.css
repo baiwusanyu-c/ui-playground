@@ -23,7 +23,8 @@
 
   direction: ltr;
   font-family: var(--font-code);
-  height: auto;
+  line-height: 1.5;
+  height: 100%;
 }
 
 .dark .CodeMirror {

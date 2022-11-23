@@ -1,0 +1,11 @@
+.editor-container {
+  height: calc(100% - var(--selector-h));
+  overflow: hidden;
+  position: relative;
+  .editor {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+}

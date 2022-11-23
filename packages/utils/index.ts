@@ -57,3 +57,5 @@ export function setStorage(key: string, data: string) {
 export function getStorage(key: string) {
   return localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key)!) : null
 }
+
+export const checkFileType = (filename: string) => /\.(vue|js|jsx|tsx|ts|css)$/.test(filename)

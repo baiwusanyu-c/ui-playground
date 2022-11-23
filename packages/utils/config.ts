@@ -34,6 +34,10 @@ export declare interface importItem {
 export declare interface playConfig {
   headerOption: headerOption
   importMap: Array<importItem>
+  mainFile: {
+    filename: string
+    code: string
+  }
 }
 export const jsdelivrLink = 'https://fastly.jsdelivr.net/'
 export const defaultConfig: playConfig = {
@@ -108,6 +112,19 @@ export const defaultConfig: playConfig = {
       cdnLink: jsdelivrLink,
     },
   ],
+  mainFile: {
+    filename: 'App.vue',
+    code: '<script setup>\n'
+      + 'import { ref } from \'vue\'\n'
+      + '\n'
+      + 'const msg = ref(\'Hello World!\')\n'
+      + '</script>\n'
+      + '\n'
+      + '<template>\n'
+      + '  <h1>{{ msg }}</h1>\n'
+      + '  <input v-model="msg">\n'
+      + '</template>',
+  },
 }
 
 export const mergeConfig = (config: playConfig, defaultConfigs = defaultConfig) => {

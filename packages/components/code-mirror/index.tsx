@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { useEffect } from 'react'
+import { useMount } from 'ahooks'
 import { debounce } from '../../utils'
 import type { elType } from '../../utils/types'
 import codeMirrorInst from './codemirror'
@@ -23,6 +24,7 @@ CodeMirror.defaultProps = {
   change: () => {},
 }
 
+let editor: any = null
 export function CodeMirror(props: ICodeMirrorProps) {
   const option = {
     autoCloseBrackets: true, // 输入时自动关闭括号和引号
@@ -65,17 +67,20 @@ export function CodeMirror(props: ICodeMirrorProps) {
     return editor
   }
 
+  useMount(() => {
+    editor = setCodeMirror()
+  })
   useEffect(() => {
-    const editor = setCodeMirror()
+    // 监听mode
+    editor.setOption('mode', props.mode)
+  }, [props.mode])
 
+  useEffect(() => {
     // 监听输入的代码
     const cur = editor.getValue()
     if (props.value !== cur)
       editor.setValue(props.value!)
-
-    // 监听mode
-    editor.setOption('mode', props.mode)
-  }, [props.value, props.mode])
+  }, [props.value])
 
   return <div className="editor" ref={el as elType}></div>
 }
