@@ -1,5 +1,6 @@
 import { extend } from './index'
 import {compileVue} from "./compiler";
+import {File} from "../store/file";
 export declare interface iconItem {
   link: string
   url: string
@@ -128,7 +129,9 @@ export const defaultConfig: playConfig = {
       + '  <input v-model="msg">\n'
       + '</template>',
   },
-  compiler:compileVue
+  compiler: (ctx:any, file: File, compiler: Record<string, any>)=> {
+    compileVue(ctx,file,compiler,{})
+  }
 }
 
 export const mergeConfig = (config: playConfig, defaultConfigs = defaultConfig) => {

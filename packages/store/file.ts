@@ -44,11 +44,11 @@ export const fileStore = {
     },
   } as File,
   mainFile: '',
-  errors:[] as Array<string>,
   files: {} as Record<string, File>, // 虚拟文件集合对象
   compilerFn: null as Function | null,
   compiler: {} as Record<string, any>,
   pendingCompiler: null as Promise<any> | null,
+  errors: [] as (string | Error)[],// 错误信息
   async init(file: File, compilerFn: Function) {
     this.mainFile = file.filename
     this.activeFile.filename = file.filename
@@ -100,7 +100,7 @@ export const fileStore = {
     }
     if(this.compilerFn){
       // 同时把从配置中 importMap 的 lib 类型的依赖传递出去，
-      file = this.compilerFn(file,this.compiler)
+      file = this.compilerFn(this, file, this.compiler)
     }
     // 其他文件类型调用用户的编译钩子完成
     /*if(file.filename.endsWith('.jsx')){

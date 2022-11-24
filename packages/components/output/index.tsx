@@ -11,13 +11,7 @@ export default function output() {
   const [curTab, setCurTab] = useState<outputType | 'preview'>('preview')
   const [outMode, setOutputMode] = useState('htmlmixed')
   const setOutputModeCall = () => {
-    const { filename } = fileStore.activeFile
-    const res = filename.endsWith('.vue') || filename.endsWith('.html')
-      ? 'htmlmixed'
-      : filename.endsWith('.css')
-        ? 'css'
-        : 'javascript'
-    setOutputMode(res)
+    setOutputMode(curTab === 'css' ? 'css' : 'javascript')
   }
 
   const [outputCode, setOutputCode] = useState('')
