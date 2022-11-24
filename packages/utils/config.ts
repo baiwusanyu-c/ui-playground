@@ -1,6 +1,6 @@
+import type { File } from '../store/file'
+import { compileVue } from './compiler'
 import { extend } from './index'
-import {compileVue} from "./compiler";
-import {File} from "../store/file";
 export declare interface iconItem {
   link: string
   url: string
@@ -39,8 +39,8 @@ export declare interface playConfig {
   mainFile: {
     filename: string
     code: string
-  },
-  compiler?:Function
+  }
+  compiler?: Function
 }
 export const jsdelivrLink = 'https://fastly.jsdelivr.net/npm/'
 export const unpkgLink = 'https://unpkg.com/'
@@ -129,9 +129,9 @@ export const defaultConfig: playConfig = {
       + '  <input v-model="msg">\n'
       + '</template>',
   },
-  compiler: (ctx:any, file: File, compiler: Record<string, any>)=> {
-    compileVue(ctx,file,compiler,{})
-  }
+  compiler: (ctx: any, file: File, compiler: Record<string, any>) => {
+    compileVue(ctx, file, compiler, {})
+  },
 }
 
 export const mergeConfig = (config: playConfig, defaultConfigs = defaultConfig) => {

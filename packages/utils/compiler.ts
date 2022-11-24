@@ -1,24 +1,22 @@
 import { transform } from 'sucrase'
-import {File, fileStore} from "../store/file";
-// @ts-ignore
+// @ts-expect-error
 import hashId from 'hash-sum'
+import type { File, fileStore } from '../store/file'
 export async function transformTS(src: string) {
   return transform(src, {
-    transforms: ['typescript']
+    transforms: ['typescript'],
   }).code
 }
-export const COMP_IDENTIFIER = `__sfc__`
+export const COMP_IDENTIFIER = '__sfc__'
 
 export async function compileVue(
-  ctx:any,
+  ctx: any,
   file: File,
   compiler: Record<string, any>,
-  option: Record<string, any>)
-{
-
+  option: Record<string, any>) {
   const { errors, descriptor } = compiler['@vue/compiler-sfc'].parse(file.code, {
     filename: file.filename,
-    sourceMap: true
+    sourceMap: true,
   })
   if (errors.length) {
     ctx.errors = errors
@@ -26,27 +24,27 @@ export async function compileVue(
   }
 
   if (
-    descriptor.styles.some((s: {lang: string}) => s.lang) ||
-    (descriptor.template && descriptor.template.lang)
+    descriptor.styles.some((s: { lang: string }) => s.lang)
+    || (descriptor.template && descriptor.template.lang)
   ) {
     ctx.errors = [
-      `lang="x" pre-processors for <template> or <style> are currently not ` +
-      `supported.`
+      'lang="x" pre-processors for <template> or <style> are currently not '
+      + 'supported.',
     ]
     return
   }
 
   const id = hashId(file.filename)
-  const scriptLang =
-    (descriptor.script && descriptor.script.lang) ||
-    (descriptor.scriptSetup && descriptor.scriptSetup.lang)
+  const scriptLang
+    = (descriptor.script && descriptor.script.lang)
+    || (descriptor.scriptSetup && descriptor.scriptSetup.lang)
   const isTS = scriptLang === 'ts'
   if (scriptLang && !isTS) {
-    ctx.errors = [`Only lang="ts" is supported for <script> blocks.`]
+    ctx.errors = ['Only lang="ts" is supported for <script> blocks.']
     return
   }
 
-  const hasScoped = descriptor.styles.some((s:{scoped: string}) => s.scoped)
+  const hasScoped = descriptor.styles.some((s: { scoped: string }) => s.scoped)
   let clientCode = ''
   let ssrCode = ''
 
@@ -62,11 +60,11 @@ export async function compileVue(
     false,
     isTS,
     compiler['@vue/compiler-sfc'],
-    option
+    option,
   )
-  if (!clientScriptResult) {
+  if (!clientScriptResult)
     return
-  }
+
   const [clientScript, bindings] = clientScriptResult
   clientCode += clientScript
 
@@ -80,29 +78,25 @@ export async function compileVue(
       true,
       isTS,
       compiler['@vue/compiler-sfc'],
-      option
+      option,
     )
-    if (ssrScriptResult) {
+    if (ssrScriptResult)
       ssrCode += ssrScriptResult[0]
-    } else {
+    else
       ssrCode = `/* SSR compile error: ${ctx.errors[0]} */`
-    }
-  } else {
+  }
+  else {
     // when no <script setup> is used, the script result will be identical.
     ssrCode += clientScript
   }
   file.compiled.js = clientCode
   file.compiled.ssr = ssrCode
 
-
-
-
-
   // template
   // only need dedicated compilation if not using <script setup>
   if (
-    descriptor.template &&
-    (!descriptor.scriptSetup || option?.script?.inlineTemplate === false)
+    descriptor.template
+    && (!descriptor.scriptSetup || option?.script?.inlineTemplate === false)
   ) {
     const clientTemplateResult = await doCompileVueTemplate(
       ctx,
@@ -112,11 +106,11 @@ export async function compileVue(
       false,
       isTS,
       compiler['@vue/compiler-sfc'],
-      option
+      option,
     )
-    if (!clientTemplateResult) {
+    if (!clientTemplateResult)
       return
-    }
+
     clientCode += clientTemplateResult
 
     const ssrTemplateResult = await doCompileVueTemplate(
@@ -127,26 +121,27 @@ export async function compileVue(
       true,
       isTS,
       compiler['@vue/compiler-sfc'],
-      option
+      option,
     )
     if (ssrTemplateResult) {
       // ssr compile failure is fine
       ssrCode += ssrTemplateResult
-    } else {
+    }
+    else {
       ssrCode = `/* SSR compile error: ${ctx.errors[0]} */`
     }
   }
 
   if (hasScoped) {
     appendSharedCode(
-      `\n${COMP_IDENTIFIER}.__scopeId = ${JSON.stringify(`data-v-${id}`)}`
+      `\n${COMP_IDENTIFIER}.__scopeId = ${JSON.stringify(`data-v-${id}`)}`,
     )
   }
 
   if (clientCode || ssrCode) {
     appendSharedCode(
-      `\n${COMP_IDENTIFIER}.__file = ${JSON.stringify(file.filename)}` +
-      `\nexport default ${COMP_IDENTIFIER}`
+      `\n${COMP_IDENTIFIER}.__file = ${JSON.stringify(file.filename)}`
+      + `\nexport default ${COMP_IDENTIFIER}`,
     )
     file.compiled.js = clientCode.trimStart()
     file.compiled.ssr = ssrCode.trimStart()
@@ -157,7 +152,7 @@ export async function compileVue(
   for (const style of descriptor.styles) {
     if (style.module) {
       ctx.errors[0] = [
-        `<style module> is not supported in the playground.`
+        '<style module> is not supported in the playground.',
       ]
       return
     }
@@ -168,30 +163,30 @@ export async function compileVue(
       filename: file.filename,
       id,
       scoped: style.scoped,
-      modules: !!style.module
+      modules: !!style.module,
     })
     if (styleResult.errors.length) {
       // postcss uses pathToFileURL which isn't polyfilled in the browser
       // ignore these errors for now
-      if (!styleResult.errors[0].message.includes('pathToFileURL')) {
+      if (!styleResult.errors[0].message.includes('pathToFileURL'))
         ctx.errors[0] = styleResult.errors
-      }
+
       // proceed even if css compile errors
-    } else {
-      css += styleResult.code + '\n'
+    }
+    else {
+      css += `${styleResult.code}\n`
     }
   }
-  if (css) {
-    file.compiled.css  = css.trim()
-  } else {
+  if (css)
+    file.compiled.css = css.trim()
+  else
     file.compiled.css = '/* No <style> tags present */'
-  }
+
   // clear errors
   ctx.errors = []
 
   return file
 }
-
 
 async function doCompileVueScript(
   ctx: typeof fileStore,
@@ -200,8 +195,8 @@ async function doCompileVueScript(
   ssr: boolean,
   isTS: boolean,
   compiler: any,
-  options:  Record<string, any>
-): Promise<[string,any] | undefined> {
+  options: Record<string, any>,
+): Promise<[string, any] | undefined> {
   if (descriptor.script || descriptor.scriptSetup) {
     try {
       const expressionPlugins = isTS
@@ -217,36 +212,36 @@ async function doCompileVueScript(
           ssrCssVars: descriptor.cssVars,
           compilerOptions: {
             ...options?.template?.compilerOptions,
-            expressionPlugins
-          }
-        }
+            expressionPlugins,
+          },
+        },
       })
       let code = ''
       if (compiledScript.bindings) {
         code += `\n/!* Analyzed bindings: ${JSON.stringify(
           compiledScript.bindings,
           null,
-          2
+          2,
         )} *!/`
       }
-      code +=
-        `\n` +
-        compiler.rewriteDefault(
+      code
+        += `\n${
+         compiler.rewriteDefault(
           compiledScript.content,
           COMP_IDENTIFIER,
-          expressionPlugins
-        )
+          expressionPlugins,
+        )}`
 
-      if ((descriptor.script || descriptor.scriptSetup)!.lang === 'ts') {
+      if ((descriptor.script || descriptor.scriptSetup)!.lang === 'ts')
         code = await transformTS(code)
-      }
 
       return [code, compiledScript.bindings]
-    } catch (e: any) {
-      ctx.errors = [e.stack.split('\n').slice(0, 12).join('\n')]
-      return
     }
-  } else {
+    catch (e: any) {
+      ctx.errors = [e.stack.split('\n').slice(0, 12).join('\n')]
+    }
+  }
+  else {
     return [`\nconst ${COMP_IDENTIFIER} = {}`, undefined]
   }
 }
@@ -259,14 +254,14 @@ async function doCompileVueTemplate(
   ssr: boolean,
   isTS: boolean,
   compiler: any,
-  options:  Record<string, any>
+  options: Record<string, any>,
 ) {
   const templateResult = compiler.compileTemplate({
     ...options?.template,
     source: descriptor.template!.content,
     filename: descriptor.filename,
     id,
-    scoped: descriptor.styles.somesome((s:{scoped: string}) => s.scoped),
+    scoped: descriptor.styles.somesome((s: { scoped: string }) => s.scoped),
     slotted: descriptor.slotted,
     ssr,
     ssrCssVars: descriptor.cssVars,
@@ -274,25 +269,24 @@ async function doCompileVueTemplate(
     compilerOptions: {
       ...options?.template?.compilerOptions,
       bindingMetadata,
-      expressionPlugins: isTS ? ['typescript'] : undefined
-    }
+      expressionPlugins: isTS ? ['typescript'] : undefined,
+    },
   })
   if (templateResult.errors.length) {
     ctx.errors = templateResult.errors
     return
   }
 
-  const fnName = ssr ? `ssrRender` : `render`
+  const fnName = ssr ? 'ssrRender' : 'render'
 
-  let code =
-    `\n${templateResult.code.replace(
+  let code
+    = `\n${templateResult.code.replace(
       /\nexport (function|const) (render|ssrRender)/,
-      `$1 ${fnName}`
+      `$1 ${fnName}`,
     )}` + `\n${COMP_IDENTIFIER}.${fnName} = ${fnName}`
 
-  if ((descriptor.script || descriptor.scriptSetup)?.lang === 'ts') {
+  if ((descriptor.script || descriptor.scriptSetup)?.lang === 'ts')
     code = await transformTS(code)
-  }
 
   return code
 }

@@ -1,6 +1,6 @@
 import type { importItem } from '../utils/config'
-import {unpkgLink} from '../utils/config'
-import {fileStore} from "./file";
+import { unpkgLink } from '../utils/config'
+import { fileStore } from './file'
 export declare interface IDepsList {
   name: string
   path: string

@@ -1,6 +1,7 @@
 {
   "extends": "@baiwusanyu",
   "rules": {
-    "no-console": ["warn", { "allow": ["log","error"] }]
+    "no-console": ["warn", { "allow": ["log","error"] }],
+    "@typescript-eslint/ban-ts-comment": ["warn"]
   }
 }
