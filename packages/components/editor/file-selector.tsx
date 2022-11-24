@@ -7,6 +7,7 @@ import type { EventEmitter } from 'ahooks/lib/useEventEmitter'
 import { fileStore } from '../../store/file'
 import { checkFileType, extend } from '../../utils'
 // TODO: 所有文件信息、版本信息地址栏持久化
+// TODO: 编辑器报错
 export const FileSelector: FC<{
   event$: EventEmitter<void>
 }> = function (props) {
