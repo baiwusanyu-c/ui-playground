@@ -1,101 +1,10 @@
-.file-selector {
-  display: flex;
-  box-sizing: border-box;
-  border-bottom: 1px solid var(--border);
-  background-color: var(--bg);
-  overflow-y: hidden;
-  overflow-x: auto;
-  white-space: nowrap;
-  position: relative;
-  height: var(--selector-h);
-}
 
-.file-selector::-webkit-scrollbar {
-  height: 1px;
-}
-
-.file-selector::-webkit-scrollbar-track {
-  background-color: var(--border);
-}
-
-.file-selector::-webkit-scrollbar-thumb {
-  background-color: var(--color-branding);
-}
-
-.file-selector.has-import-map .add {
-  margin-right: 10px;
-}
-
-.file {
-  display: inline-block;
-  font-size: 13px;
-  font-family: var(--font-code);
-  cursor: pointer;
-  color: var(--text-light);
-  box-sizing: border-box;
-}
-.file.active {
-  color: var(--color-branding);
-  border-bottom: 3px solid var(--color-branding);
-  cursor: text;
-}
-.file span {
-  display: inline-block;
-  padding: 8px 10px 6px;
-  line-height: 20px;
-}
-.file.pending input {
-  width: 90px;
-  height: 30px;
-  line-height: 30px;
-  outline: none;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 0 0 0 10px;
-  margin-top: 2px;
-  margin-left: 6px;
-  font-family: var(--font-code);
-  font-size: 12px;
-}
-.file .remove {
-  display: inline-block;
-  vertical-align: middle;
-  line-height: 12px;
-  cursor: pointer;
-  padding-left: 0;
-}
-.add {
-  font-size: 18px;
-  font-family: var(--font-code);
-  color: #999;
-  vertical-align: middle;
-  margin-left: 6px;
-  position: relative;
-  top: -1px;
-}
-.add:hover {
-  color: var(--color-branding);
-}
-.icon {
-  margin-top: -1px;
-}
-.import-map-wrapper {
-  position: sticky;
-  margin-left: auto;
-  top: 0;
-  right: 0;
-  padding-left: 30px;
-  background-color: var(--bg);
-  background: linear-gradient(
-                  90deg,
-                  rgba(255, 255, 255, 0) 0%,
-                  rgba(255, 255, 255, 1) 25%
-  );
-}
-.dark .import-map-wrapper {
-  background: linear-gradient(
-                  90deg,
-                  rgba(26, 26, 26, 0) 0%,
-                  rgba(26, 26, 26, 1) 25%
-  );
+.play-ground .ant-tabs-editable-card{
+  .ant-tabs-tab{
+    padding: 0 6px !important;
+    .ant-tabs-tab-remove{
+      padding-left: 0;
+      padding-right: 8px;
+    }
+  }
 }

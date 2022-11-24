@@ -4,6 +4,7 @@ import { useEventEmitter } from 'ahooks'
 import { CodeMirror } from '../code-mirror'
 import { debounce } from '../../utils'
 import { fileStore } from '../../store/file'
+import evtBus from '../../utils/event-bus'
 import { FileSelector } from './file-selector'
 
 export default function editor() {
@@ -36,6 +37,7 @@ export default function editor() {
   event$.useSubscription(() => {
     setActiveModeCall()
     setActiveCodeCall()
+    evtBus.emit('editorMessage')
   })
   return (
     <>

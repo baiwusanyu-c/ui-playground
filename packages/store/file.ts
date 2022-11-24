@@ -46,6 +46,11 @@ export const fileStore = {
     this.mainFile = file.filename
     this.activeFile.filename = file.filename
     this.activeFile.code = file.code
+    // dev
+    this.activeFile.compiled.css = '#id{color:red}'
+    this.activeFile.compiled.ssr = 'let ssr = true'
+    this.activeFile.compiled.js = 'let a = 0'
+
     this.files[file.filename] = { ...this.activeFile }
   },
 

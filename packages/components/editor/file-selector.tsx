@@ -6,9 +6,7 @@ import { Input, Modal, Tabs } from 'antd'
 import type { EventEmitter } from 'ahooks/lib/useEventEmitter'
 import { fileStore } from '../../store/file'
 import { checkFileType, extend } from '../../utils'
-// TODO: 文件选中（与编辑器联动）
 // TODO: 所有文件信息、版本信息地址栏持久化
-// TODO: 当前激活文件变化能够记录到 active 和 files 中
 export const FileSelector: FC<{
   event$: EventEmitter<void>
 }> = function (props) {

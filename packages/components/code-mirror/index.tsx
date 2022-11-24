@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMount } from 'ahooks'
 import { debounce } from '../../utils'
 import type { elType } from '../../utils/types'
@@ -24,7 +24,6 @@ CodeMirror.defaultProps = {
   change: () => {},
 }
 
-let editor: any = null
 export function CodeMirror(props: ICodeMirrorProps) {
   const option = {
     autoCloseBrackets: true, // 输入时自动关闭括号和引号
@@ -35,6 +34,8 @@ export function CodeMirror(props: ICodeMirrorProps) {
   const el = React.createRef()
   const setCodeMirror = () => {
     const curVal = el?.current as HTMLElement
+    if (!curVal)
+      return
     // 通过 CodeMirror 创建编辑器
     const editor = codeMirrorInst(
       curVal, // 编辑器挂载的 dom
@@ -67,20 +68,21 @@ export function CodeMirror(props: ICodeMirrorProps) {
     return editor
   }
 
+  const [editorInst, setEditorInst] = useState(setCodeMirror())
   useMount(() => {
-    editor = setCodeMirror()
+    setEditorInst(setCodeMirror())
   })
   useEffect(() => {
     // 监听mode
-    editor.setOption('mode', props.mode)
-  }, [props.mode])
+    editorInst && editorInst!.setOption('mode', props.mode)
+  }, [props.mode, editorInst])
 
   useEffect(() => {
     // 监听输入的代码
-    const cur = editor.getValue()
+    const cur = editorInst && editorInst!.getValue()
     if (props.value !== cur)
-      editor.setValue(props.value!)
-  }, [props.value])
+      editorInst && editorInst!.setValue(props.value!)
+  }, [props.value, editorInst])
 
   return <div className="editor" ref={el as elType}></div>
 }

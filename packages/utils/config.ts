@@ -65,7 +65,7 @@ export const defaultConfig: playConfig = {
       },
     ],
 
-    dark: true,
+    dark: false,
     cdnList: [{
       name: 'unpkg',
       link: 'https://unpkg.com/',

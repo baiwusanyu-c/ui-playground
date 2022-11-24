@@ -3,9 +3,8 @@ import { Layout } from '../layout'
 // import { versionStore } from '../../store/version'
 // import { depsStore } from '../../store/deps'
 import Editor from '../editor'
-function testE() {
-  return <div style={{ width: '50%' }}></div>
-}
+import Output from '../output'
+
 export function PlayMain() {
   // const handleClick = () => {
   //   console.log(versionStore.uiVersion)
@@ -16,8 +15,8 @@ export function PlayMain() {
   // TODO：layout
   const layout = 'h'
   return (
-    <div className="vue-repl">
-      <Layout layout={layout} left={Editor()} right={testE()}/>
+    <div className="play-container">
+      <Layout layout={layout} left={Editor()} right={Output()}/>
     </div>
   )
 }
