@@ -59,3 +59,5 @@ export function getStorage(key: string) {
 }
 
 export const checkFileType = (filename: string) => /\.(vue|js|jsx|tsx|ts|css)$/.test(filename)
+
+export const isEmptyObj = (item: unknown): boolean => JSON.stringify(item) === '{}'

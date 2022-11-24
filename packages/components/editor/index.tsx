@@ -2,18 +2,19 @@ import '../../asset/editor.scss'
 import { useState } from 'react'
 import { useEventEmitter } from 'ahooks'
 import { CodeMirror } from '../code-mirror'
-import { debounce } from '../../utils'
+import {debounce, isEmptyObj} from '../../utils'
 import { fileStore } from '../../store/file'
 import evtBus from '../../utils/event-bus'
 import { FileSelector } from './file-selector'
-
+import {depsStore} from "../../store/deps";
 export default function editor() {
   // 获取 CodeMirror 编辑器传来的当前选择的虚拟文件代码内容
   const handleChange = debounce((code: string) => {
     // 更新到 store 中的当前文件代码属性上
     fileStore.activeFile.code = code
-    fileStore.updatedFilesByActive()
-    console.log(fileStore)
+    if(!isEmptyObj(fileStore.compiler)){
+      fileStore.compileFile(fileStore.activeFile)
+    }
   }, 250)
 
   // 计算获取当前选择虚拟文件的文件类型

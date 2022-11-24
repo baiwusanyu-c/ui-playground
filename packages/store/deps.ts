@@ -1,6 +1,7 @@
 import type { importItem } from '../utils/config'
-import { jsdelivrLink } from '../utils/config'
-declare interface IDepsList {
+import {unpkgLink} from '../utils/config'
+import {fileStore} from "./file";
+export declare interface IDepsList {
   name: string
   path: string
   type: 'lib' | 'ui' | 'other'
@@ -15,7 +16,7 @@ export const depsStore = {
   // 根据 CDN 和当前版本设置依赖
   // 只会触发 lib 类型和 ui 类型,最终作依赖在 depStore 中 deps
   // 只对 unpkg 和 jsdelivr 类型能够自动设置，其他 CDN 需要用户实现
-  setDepsByCDN(
+  async setDepsByCDN(
     cdnLink: string,
     cdnType: string,
     uiVersion: string,
@@ -48,7 +49,7 @@ export const depsStore = {
           }
           else {
             depsItem.path = formatCDNLink(
-              jsdelivrLink,
+              unpkgLink,
               value.pkgName,
               value.type === 'ui' ? uiVersion : libVersion,
               value.indexPath)
@@ -58,6 +59,10 @@ export const depsStore = {
 
       this.deps.push(depsItem)
     })
+    // 载入依赖
+    await fileStore.loadCompiler(this.deps)
+    // 载入重新编译
+    fileStore.compileFile(fileStore.activeFile)
   },
 }
 

@@ -22,7 +22,7 @@ export const FileSelector: FC<{
    */
   const onChange = (newActiveKey: string) => {
     setActiveKey(newActiveKey)
-    fileStore.setActiveFileByKey(newActiveKey)
+    fileStore.setActiveFileByName(newActiveKey)
     props.event$.emit()
   }
   /** ************************** 新增虚拟文件 ***********************************/
@@ -118,7 +118,7 @@ export const FileSelector: FC<{
         setItems(newPanes)
         setActiveKey(newActiveKey)
         fileStore.remove(targetKey)
-        fileStore.setActiveFileByKey(newActiveKey)
+        fileStore.setActiveFileByName(newActiveKey)
         props.event$.emit()
       },
     })

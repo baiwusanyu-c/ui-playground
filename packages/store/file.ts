@@ -1,4 +1,7 @@
 // TIP： 展示编译内容只根据当前激活虚拟文件
+import evtBus from "../utils/event-bus";
+import {transformTS} from "../utils/compiler";
+import {IDepsList} from "./deps";
 export interface File {
   filename: string // 文件名
   code: string // 源码
@@ -41,17 +44,17 @@ export const fileStore = {
     },
   } as File,
   mainFile: '',
+  errors:[] as Array<string>,
   files: {} as Record<string, File>, // 虚拟文件集合对象
-  init(file: File) {
+  compilerFn: null as Function | null,
+  compiler: {} as Record<string, any>,
+  pendingCompiler: null as Promise<any> | null,
+  async init(file: File, compilerFn: Function) {
     this.mainFile = file.filename
     this.activeFile.filename = file.filename
     this.activeFile.code = file.code
-    // dev
-    this.activeFile.compiled.css = '#id{color:red}'
-    this.activeFile.compiled.ssr = 'let ssr = true'
-    this.activeFile.compiled.js = 'let a = 0'
-
     this.files[file.filename] = { ...this.activeFile }
+    this.compilerFn = compilerFn
   },
 
   add(file: File) {
@@ -59,15 +62,64 @@ export const fileStore = {
     this.files[file.filename] = { ...this.activeFile }
   },
 
-  remove(key: string) {
-    Reflect.deleteProperty(this.files, key)
+  remove(filename: string) {
+    Reflect.deleteProperty(this.files, filename)
   },
 
-  setActiveFileByKey(key: string) {
-    this.activeFile = this.files[key]
+  setActiveFileByName(filename: string) {
+    this.activeFile = this.files[filename]
   },
 
   updatedFilesByActive() {
     this.files[this.activeFile.filename] = { ...this.activeFile }
   },
+
+  async loadCompiler(importMap: Array<IDepsList>){
+    for (let i = 0; i < importMap.length; i++) {
+      if(importMap[i].type === 'lib'){
+        this.pendingCompiler = import(/* @vite-ignore */ importMap[i].path) //编译器
+        this.compiler[importMap[i].name] = await this.pendingCompiler //编译器
+        this.pendingCompiler = null
+      }
+    }
+  },
+
+  async compileFile(file: File){
+    // css 不需要编译了
+    if(file.filename.endsWith('.css')){
+      file.compiled.css = file.code
+    }
+    // js 不需要编译了
+    if(file.filename.endsWith('.js')){
+      file.compiled.js = file.code
+    }
+
+    // ts 使用 sucrase 编译
+    if(file.filename.endsWith('.ts')){
+      file.compiled.js = await transformTS(file.code)
+    }
+    if(this.compilerFn){
+      // 同时把从配置中 importMap 的 lib 类型的依赖传递出去，
+      file = this.compilerFn(file,this.compiler)
+    }
+    // 其他文件类型调用用户的编译钩子完成
+    /*if(file.filename.endsWith('.jsx')){
+      // file.compiled.js = file.code
+    }
+
+
+    if(file.filename.endsWith('.tsx')){
+      // file.compiled.js = file.code
+    }
+
+    if(file.filename.endsWith('.vue')){
+      // file.compiled.js = file.code
+    }*/
+    // 调用用户的编译钩子
+
+    // 更新 active 到 file
+    this.updatedFilesByActive()
+    // 通知 output 更新
+    evtBus.emit('fileMessage')
+  }
 }

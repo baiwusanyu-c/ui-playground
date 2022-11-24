@@ -1,4 +1,5 @@
 import { extend } from './index'
+import {compileVue} from "./compiler";
 export declare interface iconItem {
   link: string
   url: string
@@ -37,9 +38,11 @@ export declare interface playConfig {
   mainFile: {
     filename: string
     code: string
-  }
+  },
+  compiler?:Function
 }
-export const jsdelivrLink = 'https://fastly.jsdelivr.net/'
+export const jsdelivrLink = 'https://fastly.jsdelivr.net/npm/'
+export const unpkgLink = 'https://unpkg.com/'
 export const defaultConfig: playConfig = {
   headerOption: {
     title: 'Ant Design',
@@ -68,7 +71,7 @@ export const defaultConfig: playConfig = {
     dark: false,
     cdnList: [{
       name: 'unpkg',
-      link: 'https://unpkg.com/',
+      link: unpkgLink,
     },
     {
       name: 'jsdelivr',
@@ -95,7 +98,7 @@ export const defaultConfig: playConfig = {
     {
       name: ' @vue/compiler-sfc',
       pkgName: '@vue/compiler-sfc',
-      indexPath: '/dist/runtime-sfc.esm-browser.js',
+      indexPath: '/dist/compiler-sfc.esm-browser.js',
       type: 'lib',
     },
     {
@@ -125,6 +128,7 @@ export const defaultConfig: playConfig = {
       + '  <input v-model="msg">\n'
       + '</template>',
   },
+  compiler:compileVue
 }
 
 export const mergeConfig = (config: playConfig, defaultConfigs = defaultConfig) => {

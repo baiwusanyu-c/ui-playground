@@ -26,6 +26,7 @@ export default function output() {
     setOutputCode(compiledCode)
   }
 
+
   const event$ = useEventEmitter<outputType | 'preview'>()
   event$.useSubscription((type: outputType | 'preview') => {
     setCurTab(type)
@@ -37,12 +38,14 @@ export default function output() {
     }
   },[curTab])
 
-  // 接受来自 editor 交互的通知信息
   const receiveEvtFromEditor = () =>{
     setOutputModeCall()
     setOutputCodeCall()
   }
+  // 接受来自 editor 交互的通知信息
   evtBus.on('editorMessage',receiveEvtFromEditor)
+  // 接受来自 fileStore 交互的通知信息
+  evtBus.on('fileMessage',receiveEvtFromEditor)
 
   return (
     <>

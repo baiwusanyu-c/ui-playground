@@ -12,7 +12,7 @@ import { versionStore } from '../../store/version'
 import type { ISelectItem } from '../../utils'
 import { createSelectList, getStorage, setStorage } from '../../utils'
 import { depsStore } from '../../store/deps'
-import { jsdelivrLink } from '../../utils/config'
+import { unpkgLink } from '../../utils/config'
 // TODO：CDN
 
 interface IHeaderProps {
@@ -28,8 +28,8 @@ export function PlayHeader(props: IHeaderProps) {
   // 初始化版本
   const [uiVersion] = useState<string>(props.config.uiVersion!)
   const [libVersion] = useState<string>(props.config.libVersion!)
-  let cdnType = 'jsdelivr'
-  let cdnLink = jsdelivrLink
+  let cdnType = 'unpkg'
+  let cdnLink = unpkgLink
   useMount(() => {
     setDarkClass(true)
     // 初始化 cdn
