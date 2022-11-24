@@ -1,6 +1,6 @@
 // TIP： 展示编译内容只根据当前激活虚拟文件
 import evtBus from '../utils/event-bus'
-import { transformTS } from '../utils/compiler'
+import { compileTS } from '../utils/compiler/compile-ts'
 import { isAsyncFunction } from '../utils'
 import type { IDepsList } from './deps'
 export interface File {
@@ -102,7 +102,7 @@ export const fileStore = {
 
     // ts 使用 sucrase 编译
     if (file.filename.endsWith('.ts'))
-      file.compiled.js = await transformTS(file.code)
+      file.compiled.js = await compileTS(file.code)
 
     if (this.compilerFn) {
       // 同时把从配置中 importMap 的 lib 类型的依赖传递出去，
@@ -115,12 +115,7 @@ export const fileStore = {
 
     if(file.filename.endsWith('.tsx')){
       // file.compiled.js = file.code
-    }
-
-    if(file.filename.endsWith('.vue')){
-      // file.compiled.js = file.code
     } */
-    // 调用用户的编译钩子
 
     // 更新 active 到 file
     this.updatedFilesByActive()

@@ -1,5 +1,5 @@
 import type { File } from '../store/file'
-import { compileVue } from './compiler'
+import { compileVue } from './compiler/compiler-vue'
 import { extend } from './index'
 export declare interface iconItem {
   link: string

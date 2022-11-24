@@ -1,58 +1,33 @@
-import { transform } from 'sucrase'
 // @ts-expect-error
 import hashId from 'hash-sum'
-import type { File, fileStore } from '../store/file'
-export async function transformTS(src: string) {
-  return transform(src, {
-    transforms: ['typescript'],
-  }).code
-}
+import type { File, fileStore } from '../../store/file'
+import { compileTS } from './compile-ts'
+
 export const COMP_IDENTIFIER = '__sfc__'
 
 export async function compileVue(
-  ctx: any,
+  ctx: typeof fileStore,
   file: File,
   compiler: Record<string, any>,
-  option: Record<string, any>) {
-  const { errors, descriptor } = compiler['@vue/compiler-sfc'].parse(file.code, {
-    filename: file.filename,
-    sourceMap: true,
-  })
-  if (errors.length) {
-    ctx.errors = errors
-    return
-  }
-
-  if (
-    descriptor.styles.some((s: { lang: string }) => s.lang)
-    || (descriptor.template && descriptor.template.lang)
-  ) {
-    ctx.errors = [
-      'lang="x" pre-processors for <template> or <style> are currently not '
-      + 'supported.',
-    ]
+  options: Record<string, any>) {
+  // create the ast by file（.vue）
+  const {
+    descriptor,
+    astSuccess,
+    astErrorsInfo,
+    isTS,
+  } = await doCreateSFCAST(file, compiler['@vue/compiler-sfc'])
+  if (!astSuccess) {
+    ctx.errors = astErrorsInfo
     return
   }
 
   const id = hashId(file.filename)
-  const scriptLang
-    = (descriptor.script && descriptor.script.lang)
-    || (descriptor.scriptSetup && descriptor.scriptSetup.lang)
-  const isTS = scriptLang === 'ts'
-  if (scriptLang && !isTS) {
-    ctx.errors = ['Only lang="ts" is supported for <script> blocks.']
-    return
-  }
-
   const hasScoped = descriptor.styles.some((s: { scoped: string }) => s.scoped)
   let clientCode = ''
   let ssrCode = ''
 
-  const appendSharedCode = (code: string) => {
-    clientCode += code
-    ssrCode += code
-  }
-
+  //  compile <script> to csr
   const clientScriptResult = await doCompileVueScript(
     ctx,
     descriptor,
@@ -60,11 +35,10 @@ export async function compileVue(
     false,
     isTS,
     compiler['@vue/compiler-sfc'],
-    option,
+    options,
   )
   if (!clientScriptResult)
     return
-
   const [clientScript, bindings] = clientScriptResult
   clientCode += clientScript
 
@@ -78,7 +52,7 @@ export async function compileVue(
       true,
       isTS,
       compiler['@vue/compiler-sfc'],
-      option,
+      options,
     )
     if (ssrScriptResult)
       ssrCode += ssrScriptResult[0]
@@ -89,14 +63,12 @@ export async function compileVue(
     // when no <script setup> is used, the script result will be identical.
     ssrCode += clientScript
   }
-  file.compiled.js = clientCode
-  file.compiled.ssr = ssrCode
 
   // template
   // only need dedicated compilation if not using <script setup>
   if (
     descriptor.template
-    && (!descriptor.scriptSetup || option?.script?.inlineTemplate === false)
+    && (!descriptor.scriptSetup || options?.script?.inlineTemplate === false)
   ) {
     const clientTemplateResult = await doCompileVueTemplate(
       ctx,
@@ -106,7 +78,7 @@ export async function compileVue(
       false,
       isTS,
       compiler['@vue/compiler-sfc'],
-      option,
+      options,
     )
     if (!clientTemplateResult)
       return
@@ -121,7 +93,7 @@ export async function compileVue(
       true,
       isTS,
       compiler['@vue/compiler-sfc'],
-      option,
+      options,
     )
     if (ssrTemplateResult) {
       // ssr compile failure is fine
@@ -130,6 +102,11 @@ export async function compileVue(
     else {
       ssrCode = `/* SSR compile error: ${ctx.errors[0]} */`
     }
+  }
+
+  const appendSharedCode = (code: string) => {
+    clientCode += code
+    ssrCode += code
   }
 
   if (hasScoped) {
@@ -148,60 +125,72 @@ export async function compileVue(
   }
 
   // styles
-  let css = ''
-  for (const style of descriptor.styles) {
-    if (style.module) {
-      ctx.errors[0] = [
-        '<style module> is not supported in the playground.',
-      ]
-      return
-    }
-
-    const styleResult = await compiler['@vue/compiler-sfc'].compileStyleAsync({
-      ...option?.style,
-      source: style.content,
-      filename: file.filename,
-      id,
-      scoped: style.scoped,
-      modules: !!style.module,
-    })
-    if (styleResult.errors.length) {
-      // postcss uses pathToFileURL which isn't polyfilled in the browser
-      // ignore these errors for now
-      if (!styleResult.errors[0].message.includes('pathToFileURL'))
-        ctx.errors[0] = styleResult.errors
-
-      // proceed even if css compile errors
-    }
-    else {
-      css += `${styleResult.code}\n`
-    }
+  const [css, styleSuccess, styleErrorsInfo] = await doCompileSFCStyle(file, descriptor,
+    id, compiler['@vue/compiler-sfc'], options)
+  if (!styleSuccess) {
+    ctx.errors = styleErrorsInfo as Array<string>
+    return
   }
-  if (css)
-    file.compiled.css = css.trim()
-  else
-    file.compiled.css = '/* No <style> tags present */'
-
+  file.compiled.css = css as string
   // clear errors
   ctx.errors = []
 
   return file
 }
 
+async function doCreateSFCAST(
+  file: File,
+  compiler: Record<string, any>) {
+  let astSuccess = true
+  let astErrorsInfo: Array<string> = []
+  const { errors, descriptor } = compiler.parse(file.code, {
+    filename: file.filename,
+    sourceMap: true,
+  })
+  if (errors.length) {
+    astErrorsInfo = errors
+    astSuccess = false
+  }
+
+  if (
+    descriptor.styles.some((s: { lang: string }) => s.lang)
+      || (descriptor.template && descriptor.template.lang)
+  ) {
+    astErrorsInfo = [
+      'lang="x" pre-processors for <template> or <style> are currently not supported.',
+    ]
+    astSuccess = false
+  }
+
+  const scriptLang
+      = (descriptor.script && descriptor.script.lang)
+      || (descriptor.scriptSetup && descriptor.scriptSetup.lang)
+  const isTS = scriptLang === 'ts'
+
+  if (scriptLang && !isTS) {
+    astErrorsInfo = ['Only lang="ts" is supported for <script> blocks.']
+    astSuccess = false
+  }
+  return {
+    astSuccess,
+    astErrorsInfo,
+    descriptor,
+    isTS,
+  }
+}
+
 async function doCompileVueScript(
   ctx: typeof fileStore,
-  descriptor: any,
+  descriptor: Record<string, any>,
   id: string,
   ssr: boolean,
   isTS: boolean,
-  compiler: any,
+  compiler: Record<string, any>,
   options: Record<string, any>,
 ): Promise<[string, any] | undefined> {
   if (descriptor.script || descriptor.scriptSetup) {
     try {
-      const expressionPlugins = isTS
-        ? ['typescript']
-        : undefined
+      const expressionPlugins = isTS ? ['typescript'] : undefined
       const compiledScript = compiler.compileScript(descriptor, {
         inlineTemplate: true,
         ...options?.script,
@@ -216,6 +205,8 @@ async function doCompileVueScript(
           },
         },
       })
+
+      // <script setup>
       let code = ''
       if (compiledScript.bindings) {
         code += `\n/!* Analyzed bindings: ${JSON.stringify(
@@ -233,7 +224,7 @@ async function doCompileVueScript(
         )}`
 
       if ((descriptor.script || descriptor.scriptSetup)!.lang === 'ts')
-        code = await transformTS(code)
+        code = await compileTS(code)
 
       return [code, compiledScript.bindings]
     }
@@ -248,12 +239,12 @@ async function doCompileVueScript(
 
 async function doCompileVueTemplate(
   ctx: typeof fileStore,
-  descriptor: any,
+  descriptor: Record<string, any>,
   id: string,
   bindingMetadata: unknown,
   ssr: boolean,
   isTS: boolean,
-  compiler: any,
+  compiler: Record<string, any>,
   options: Record<string, any>,
 ) {
   const templateResult = compiler.compileTemplate({
@@ -286,7 +277,46 @@ async function doCompileVueTemplate(
     )}` + `\n${COMP_IDENTIFIER}.${fnName} = ${fnName}`
 
   if ((descriptor.script || descriptor.scriptSetup)?.lang === 'ts')
-    code = await transformTS(code)
+    code = await compileTS(code)
 
   return code
+}
+
+async function doCompileSFCStyle(
+  file: File,
+  descriptor: Record<string, any>,
+  id: string,
+  compiler: Record<string, any>,
+  options: Record<string, any>,
+) {
+  let css = ''
+  let astSuccess = true
+  let astErrorsInfo: Array<string> = []
+  for (const style of descriptor.styles) {
+    if (style.module) {
+      astErrorsInfo = ['<style module> is not supported in the playground.']
+      astSuccess = false
+    }
+
+    const styleResult = await compiler.compileStyleAsync({
+      ...options?.style,
+      source: style.content,
+      filename: file.filename,
+      id,
+      scoped: style.scoped,
+      modules: !!style.module,
+    })
+    if (styleResult.errors.length) {
+      // postcss uses pathToFileURL which isn't polyfilled in the browser
+      // ignore these errors for now
+      if (!styleResult.errors[0].message.includes('pathToFileURL'))
+        astErrorsInfo[0] = styleResult.errors
+
+      // proceed even if css compile errors
+    }
+    else {
+      css += `${styleResult.code}\n`
+    }
+  }
+  return [css, astSuccess, astErrorsInfo]
 }
