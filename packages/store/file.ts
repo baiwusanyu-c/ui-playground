@@ -1,6 +1,7 @@
 // TIP： 展示编译内容只根据当前激活虚拟文件
 import evtBus from '../utils/event-bus'
 import { transformTS } from '../utils/compiler'
+import { isAsyncFunction } from '../utils'
 import type { IDepsList } from './deps'
 export interface File {
   filename: string // 文件名
@@ -54,7 +55,13 @@ export const fileStore = {
     this.activeFile.filename = file.filename
     this.activeFile.code = file.code
     this.files[file.filename] = { ...this.activeFile }
-    this.compilerFn = compilerFn
+    this.compilerFn = isAsyncFunction(compilerFn)
+      ? compilerFn
+      : async (ctx: typeof fileStore, file: File, compiler: Record<string, any>) => {
+        return new Promise((resolve) => {
+          resolve(compilerFn(ctx, file, compiler))
+        })
+      }
   },
 
   add(file: File) {
@@ -99,7 +106,7 @@ export const fileStore = {
 
     if (this.compilerFn) {
       // 同时把从配置中 importMap 的 lib 类型的依赖传递出去，
-      file = this.compilerFn(this, file, this.compiler)
+      file = await this.compilerFn(this, file, this.compiler)
     }
     // 其他文件类型调用用户的编译钩子完成
     /* if(file.filename.endsWith('.jsx')){

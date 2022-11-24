@@ -61,3 +61,11 @@ export function getStorage(key: string) {
 export const checkFileType = (filename: string) => /\.(vue|js|jsx|tsx|ts|css)$/.test(filename)
 
 export const isEmptyObj = (item: unknown): boolean => JSON.stringify(item) === '{}'
+
+export const isObject = (val: unknown): val is Record<any, any> => val !== null && typeof val === 'object'
+export const isFunction = (val: unknown): val is Function => typeof val === 'function'
+
+export function isAsyncFunction(fn: Function) {
+  const fnStr = fn.toString()
+  return Object.prototype.toString.call(fn) === '[object AsyncFunction]' || fnStr.includes('return _regenerator.default.async(function')
+}
