@@ -1,7 +1,7 @@
 import '../../asset/layout.css'
 import PropTypes from 'prop-types'
-import type { MouseEvent } from 'react'
 import React, { useEffect, useMemo, useState } from 'react'
+import type { MouseEvent } from 'react'
 import type { elType } from '../../utils/types'
 
 interface ILayoutProps {
@@ -9,18 +9,8 @@ interface ILayoutProps {
   left?: JSX.Element
   right?: JSX.Element
 }
-Layout.propTypes = {
-  layout: PropTypes.string,
-  left: PropTypes.element,
-  right: PropTypes.element,
-}
-Layout.defaultProps = {
-  layout: 'vertical',
-  left: undefined,
-  right: undefined,
-}
 
-export function Layout(props: ILayoutProps) {
+export const Layout = (props: ILayoutProps) => {
   const [isVertical, setVertical] = useState(props.layout === 'vertical')
   let className = ''
   const setClassName = () => {
@@ -91,10 +81,11 @@ export function Layout(props: ILayoutProps) {
       onMouseUp={dragEnd}
       onMouseLeave={dragEnd}
       className={className}
-      ref={container as elType}>
+      ref={container as elType}
+    >
       <div className="left" style={{ [isVertical ? 'height' : 'width']: `${boundSplit}%` }}>
         { left }
-        <div className="dragger" onMouseDown={dragStart}/>
+        <div className="dragger" onMouseDown={dragStart} />
       </div>
 
       <div className="right" style={{ [isVertical ? 'height' : 'width']: `${100 - boundSplit}%` }}>
@@ -106,4 +97,14 @@ export function Layout(props: ILayoutProps) {
       </button>
     </div>
   )
+}
+Layout.propTypes = {
+  layout: PropTypes.string,
+  left: PropTypes.element,
+  right: PropTypes.element,
+}
+Layout.defaultProps = {
+  layout: 'vertical',
+  left: undefined,
+  right: undefined,
 }

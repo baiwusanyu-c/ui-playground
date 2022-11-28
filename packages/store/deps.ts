@@ -1,10 +1,12 @@
-import type { importItem } from '../utils/config'
 import { unpkgLink } from '../utils/config'
 import { fileStore } from './file'
+import type { importItem } from '../utils/config'
 export declare interface IDepsList {
   name: string
+  pkgName: string
   path: string
   type: 'lib' | 'ui' | 'other'
+  version: string
 }
 export const depsStore = {
   importMap: [] as Array<importItem>,
@@ -27,9 +29,12 @@ export const depsStore = {
     this.importMap.forEach((value: importItem) => {
       const depsItem = {
         path: value.cdnLink!,
-        name: value.pkgName,
+        name: value.name,
+        pkgName: value.pkgName,
         type: value.type,
+        version: value.type === 'ui' ? uiVersion : libVersion
       }
+
       if (value.type === 'lib' || value.type === 'ui') {
         if (cdnType === 'unpkg' || cdnType === 'jsdelivr') {
           depsItem.path = formatCDNLink(
@@ -37,8 +42,8 @@ export const depsStore = {
             value.pkgName,
             value.type === 'ui' ? uiVersion : libVersion,
             value.indexPath)
-        }
-        else {
+        } else {
+          // 用户自定义cdn
           if (typeof cdnSet === 'function') {
             depsItem.path = cdnSet(
               cdnLink,
@@ -46,8 +51,7 @@ export const depsStore = {
               value.type === 'ui' ? uiVersion : libVersion,
               value.indexPath,
             )
-          }
-          else {
+          } else {
             depsItem.path = formatCDNLink(
               unpkgLink,
               value.pkgName,

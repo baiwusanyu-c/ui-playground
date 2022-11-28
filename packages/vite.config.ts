@@ -5,6 +5,9 @@ import react from '@vitejs/plugin-react'
 const pkgPath = resolve(__dirname, 'index.ts')
 export default defineConfig({
   plugins: [react()],
+  server: {
+    host: true,
+  },
   build: {
     lib: {
       // Could also be a dictionary or array of multiple entry points

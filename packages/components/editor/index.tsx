@@ -40,11 +40,13 @@ export default function editor() {
   })
   return (
     <>
-      <FileSelector event$={event$}></FileSelector>
+      <FileSelector event$={event$} />
       <div className="editor-container">
-        <CodeMirror change={handleChange}
-                    mode={activeMode}
-                    value={activeCode} />
+        <CodeMirror
+          change={handleChange}
+          mode={activeMode}
+          value={activeCode}
+        />
       </div>
     </>
   )

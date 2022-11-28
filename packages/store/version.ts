@@ -6,7 +6,7 @@ function getVersionFromCDN(url: string): Promise<string> {
   return new Promise((resolve, reject) => {
     fetch(url, {
       method: 'GET',
-    }).then(async (res: any) => {
+    }).then(async(res: any) => {
       resolve(await parseRes(res))
     }).catch(err => reject(err))
   })
@@ -28,8 +28,7 @@ async function parseRes(res: Response) {
 
     if (contentType.includes('video'))
       resVal = await res.blob()
-  }
-  else {
+  } else {
     resVal = await res.text()
   }
   return resVal

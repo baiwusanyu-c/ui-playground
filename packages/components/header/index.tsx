@@ -2,27 +2,24 @@ import '../../asset/header.scss'
 import PropTypes from 'prop-types'
 import { Dropdown, Select } from 'antd'
 import { useEffect, useState } from 'react'
-import type { MenuProps } from 'antd'
 import { useMount } from 'ahooks'
-import type { headerOption, iconItem } from '../../utils/config'
 import { CarbonSun } from '../icon/sun'
 import { CarbonSetting } from '../icon/setting'
 import { CarbonMoon } from '../icon/moon'
 import { versionStore } from '../../store/version'
-import type { ISelectItem } from '../../utils'
 import { createSelectList, getStorage, setStorage } from '../../utils'
 import { depsStore } from '../../store/deps'
 import { unpkgLink } from '../../utils/config'
+import type { ISelectItem } from '../../utils'
+import type { headerOption, iconItem } from '../../utils/config'
+import type { MenuProps } from 'antd'
 // TODO：CDN
 
 interface IHeaderProps {
   config: headerOption
 }
-PlayHeader.propTypes = {
-  config: PropTypes.object,
-}
 
-export function PlayHeader(props: IHeaderProps) {
+export const PlayHeader = (props: IHeaderProps) => {
   /** ******************* 设置版本 **********************/
 
   // 初始化版本
@@ -73,9 +70,9 @@ export function PlayHeader(props: IHeaderProps) {
     if (list && list.length > 0) {
       list.forEach((val: iconItem) => {
         resList.push((
-                    <a href={val.link} target="_blank" rel="noreferrer" key={val.url}>
-                        <img src={val.url} alt="" className="header-link"/>
-                    </a>
+          <a href={val.link} target="_blank" rel="noreferrer" key={val.url}>
+            <img src={val.url} alt="" className="header-link" />
+          </a>
         ))
       })
     }
@@ -90,8 +87,7 @@ export function PlayHeader(props: IHeaderProps) {
       const cache = getStorage('dark')
       if (!(!cache && cache !== false && cache !== 'false'))
         setDark(cache)
-    }
-    else {
+    } else {
       setStorage('dark', (dark!).toString())
       setDark(dark!)
     }
@@ -117,41 +113,45 @@ export function PlayHeader(props: IHeaderProps) {
       props.config.cdnSet)
   }
   return (
-      <div className="play-header">
-        <div className="header-left">
-            <a href={props.config.homePage} target="_blank" rel="noreferrer">
-                <img src={props.config.logo} alt={props.config.logo} />
-            </a>
-            <h1>{props.config.title}</h1>
-            <span>{props.config.subTitle}</span>
-        </div>
-        <div className="header-right">
-            <span className="version-label">version:</span>
-            <Select
-                className="version-select"
-                onChange={data => handleSelect(data, 'ui')}
-                defaultValue={uiVersion}
-                style={{ width: 120, margin: '0 10px' }}
-                options={uiVersionList}
-            />
-            <span className="version-label">dep version: {isDark}</span>
-            <Select
-                className="version-select"
-                onChange={data => handleSelect(data, 'lib')}
-                defaultValue={libVersion}
-                style={{ width: 120, margin: '0 10px' }}
-                options={libVersionList}
-            />
-            {iconList(props.config.iconList)}
-
-            {isDark
-              ? <CarbonMoon className="icon" onClick={() => setDarkClass(undefined, false)}/>
-              : <CarbonSun className="icon" onClick={() => setDarkClass(undefined, true)}/>}
-
-            <Dropdown menu={{ items, onClick: e => handleSelectCDN(e) }}>
-                    <CarbonSetting className="icon"/>
-            </Dropdown>
-        </div>
+    <div className="play-header">
+      <div className="header-left">
+        <a href={props.config.homePage} target="_blank" rel="noreferrer">
+          <img src={props.config.logo} alt={props.config.logo} />
+        </a>
+        <h1>{props.config.title}</h1>
+        <span>{props.config.subTitle}</span>
       </div>
+      <div className="header-right">
+        <span className="version-label">version:</span>
+        <Select
+          className="version-select"
+          onChange={data => handleSelect(data, 'ui')}
+          defaultValue={uiVersion}
+          style={{ width: 120, margin: '0 10px' }}
+          options={uiVersionList}
+        />
+        <span className="version-label">dep version: {isDark}</span>
+        <Select
+          className="version-select"
+          onChange={data => handleSelect(data, 'lib')}
+          defaultValue={libVersion}
+          style={{ width: 120, margin: '0 10px' }}
+          options={libVersionList}
+        />
+        {iconList(props.config.iconList)}
+
+        {isDark
+          ? <CarbonMoon className="icon" onClick={() => setDarkClass(undefined, false)} />
+          : <CarbonSun className="icon" onClick={() => setDarkClass(undefined, true)} />}
+
+        <Dropdown menu={{ items, onClick: e => handleSelectCDN(e) }}>
+          <CarbonSetting className="icon" />
+        </Dropdown>
+      </div>
+    </div>
   )
+}
+
+PlayHeader.propTypes = {
+  config: PropTypes.object,
 }

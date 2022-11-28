@@ -39,7 +39,7 @@ export const extend = (objFir: any, objSec: any) => {
   return Object.assign({}, objFir, objSec)
 }
 
-export declare interface ISelectItem { value: string; label: string;key: string }
+export declare interface ISelectItem { value: string, label: string, key: string }
 export const createSelectList = (list: Array<string>, key: string) => {
   return list.map((val) => {
     return { value: val, label: val, key: val + key }

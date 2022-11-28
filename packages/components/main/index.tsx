@@ -5,7 +5,7 @@ import { Layout } from '../layout'
 import Editor from '../editor'
 import Output from '../output'
 
-export function PlayMain() {
+export const PlayMain = () => {
   // const handleClick = () => {
   //   console.log(versionStore.uiVersion)
   //   console.log(depsStore)
@@ -16,7 +16,7 @@ export function PlayMain() {
   const layout = 'h'
   return (
     <div className="play-container">
-      <Layout layout={layout} left={Editor()} right={Output()}/>
+      <Layout layout={layout} left={Editor()} right={Output()} />
     </div>
   )
 }

@@ -1,16 +1,16 @@
 import '../../asset/filer-selector.scss'
 import { ExclamationCircleFilled } from '@ant-design/icons'
-import type { FC } from 'react'
 import React, { useState } from 'react'
 import { Input, Modal, Tabs } from 'antd'
-import type { EventEmitter } from 'ahooks/lib/useEventEmitter'
 import { fileStore } from '../../store/file'
 import { checkFileType, extend } from '../../utils'
+import type { EventEmitter } from 'ahooks/lib/useEventEmitter'
+import type { FC } from 'react'
 // TODO: 所有文件信息、版本信息地址栏持久化
 // TODO: 编辑器报错
 export const FileSelector: FC<{
   event$: EventEmitter<void>
-}> = function (props) {
+}> = (props) => {
   const fileList = Object.keys(fileStore.files).map((val) => {
     return { key: val, ...fileStore.files[val], label: val }
   })
@@ -140,18 +140,20 @@ export const FileSelector: FC<{
   return (
     <>
       <Tabs
-      size="small"
-      type="editable-card"
-      onChange={onChange}
-      activeKey={activeKey}
-      onEdit={(e, action) => onEdit(e as string, action)}
-      items={items}
-    />
-      <Modal title="Please input file name"
-             onOk={handleOk}
-             onCancel={handleCancel}
-             open={isModalOpen}>
-        <Input value={inputVal} onChange={e => handleChange(e.target.value)} status={isErr}/>
+        size="small"
+        type="editable-card"
+        onChange={onChange}
+        activeKey={activeKey}
+        onEdit={(e, action) => onEdit(e as string, action)}
+        items={items}
+      />
+      <Modal
+        title="Please input file name"
+        onOk={handleOk}
+        onCancel={handleCancel}
+        open={isModalOpen}
+      >
+        <Input value={inputVal} onChange={e => handleChange(e.target.value)} status={isErr} />
         <p style={{ color: '#ff7875' }}>{tip}</p>
       </Modal>
     </>

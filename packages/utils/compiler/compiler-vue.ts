@@ -1,7 +1,7 @@
 // @ts-expect-error
 import hashId from 'hash-sum'
-import type { File, fileStore } from '../../store/file'
 import { compileTS } from './compile-ts'
+import type { File, fileStore } from '../../store/file'
 
 export const COMP_IDENTIFIER = '__sfc__'
 
@@ -58,8 +58,7 @@ export async function compileVue(
       ssrCode += ssrScriptResult[0]
     else
       ssrCode = `/* SSR compile error: ${ctx.errors[0]} */`
-  }
-  else {
+  } else {
     // when no <script setup> is used, the script result will be identical.
     ssrCode += clientScript
   }
@@ -98,8 +97,7 @@ export async function compileVue(
     if (ssrTemplateResult) {
       // ssr compile failure is fine
       ssrCode += ssrTemplateResult
-    }
-    else {
+    } else {
       ssrCode = `/* SSR compile error: ${ctx.errors[0]} */`
     }
   }
@@ -209,11 +207,11 @@ async function doCompileVueScript(
       // <script setup>
       let code = ''
       if (compiledScript.bindings) {
-        code += `\n/!* Analyzed bindings: ${JSON.stringify(
+        code += `\n/* Analyzed bindings: ${JSON.stringify(
           compiledScript.bindings,
           null,
           2,
-        )} *!/`
+        )} */`
       }
       code
         += `\n${
@@ -227,12 +225,10 @@ async function doCompileVueScript(
         code = await compileTS(code)
 
       return [code, compiledScript.bindings]
-    }
-    catch (e: any) {
+    } catch (e: any) {
       ctx.errors = [e.stack.split('\n').slice(0, 12).join('\n')]
     }
-  }
-  else {
+  } else {
     return [`\nconst ${COMP_IDENTIFIER} = {}`, undefined]
   }
 }
@@ -313,8 +309,7 @@ async function doCompileSFCStyle(
         astErrorsInfo[0] = styleResult.errors
 
       // proceed even if css compile errors
-    }
-    else {
+    } else {
       css += `${styleResult.code}\n`
     }
   }

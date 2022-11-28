@@ -4,5 +4,5 @@ import App from './views/App'
 import './assets/scss/index.css'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-    <App />,
+  <App />,
 )

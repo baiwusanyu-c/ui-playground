@@ -1,6 +1,6 @@
-import type { File } from '../store/file'
 import { compileVue } from './compiler/compiler-vue'
 import { extend } from './index'
+import type { File } from '../store/file'
 export declare interface iconItem {
   link: string
   url: string
@@ -77,9 +77,6 @@ export const defaultConfig: playConfig = {
     {
       name: 'jsdelivr',
       link: jsdelivrLink,
-    }, {
-      name: 'toaw',
-      link: 'https://toaw.com/',
     },
     ],
     cdnSet: (
@@ -97,7 +94,13 @@ export const defaultConfig: playConfig = {
       type: 'lib',
     },
     {
-      name: ' @vue/compiler-sfc',
+      name: '@vue/server-renderer',
+      pkgName: '@vue/server-renderer',
+      indexPath: '/dist/server-renderer.esm-browser.js',
+      type: 'lib',
+    },
+    {
+      name: '  @vue/compiler-sfc',
       pkgName: '@vue/compiler-sfc',
       indexPath: '/dist/compiler-sfc.esm-browser.js',
       type: 'lib',
@@ -108,13 +111,13 @@ export const defaultConfig: playConfig = {
       indexPath: '/dist/antd.min.js',
       type: 'ui',
     },
-    {
-      name: 'ant-design-other',
-      pkgName: 'ant-design-other',
-      indexPath: '/dist/other.min.js',
-      type: 'other',
-      cdnLink: jsdelivrLink,
-    },
+    // {
+    //   name: 'ant-design-other',
+    //   pkgName: 'ant-design-other',
+    //   indexPath: '/dist/other.min.js',
+    //   type: 'other',
+    //   cdnLink: jsdelivrLink,
+    // },
   ],
   mainFile: {
     filename: 'App.vue',

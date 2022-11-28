@@ -6,6 +6,7 @@ import { OutputSelector } from './output-selector'
 import {useEventEmitter} from "ahooks";
 import {outputType} from "../../utils/types";
 import evtBus from "../../utils/event-bus"
+import Preview from "./preview";
 export default function output() {
 
   const [curTab, setCurTab] = useState<outputType | 'preview'>('preview')
@@ -46,13 +47,11 @@ export default function output() {
       <OutputSelector event$={event$}></OutputSelector>
       <div className="output-container">
         {curTab === 'preview' ?
-          <div>
-          preview
-          </div> :
+          <Preview ssr={true}/>
+          :
           <CodeMirror readonly={true}
                     mode={outMode}
                     value={outputCode} />}
-
       </div>
     </>
   )

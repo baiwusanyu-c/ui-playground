@@ -57,7 +57,7 @@ export const fileStore = {
     this.files[file.filename] = { ...this.activeFile }
     this.compilerFn = isAsyncFunction(compilerFn)
       ? compilerFn
-      : async (ctx: typeof fileStore, file: File, compiler: Record<string, any>) => {
+      : async(ctx: typeof fileStore, file: File, compiler: Record<string, any>) => {
         return new Promise((resolve) => {
           resolve(compilerFn(ctx, file, compiler))
         })
@@ -85,7 +85,7 @@ export const fileStore = {
     for (let i = 0; i < importMap.length; i++) {
       if (importMap[i].type === 'lib') {
         this.pendingCompiler = import(/* @vite-ignore */ importMap[i].path) // 编译器
-        this.compiler[importMap[i].name] = await this.pendingCompiler // 编译器
+        this.compiler[importMap[i].pkgName] = await this.pendingCompiler // 编译器
         this.pendingCompiler = null
       }
     }

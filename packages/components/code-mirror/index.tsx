@@ -2,8 +2,8 @@ import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import { useMount } from 'ahooks'
 import { debounce } from '../../utils'
-import type { elType } from '../../utils/types'
 import codeMirrorInst from './codemirror'
+import type { elType } from '../../utils/types'
 
 interface ICodeMirrorProps {
   mode?: string
@@ -11,20 +11,8 @@ interface ICodeMirrorProps {
   readonly?: boolean
   change?: Function
 }
-CodeMirror.propTypes = {
-  mode: PropTypes.string,
-  value: PropTypes.string,
-  readonly: PropTypes.bool,
-  change: PropTypes.func,
-}
-CodeMirror.defaultProps = {
-  mode: 'htmlmixed',
-  value: '',
-  readonly: false,
-  change: () => {},
-}
 
-export function CodeMirror(props: ICodeMirrorProps) {
+export const CodeMirror = (props: ICodeMirrorProps) => {
   const option = {
     autoCloseBrackets: true, // 输入时自动关闭括号和引号
     autoCloseTags: true, // 自定闭合标签
@@ -84,5 +72,18 @@ export function CodeMirror(props: ICodeMirrorProps) {
       editorInst && editorInst!.setValue(props.value!)
   }, [props.value, editorInst])
 
-  return <div className="editor" ref={el as elType}></div>
+  return <div className="editor" ref={el as elType} />
+}
+
+CodeMirror.propTypes = {
+  mode: PropTypes.string,
+  value: PropTypes.string,
+  readonly: PropTypes.bool,
+  change: PropTypes.func,
+}
+CodeMirror.defaultProps = {
+  mode: 'htmlmixed',
+  value: '',
+  readonly: false,
+  change: () => {},
 }
