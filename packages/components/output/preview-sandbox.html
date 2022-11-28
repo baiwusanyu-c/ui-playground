@@ -27,12 +27,12 @@
 					return Promise.resolve(window.__modules__[key])
 				}
                 // 处理上层应用发送过来的h指令消息
-				async function handle_message(ev) {
-					let { action, cmd_id } = ev.data;
-					const send_message = (payload) => parent.postMessage( { ...payload }, ev.origin);
-					const send_reply = (payload) => send_message({ ...payload, cmd_id });
-					const send_ok = () => send_reply({ action: 'cmd_ok' });
-					const send_error = (message, stack) => send_reply({ action: 'cmd_error', message, stack });
+				async function handleMessage(ev) {
+					let { action, cmdId } = ev.data;
+					const sendMessage = (payload) => parent.postMessage( { ...payload }, ev.origin);
+					const sendReply = (payload) => sendMessage({ ...payload, cmdId });
+					const sendOk = () => sendReply({ action: 'cmdOk' });
+					const sendError = (message, stack) => sendReply({ action: 'cmdError', message, stack });
                     // 处理脚本注入
 					if (action === 'eval') {
 						try {
@@ -56,19 +56,19 @@
 								})
 								scriptEl.innerHTML = script + `\nwindow.__next__()`
 								document.head.appendChild(scriptEl)
-								scriptEl.onerror = err => send_error(err.message, err.stack)
+								scriptEl.onerror = err => sendError(err.message, err.stack)
 								scriptEls.push(scriptEl)
 								await done
 							}
-							send_ok()
+							sendOk()
 						} catch (e) {
-							send_error(e.message, e.stack);
+							sendError(e.message, e.stack);
 						}
 					}
                     // 点击捕获时间
-					if (action === 'catch_clicks') {
+					if (action === 'catchClicks') {
 						try {
-							const top_origin = ev.origin;
+							const topOrigin = ev.origin;
 							document.body.addEventListener('click', event => {
 								if (event.which !== 1) return;
 								if (event.metaKey || event.ctrlKey || event.shiftKey) return;
@@ -84,7 +84,7 @@
 
 								event.preventDefault();
                                 // 创建 url 跳转，这里主要是保证沙盒 iframe 中，a标签的正常使用
-								if (el.href.startsWith(top_origin)) {
+								if (el.href.startsWith(topOrigin)) {
 									const url = new URL(el.href);
 									if (url.hash[0] === '#') {
 										window.location.hash = url.hash;
@@ -94,20 +94,18 @@
 
 								window.open(el.href, '_blank');
 							});
-							send_ok();
+							sendOk();
 						} catch(e) {
-							send_error(e.message, e.stack);
+							sendError(e.message, e.stack);
 						}
 					}
 				}
                 // 建立 message 监听，处理上层应用发送给过来的指令消息
-				window.addEventListener('message', handle_message, false);
+				window.addEventListener('message', handleMessage, false);
+
+
                 // 捕获页面内 js 异常并发送到上层应用
 				window.onerror = function (msg, url, lineNo, columnNo, error) {
-					if (msg.includes('module specifier “vue”')) {
-						// firefox only error, ignore
-						return false
-					}
 					try {
 						parent.postMessage({ action: 'error', value: error }, '*');
 					} catch (e) {
@@ -127,123 +125,6 @@
 					}
 				});
 
-				let previous = { level: null, args: null };
-                // 改写了 console 的常用日志方法，使其能够自动发送消息到上层应用
-				['clear', 'log', 'info', 'dir', 'warn', 'error', 'table'].forEach((level) => {
-					const original = console[level];
-					console[level] = (...args) => {
-						const msg = String(args[0])
-						if (
-							msg.includes('You are running a development build of Vue') ||
-							msg.includes('You are running the esm-bundler build of Vue')
-						) {
-							return
-						}
-						const stringifiedArgs = stringify(args);
-						if (
-							previous.level === level &&
-							previous.args &&
-							previous.args === stringifiedArgs
-						) {
-							parent.postMessage({ action: 'console', level, duplicate: true }, '*');
-						} else {
-							previous = { level, args: stringifiedArgs };
-
-							try {
-								parent.postMessage({ action: 'console', level, args }, '*');
-							} catch (err) {
-								parent.postMessage({ action: 'console', level, args: args.map(a => {
-									return a instanceof Error ? a.message : String(a)
-								}) }, '*');
-							}
-						}
-
-						original(...args);
-					}
-				});
-
-                // console.group 能够吧其后面的 log 进行分组,分组信息自动展开
-                // console.groupEnd 能够结束 console.group 的分组
-                // console.groupCollapsed 能够吧其后面的 log 进行分组,分组信息自动折叠
-				[
-					{ method: 'group', action: 'console_group' },
-					{ method: 'groupEnd', action: 'console_group_end' },
-					{ method: 'groupCollapsed', action: 'console_group_collapsed' },
-				].forEach((group_action) => {
-					const original = console[group_action.method];
-					console[group_action.method] = (label) => {
-						parent.postMessage({ action: group_action.action, label }, '*');
-
-						original(label);
-					};
-				});
-
-                /********************************* console 的各种改写，能够自动发送消息到上层应用 ********************************/
-				const timers = new Map();
-				const original_time = console.time;
-				const original_timelog = console.timeLog;
-				const original_timeend = console.timeEnd;
-
-				console.time = (label = 'default') => {
-					original_time(label);
-					timers.set(label, performance.now());
-				}
-				console.timeLog = (label = 'default') => {
-					original_timelog(label);
-					const now = performance.now();
-					if (timers.has(label)) {
-						parent.postMessage({ action: 'console', level: 'system-log', args: [`${label}: ${now - timers.get(label)}ms`] }, '*');
-					} else {
-						parent.postMessage({ action: 'console', level: 'system-warn', args: [`Timer '${label}' does not exist`] }, '*');
-					}
-				}
-				console.timeEnd = (label = 'default') => {
-					original_timeend(label);
-					const now = performance.now();
-					if (timers.has(label)) {
-						parent.postMessage({ action: 'console', level: 'system-log', args: [`${label}: ${now - timers.get(label)}ms`] }, '*');
-					} else {
-						parent.postMessage({ action: 'console', level: 'system-warn', args: [`Timer '${label}' does not exist`] }, '*');
-					}
-					timers.delete(label);
-				};
-
-				const original_assert = console.assert;
-				console.assert = (condition, ...args) => {
-					if (condition) {
-						const stack = new Error().stack;
-						parent.postMessage({ action: 'console', level: 'assert', args, stack }, '*');
-					}
-					original_assert(condition, ...args);
-				};
-
-				const counter = new Map();
-				const original_count = console.count;
-				const original_countreset = console.countReset;
-
-				console.count = (label = 'default') => {
-					counter.set(label, (counter.get(label) || 0) + 1);
-					parent.postMessage({ action: 'console', level: 'system-log', args: `${label}: ${counter.get(label)}` }, '*');
-					original_count(label);
-				};
-
-				console.countReset = (label = 'default') => {
-					if (counter.has(label)) {
-						counter.set(label, 0);
-					} else {
-						parent.postMessage({ action: 'console', level: 'system-warn', args: `Count for '${label}' does not exist` }, '*');
-					}
-					original_countreset(label);
-				};
-
-				const original_trace = console.trace;
-
-				console.trace = (...args) => {
-					const stack = new Error().stack;
-					parent.postMessage({ action: 'console', level: 'trace', args, stack }, '*');
-					original_trace(...args);
-				};
-
 				function stringify(args) {
 					try {
 						return JSON.stringify(args);
@@ -251,6 +132,110 @@
 						return null;
 					}
 				}
+
+				/********************************* 改写了 console 的常用日志方法，使其能够自动发送消息到上层应用 ********************************/
+				function rewriteConsole(){
+					let previous = { level: null, args: null };
+					['clear', 'log', 'info', 'dir', 'warn', 'error', 'table'].forEach((level) => {
+						const original = console[level];
+						console[level] = (...args) => {
+							const stringifiedArgs = stringify(args);
+							if (previous.level === level &&
+								previous.args &&
+								previous.args === stringifiedArgs) {
+								parent.postMessage({ action: 'console', level, duplicate: true }, '*');
+							} else {
+								previous = { level, args: stringifiedArgs };
+								try {
+									parent.postMessage({ action: 'console', level, args }, '*');
+								} catch (err) {
+									parent.postMessage({ action: 'console', level, args: args.map(a => {
+											return a instanceof Error ? a.message : String(a)
+									}) }, '*');
+								}
+							}
+							original(...args);
+						}
+					});
+				}
+				rewriteConsole()
+
+                /********************************* console 的 time 改写 ********************************/
+				function rewriteConsoleTime(){
+					const timers = new Map();
+					const originalTime = console.time;
+					const originalTimelog = console.timeLog;
+					const originalTimeend = console.timeEnd;
+
+					console.time = (label = 'default') => {
+						originalTime(label);
+						timers.set(label, performance.now());
+					}
+					console.timeLog = (label = 'default') => {
+						originalTimelog(label);
+						const now = performance.now();
+						if (timers.has(label)) {
+							parent.postMessage({ action: 'console', level: 'system-log', args: [`${label}: ${now - timers.get(label)}ms`] }, '*');
+						} else {
+							parent.postMessage({ action: 'console', level: 'system-warn', args: [`Timer '${label}' does not exist`] }, '*');
+						}
+					}
+					console.timeEnd = (label = 'default') => {
+						originalTimeend(label);
+						const now = performance.now();
+						if (timers.has(label)) {
+							parent.postMessage({ action: 'console', level: 'system-log', args: [`${label}: ${now - timers.get(label)}ms`] }, '*');
+						} else {
+							parent.postMessage({ action: 'console', level: 'system-warn', args: [`Timer '${label}' does not exist`] }, '*');
+						}
+						timers.delete(label);
+					};
+				}
+				rewriteConsoleTime()
+				/********************************* console 的 time 改写 ********************************/
+				function rewriteConsoleassert(){
+					const originalAssert = console.assert;
+					console.assert = (condition, ...args) => {
+						if (condition) {
+							const stack = new Error().stack;
+							parent.postMessage({ action: 'console', level: 'assert', args, stack }, '*');
+						}
+						originalAssert(condition, ...args);
+					};
+				}
+				rewriteConsoleassert()
+				/********************************* console 的 count 改写 ********************************/
+				function rewriteConsoleCount(){
+					const counter = new Map();
+					const originalCount = console.count;
+					const originalCountreset = console.countReset;
+
+					console.count = (label = 'default') => {
+						counter.set(label, (counter.get(label) || 0) + 1);
+						parent.postMessage({ action: 'console', level: 'system-log', args: `${label}: ${counter.get(label)}` }, '*');
+						originalCount(label);
+					};
+
+					console.countReset = (label = 'default') => {
+						if (counter.has(label)) {
+							counter.set(label, 0);
+						} else {
+							parent.postMessage({ action: 'console', level: 'system-warn', args: `Count for '${label}' does not exist` }, '*');
+						}
+						originalCountreset(label);
+					};
+				}
+				rewriteConsoleCount()
+				/********************************* console 的 trace 改写 ********************************/
+				function rewriteConsoleTrace(){
+					const originalTrace = console.trace;
+					console.trace = (...args) => {
+						const stack = new Error().stack;
+						parent.postMessage({ action: 'console', level: 'trace', args, stack }, '*');
+						originalTrace(...args);
+					};
+				}
+
 			})()
 		</script>
 

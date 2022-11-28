@@ -70,8 +70,8 @@ export function isAsyncFunction(fn: Function) {
   return Object.prototype.toString.call(fn) === '[object AsyncFunction]' || fnStr.includes('return _regenerator.default.async(function')
 }
 
-export function createSandBox(){
-  let sandbox = document.createElement('iframe')
+export function createSandBox() {
+  const sandbox = document.createElement('iframe')
   sandbox.setAttribute(
     'sandbox',
     [
@@ -81,8 +81,8 @@ export function createSandBox(){
       'allow-popups',
       'allow-same-origin',
       'allow-scripts',
-      'allow-top-navigation-by-user-activation'
-    ].join(' ')
+      'allow-top-navigation-by-user-activation',
+    ].join(' '),
   )
   return sandbox
 }

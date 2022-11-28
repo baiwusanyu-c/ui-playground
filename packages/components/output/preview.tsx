@@ -1,5 +1,6 @@
 // TODO: 钩子设计 **
-// TODO: module、compiler抽象、 重构***
+// TODO: 自定义编译（output） 、自定义编译（preview->module、compiler抽象 ***
+// TODO: 监听依赖、版本、虚拟文件代码，重置沙盒
 // TODO: 预览的报错
 // output 编译前
 // output 编译后
@@ -48,7 +49,7 @@ export default function Preview(props: IPreviewProps){
     // 沙盒载入时
     sandbox.addEventListener('load', () => {
       // 触发 link 钩子，确保沙盒内 a 标签能够点击跳转(不设置 target属性都可以开tab)
-      proxy && proxy.handle_links()
+      proxy && proxy.handleLinksClick()
     })
   }
   // 开启预览监听 接受来自 fileStore 交互的通知信息
@@ -67,7 +68,6 @@ export default function Preview(props: IPreviewProps){
       JSON.stringify(importMap)
     )
   }
-
 
   async function updatePreview() {
     runtimeError = ''
@@ -90,7 +90,7 @@ export default function Preview(props: IPreviewProps){
     }
   }
 
-  // 监听依赖、版本、虚拟文件代码，重置沙盒
+
   // 创建沙盒
   useMount(initPreview)
   useUnmount(()=>{

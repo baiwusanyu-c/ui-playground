@@ -1,4 +1,4 @@
-import type {fileStore, File} from "../../store/file";
+import type { File, fileStore } from '../../store/file'
 
 export function compileModulesForPreview(fileST: typeof fileStore, isSSR = false) {
   const seen = new Set<File>()
@@ -9,7 +9,7 @@ export function compileModulesForPreview(fileST: typeof fileStore, isSSR = false
     fileST.files[fileST.mainFile],
     processed,
     seen,
-    isSSR
+    isSSR,
   )
   if (!isSSR) {
     // also add css files that are not imported
@@ -19,7 +19,7 @@ export function compileModulesForPreview(fileST: typeof fileStore, isSSR = false
         const file = fileST.files[filename]
         if (!seen.has(file)) {
           processed.push(
-            `\nwindow.__css__ += ${JSON.stringify(file.compiled.css)}`
+            `\nwindow.__css__ += ${JSON.stringify(file.compiled.css)}`,
           )
         }
       }
@@ -29,30 +29,30 @@ export function compileModulesForPreview(fileST: typeof fileStore, isSSR = false
   return processed
 }
 
-const modulesKey = `__modules__`
-const exportKey = `__export__`
-const dynamicImportKey = `__dynamic_import__`
-const moduleKey = `__module__`
+const modulesKey = '__modules__'
+const exportKey = '__export__'
+const dynamicImportKey = '__dynamic_import__'
+const moduleKey = '__module__'
 
 // similar logic with Vite's SSR transform, except this is targeting the browser
 function processFile(
   compiler: any,
-  fileST:  typeof fileStore,
+  fileST: typeof fileStore,
   file: File,
   processed: string[],
   seen: Set<File>,
-  isSSR: boolean
+  isSSR: boolean,
 ) {
   // 编译过的虚拟文件直接返回不再处理
-  if (seen.has(file)) {
+  if (seen.has(file))
     return []
-  }
+
   // 缓存编译的虚拟文件表
   seen.add(file)
   // 编译 html
-  if (!isSSR && file.filename.endsWith('.html')) {
+  if (!isSSR && file.filename.endsWith('.html'))
     return processHtmlFile(compiler, fileST, file.code, file.filename, processed, seen)
-  }
+
   // 编译 js 模块 (file.compiled.js 在 transform.ts 中已经被vue编译了)
   // 这里只要是将其模块化
   let [js, importedFiles] = processModule(
@@ -60,19 +60,18 @@ function processFile(
     fileST,
     isSSR ? file.compiled.ssr : file.compiled.js,
     file.filename,
-    isSSR
+    isSSR,
   )
   // append css
   // 编译当前文件中的 css
-  if (!isSSR && file.compiled.css) {
+  if (!isSSR && file.compiled.css)
     js += `\nwindow.__css__ += ${JSON.stringify(file.compiled.css)}`
-  }
+
   // crawl child imports
   // js 中有引用模块 递归编译
   if (importedFiles.size) {
-    for (const imported of importedFiles) {
+    for (const imported of importedFiles)
       processFile(compiler, fileST, fileST.files[imported], processed, seen, isSSR)
-    }
   }
   // 编译结果添加
   processed.push(js)
@@ -83,7 +82,7 @@ function processModule(
   fileST: typeof fileStore,
   src: string,
   filename: string,
-  isSSR: boolean
+  isSSR: boolean,
 ): [string, Set<string>] {
   const {
     babelParse,
@@ -92,19 +91,19 @@ function processModule(
     walkIdentifiers,
     extractIdentifiers,
     isInDestructureAssignment,
-    isStaticProperty
+    isStaticProperty,
   } = compiler
   // 修改引用为核心的编译名称
-  src = src.replace('from \'vue\'','from \'@vue/runtime-dom\'')
-  src = src.replace('from \"vue\"','from \'@vue/runtime-dom\'')
-  if(isSSR){
-    src = src.replace('from \'vue/server-renderer\'','from \'@vue/server-renderer\'')
-    src = src.replace('from \"vue/server-renderer\"','from \'@vue/server-renderer\'')
+  src = src.replace('from \'vue\'', 'from \'@vue/runtime-dom\'')
+  src = src.replace('from "vue"', 'from \'@vue/runtime-dom\'')
+  if (isSSR) {
+    src = src.replace('from \'vue/server-renderer\'', 'from \'@vue/server-renderer\'')
+    src = src.replace('from "vue/server-renderer"', 'from \'@vue/server-renderer\'')
   }
   const s = new MagicString(src)
   const ast = babelParse(src, {
     sourceFilename: filename,
-    sourceType: 'module'
+    sourceType: 'module',
   }).program.body
 
   const idToImportMap = new Map<string, string>()
@@ -114,18 +113,18 @@ function processModule(
 
   function defineImport(node: Node, source: string) {
     const filename = source.replace(/^\.\/+/, '')
-    if (!(filename in fileST.files)) {
+    if (!(filename in fileST.files))
       throw new Error(`File "${filename}" does not exist.`)
-    }
-    if (importedFiles.has(filename)) {
+
+    if (importedFiles.has(filename))
       return importToIdMap.get(filename)!
-    }
+
     importedFiles.add(filename)
     const id = `__import_${importedFiles.size}__`
     importToIdMap.set(filename, id)
     s.appendLeft(
       node.start!,
-      `const ${id} = ${modulesKey}[${JSON.stringify(filename)}]\n`
+      `const ${id} = ${modulesKey}[${JSON.stringify(filename)}]\n`,
     )
     return id
   }
@@ -136,8 +135,8 @@ function processModule(
   // 0. instantiate module
   s.prepend(
     `const ${moduleKey} = ${modulesKey}[${JSON.stringify(
-      filename
-    )}] = { [Symbol.toStringTag]: "Module" }\n\n`
+      filename,
+    )}] = { [Symbol.toStringTag]: "Module" }\n\n`,
   )
 
   // 1. check all import statements and record id -> importName map
@@ -153,7 +152,7 @@ function processModule(
           if (spec.type === 'ImportSpecifier') {
             idToImportMap.set(
               spec.local.name,
-              `${importId}.${(spec.imported).name}`
+              `${importId}.${(spec.imported).name}`,
             )
           } else if (spec.type === 'ImportDefaultSpecifier') {
             idToImportMap.set(spec.local.name, `${importId}.default`)
@@ -173,17 +172,16 @@ function processModule(
     if (node.type === 'ExportNamedDeclaration') {
       if (node.declaration) {
         if (
-          node.declaration.type === 'FunctionDeclaration' ||
-          node.declaration.type === 'ClassDeclaration'
+          node.declaration.type === 'FunctionDeclaration'
+          || node.declaration.type === 'ClassDeclaration'
         ) {
           // export function foo() {}
           defineExport(node.declaration.id!.name)
         } else if (node.declaration.type === 'VariableDeclaration') {
           // export const foo = 1, bar = 2
           for (const decl of node.declaration.declarations) {
-            for (const id of extractIdentifiers(decl.id)) {
+            for (const id of extractIdentifiers(decl.id))
               defineExport(id.name)
-            }
           }
         }
         s.remove(node.start!, node.declaration.start!)
@@ -193,7 +191,7 @@ function processModule(
         for (const spec of node.specifiers) {
           defineExport(
             (spec.exported).name,
-            `${importId}.${(spec).local.name}`
+            `${importId}.${(spec).local.name}`,
           )
         }
         s.remove(node.start!, node.end!)
@@ -240,22 +238,21 @@ function processModule(
     if (node.type === 'ImportDeclaration') continue
     walkIdentifiers(node, (id, parent, parentStack) => {
       const binding = idToImportMap.get(id.name)
-      if (!binding) {
+      if (!binding)
         return
-      }
+
       if (isStaticProperty(parent) && parent.shorthand) {
         // let binding used in a property shorthand
         // { foo } -> { foo: __import_x__.foo }
         // skip for destructure patterns
         if (
-          !(parent as any).inPattern ||
-          isInDestructureAssignment(parent, parentStack)
-        ) {
+          !(parent as any).inPattern
+          || isInDestructureAssignment(parent, parentStack)
+        )
           s.appendLeft(id.end!, `: ${binding}`)
-        }
       } else if (
-        parent.type === 'ClassDeclaration' &&
-        id === parent.superClass
+        parent.type === 'ClassDeclaration'
+        && id === parent.superClass
       ) {
         if (!declaredConst.has(id.name)) {
           declaredConst.add(id.name)
@@ -270,7 +267,7 @@ function processModule(
   }
 
   // 4. convert dynamic imports
-  ;(walk as any)(ast, {
+  (walk as any)(ast, {
     enter(node: Node, parent: Node) {
       if (node.type === 'Import' && parent.type === 'CallExpression') {
         const arg = parent.arguments[0]
@@ -279,18 +276,18 @@ function processModule(
           s.overwrite(
             arg.start!,
             arg.end!,
-            JSON.stringify(arg.value.replace(/^\.\/+/, ''))
+            JSON.stringify(arg.value.replace(/^\.\/+/, '')),
           )
         }
       }
-    }
+    },
   })
   return [s.toString(), importedFiles]
 }
 
 const scriptRE = /<script\b(?:\s[^>]*>|>)([^]*?)<\/script>/gi
-const scriptModuleRE =
-  /<script\b[^>]*type\s*=\s*(?:"module"|'module')[^>]*>([^]*?)<\/script>/gi
+const scriptModuleRE
+  = /<script\b[^>]*type\s*=\s*(?:"module"|'module')[^>]*>([^]*?)<\/script>/gi
 
 // 这里主要是提取 script 标签内容然后递归的分析js和依赖
 function processHtmlFile(
@@ -299,7 +296,7 @@ function processHtmlFile(
   src: string,
   filename: string,
   processed: string[],
-  seen: Set<File>
+  seen: Set<File>,
 ) {
   const deps: string[] = []
   let jsCode = ''
@@ -307,15 +304,14 @@ function processHtmlFile(
     .replace(scriptModuleRE, (_, content) => {
       const [code, importedFiles] = processModule(compiler, fileST, content, filename)
       if (importedFiles.size) {
-        for (const imported of importedFiles) {
+        for (const imported of importedFiles)
           processFile(compiler, fileST, fileST.files[imported], deps, seen, false)
-        }
       }
-      jsCode += '\n' + code
+      jsCode += `\n${code}`
       return ''
     })
     .replace(scriptRE, (_, content) => {
-      jsCode += '\n' + content
+      jsCode += `\n${content}`
       return ''
     })
   console.log(html)

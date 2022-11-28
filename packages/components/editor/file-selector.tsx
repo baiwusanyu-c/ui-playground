@@ -1,6 +1,6 @@
 import '../../asset/filer-selector.scss'
 import { ExclamationCircleFilled } from '@ant-design/icons'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Input, Modal, Tabs } from 'antd'
 import { fileStore } from '../../store/file'
 import { checkFileType, extend } from '../../utils'

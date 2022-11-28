@@ -31,7 +31,7 @@ export const Layout = (props: ILayoutProps) => {
   useEffect(() => {
     setVertical(props.layout === 'vertical')
     setClassName()
-  }, [props.layout])
+  }, [props.layout, setClassName])
 
   let startPosition = 0
   let startSplit = 0

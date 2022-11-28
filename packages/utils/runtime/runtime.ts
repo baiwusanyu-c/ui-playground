@@ -1,10 +1,10 @@
-import {compileModulesForPreview} from "../compiler/moduleCompiler";
-import {fileStore} from "../../store/file";
+import { compileModulesForPreview } from '../compiler/compiler-module-vue'
+import type { fileStore } from '../../store/file'
 
-export function injectSSRServer(fileST: typeof fileStore, mainFile: string){
-  const ssrModules = compileModulesForPreview(fileST,true)
+export function injectSSRServer(fileST: typeof fileStore, mainFile: string) {
+  const ssrModules = compileModulesForPreview(fileST, true)
   return [
-    `const __modules__ = {};`,
+    'const __modules__ = {};',
     ...ssrModules,
     `import { renderToString as _renderToString } from '@vue/server-renderer'
          import { createSSRApp as _createApp } from '@vue/runtime-dom'
@@ -18,28 +18,28 @@ export function injectSSRServer(fileST: typeof fileStore, mainFile: string){
          }).catch(err => {
            console.error("SSR Error", err)
          })
-        `
+        `,
   ]
 }
 
-export function injectClient(fileST: typeof fileStore, mainFile: string, isSSR:boolean){
+export function injectClient(fileST: typeof fileStore, mainFile: string, isSSR: boolean) {
   // 将源码编译，得到编译后结果(这里会根据虚拟文件分割模块)
   const modules = compileModulesForPreview(fileST)
 
   // csr 的 vue 注入
   const codeToEval = [
-    `window.__modules__ = {}\nwindow.__css__ = ''\n` +
-    `if (window.__app__) window.__app__.unmount()\n` +
-    (isSSR ? `` : `document.body.innerHTML = '<div id="app"></div>'`),
+    'window.__modules__ = {}\nwindow.__css__ = \'\'\n'
+    + `if (window.__app__) window.__app__.unmount()\n${
+    isSSR ? '' : 'document.body.innerHTML = \'<div id="app"></div>\''}`,
     ...modules,
-    `document.getElementById('__sfc-styles').innerHTML = window.__css__`
+    'document.getElementById(\'__sfc-styles\').innerHTML = window.__css__',
   ]
 
   // if main file is a vue file, mount it.
   if (mainFile.endsWith('.vue')) {
     codeToEval.push(
       `import { ${
-        isSSR ? `createSSRApp` : `createApp`
+        isSSR ? 'createSSRApp' : 'createApp'
       } as _createApp } from "@vue/runtime-dom"
         const _mount = () => {
           const AppComponent = __modules__["${mainFile}"].default
@@ -53,7 +53,7 @@ export function injectClient(fileST: typeof fileStore, mainFile: string, isSSR:b
           window.__ssr_promise__.then(_mount)
         } else {
           _mount()
-        }`
+        }`,
     )
   }
   return codeToEval

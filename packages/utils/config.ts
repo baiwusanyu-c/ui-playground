@@ -133,11 +133,12 @@ export const defaultConfig: playConfig = {
       + '  <input v-model="msg">\n'
       + '</template>',
   },
+  // output 的编译方法
   compiler: (ctx: any, file: File, compiler: Record<string, any>) => {
     compileVue(ctx, file, compiler, {})
   },
   //
-  /*hooks:{
+  /* hooks:{
     beforeCompile:() =>{
 
     },
@@ -153,7 +154,7 @@ export const defaultConfig: playConfig = {
     mounted:()=>{
 
     },
-  }*/
+  } */
 }
 
 export const mergeConfig = (config: playConfig, defaultConfigs = defaultConfig) => {

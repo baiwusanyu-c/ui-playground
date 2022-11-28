@@ -6,101 +6,88 @@ let uid = 1
 export class PreviewProxy {
   iframe: HTMLIFrameElement
   handlers: Record<string, Function>
-  pending_cmds: Map<
-    number,
-    { resolve: (value: unknown) => void; reject: (reason?: any) => void }
-  >
-  handle_event: (e: any) => void
+  pendingCmds: Map<number,
+    { resolve: (value: unknown) => void;
+      reject: (reason?: any) => void
+    }>
+  handleEvent: ((e: any) => void) | undefined
 
   constructor(iframe: HTMLIFrameElement, handlers: Record<string, Function>) {
     // 沙盒 iframe
     this.iframe = iframe
     // handler 沙盒钩子对象
     this.handlers = handlers
-
-    this.pending_cmds = new Map()
-
-    this.handle_event = (e) => this.handle_repl_message(e)
-    // 建立 message 监听，接收 iframe 发送过来的消息
-    window.addEventListener('message', this.handle_event, false)
+    this.pendingCmds = new Map()
+   this.setMsgEvt()
   }
-
+  setMsgEvt(){
+    // 建立 message 监听，接收 iframe 发送过来的消息
+    this.handleEvent = (e) => this.handleReplMessage(e)
+    window.addEventListener('message', this.handleEvent, false)
+  }
   destroy() {
     // 销毁 message 监听
-    window.removeEventListener('message', this.handle_event)
+    window.removeEventListener('message', this.handleEvent!)
   }
 
   // 向沙盒 iframe 发送消息
-  iframe_command(action: string, args: any) {
+  sendCommandToIFrame(action: string, args: any) {
     return new Promise((resolve, reject) => {
-      const cmd_id = uid++
-
-      this.pending_cmds.set(cmd_id, { resolve, reject })
-
-      this.iframe.contentWindow!.postMessage({ action, cmd_id, args }, '*')
+      const cmdId = uid++
+      this.pendingCmds.set(cmdId, { resolve, reject })
+      this.iframe.contentWindow!.postMessage({ action, cmdId, args }, '*')
     })
   }
 
   // 处理沙盒发送过来的钩子通信
   // 这里通常做发送给沙盒，沙盒处理指令后回复消息
-  handle_command_message(cmd_data: any) {
-    let action = cmd_data.action
-    let id = cmd_data.cmd_id
-    let handler = this.pending_cmds.get(id)
-
+  handleCommandFromIFrame(cmdData: any) {
+    let action = cmdData.action
+    let id = cmdData.cmdId
+    let handler = this.pendingCmds.get(id)
     if (handler) {
-      this.pending_cmds.delete(id)
-      if (action === 'cmd_error') {
-        let { message, stack } = cmd_data
+      this.pendingCmds.delete(id)
+      if (action === 'cmdError') {
+        let { message, stack } = cmdData
         let e = new Error(message)
         e.stack = stack
         handler.reject(e)
       }
 
-      if (action === 'cmd_ok') {
-        handler.resolve(cmd_data.args)
+      if (action === 'cmdOk') {
+        handler.resolve(cmdData.args)
       }
-    } else if (action !== 'cmd_error' && action !== 'cmd_ok') {
-      console.error('command not found', id, cmd_data, [
-        ...this.pending_cmds.keys()
+    } else if (action !== 'cmdError' && action !== 'cmdOk') {
+      console.error('command not found', id, cmdData, [
+        ...this.pendingCmds.keys()
       ])
     }
   }
 
   // 处理沙盒发送过来的钩子通信，触发相关 handler 钩子
   // 这里是 iframe 向上层发送消息
-  handle_repl_message(event: any) {
+  handleReplMessage(event: any) {
     if (event.source !== this.iframe.contentWindow) return
-
     const { action, args } = event.data
-
     switch (action) {
-      case 'cmd_error':
-      case 'cmd_ok':
-        return this.handle_command_message(event.data)
-      case 'fetch_progress':
-        return this.handlers.on_fetch_progress(args.remaining)
+      case 'cmdError':
+      case 'cmdOk':
+        return this.handleCommandFromIFrame(event.data)
       case 'error':
-        return this.handlers.on_error(event.data)
+        return this.handlers.onError(event.data)
       case 'unhandledrejection':
-        return this.handlers.on_unhandled_rejection(event.data)
+        return this.handlers.onUnhandledRejection(event.data)
       case 'console':
-        return this.handlers.on_console(event.data)
-      case 'console_group':
-        return this.handlers.on_console_group(event.data)
-      case 'console_group_collapsed':
-        return this.handlers.on_console_group_collapsed(event.data)
-      case 'console_group_end':
-        return this.handlers.on_console_group_end(event.data)
+        return this.handlers.onConsole(event.data)
     }
   }
 
   eval(script: string | string[]) {
-    return this.iframe_command('eval', { script })
+    return this.sendCommandToIFrame('eval', { script })
   }
 
-  handle_links() {
-    return this.iframe_command('catch_clicks', {})
+  handleLinksClick() {
+    return this.sendCommandToIFrame('catchClicks', {})
   }
 }
 
@@ -109,13 +96,8 @@ export function createPreviewProxy(
   runtimeError: string,
   runtimeWarning: string){
   return new PreviewProxy(sandbox, {
-    // 沙盒钩子 -- fetch 进度
-    on_fetch_progress: (progress: any) => {
-      // pending_imports = progress;
-    },
-
     // 沙盒钩子 -- 错误捕获
-    on_error: (event: any) => {
+    onError: (event: any) => {
       const msg =
         event.value instanceof Error ? event.value.message : event.value
       if (
@@ -131,7 +113,7 @@ export function createPreviewProxy(
     },
 
     // 沙盒钩子 -- 注入错误
-    on_unhandled_rejection: (event: any) => {
+    onUnhandledRejection: (event: any) => {
       let error = event.value
       if (typeof error === 'string') {
         error = { message: error }
@@ -140,7 +122,7 @@ export function createPreviewProxy(
     },
 
     // 沙盒钩子 -- 警告和错误输出
-    on_console: (log: any) => {
+    onConsole: (log: any) => {
       if (log.duplicate) {
         return
       }
@@ -151,28 +133,8 @@ export function createPreviewProxy(
           runtimeError = log.args[0]
         }
       } else if (log.level === 'warn') {
-        if (log.args[0].toString().includes('[Vue warn]')) {
-          runtimeWarning = log.args
-            .join('')
-            .replace(/\[Vue warn\]:/, '')
-            .trim()
-        }
+        runtimeWarning = log.args
       }
-    },
-
-    // TODO：作用暂时位置
-    on_console_group: (action: any) => {
-      // group_logs(action.label, false);
-    },
-
-    // TODO：作用暂时位置
-    on_console_group_end: () => {
-      // ungroup_logs();
-    },
-
-    // TODO：作用暂时位置
-    on_console_group_collapsed: (action: any) => {
-      // group_logs(action.label, true);
     }
   })
 }
