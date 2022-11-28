@@ -142,7 +142,7 @@ export const defaultConfig: playConfig = {
     beforeCompile:() =>{
 
     },
-    compile:()=>{
+    compiled:()=>{
 
     },
     beforeCreateModule:()=>{

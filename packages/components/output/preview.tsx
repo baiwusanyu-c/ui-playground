@@ -1,5 +1,5 @@
 // TODO: 钩子设计 **
-// TODO: 自定义编译（output） 、自定义编译（preview->module、compiler抽象 ***
+// TODO: 自定义编译（output） 、自定义编译（preview）、自定义编译（inject）->module、compiler、inject抽象 ***
 // TODO: 监听依赖、版本、虚拟文件代码，重置沙盒
 // TODO: 预览的报错
 // output 编译前
