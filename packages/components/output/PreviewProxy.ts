@@ -103,3 +103,76 @@ export class PreviewProxy {
     return this.iframe_command('catch_clicks', {})
   }
 }
+
+export function createPreviewProxy(
+  sandbox: HTMLIFrameElement,
+  runtimeError: string,
+  runtimeWarning: string){
+  return new PreviewProxy(sandbox, {
+    // 沙盒钩子 -- fetch 进度
+    on_fetch_progress: (progress: any) => {
+      // pending_imports = progress;
+    },
+
+    // 沙盒钩子 -- 错误捕获
+    on_error: (event: any) => {
+      const msg =
+        event.value instanceof Error ? event.value.message : event.value
+      if (
+        msg.includes('Failed to resolve module specifier') ||
+        msg.includes('Error resolving module specifier')
+      ) {
+        runtimeError =
+          msg.replace(/\. Relative references must.*$/, '') +
+          `.\nTip: edit the "Import Map" tab to specify import paths for dependencies.`
+      } else {
+        runtimeError = event.value
+      }
+    },
+
+    // 沙盒钩子 -- 注入错误
+    on_unhandled_rejection: (event: any) => {
+      let error = event.value
+      if (typeof error === 'string') {
+        error = { message: error }
+      }
+      runtimeError = 'Uncaught (in promise): ' + error.message
+    },
+
+    // 沙盒钩子 -- 警告和错误输出
+    on_console: (log: any) => {
+      if (log.duplicate) {
+        return
+      }
+      if (log.level === 'error') {
+        if (log.args[0] instanceof Error) {
+          runtimeError = log.args[0].message
+        } else {
+          runtimeError = log.args[0]
+        }
+      } else if (log.level === 'warn') {
+        if (log.args[0].toString().includes('[Vue warn]')) {
+          runtimeWarning = log.args
+            .join('')
+            .replace(/\[Vue warn\]:/, '')
+            .trim()
+        }
+      }
+    },
+
+    // TODO：作用暂时位置
+    on_console_group: (action: any) => {
+      // group_logs(action.label, false);
+    },
+
+    // TODO：作用暂时位置
+    on_console_group_end: () => {
+      // ungroup_logs();
+    },
+
+    // TODO：作用暂时位置
+    on_console_group_collapsed: (action: any) => {
+      // group_logs(action.label, true);
+    }
+  })
+}

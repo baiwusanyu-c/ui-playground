@@ -1,3 +1,4 @@
+// TODO： vue 的预设
 import { compileVue } from './compiler/compiler-vue'
 import { extend } from './index'
 import type { File } from '../store/file'
@@ -135,6 +136,24 @@ export const defaultConfig: playConfig = {
   compiler: (ctx: any, file: File, compiler: Record<string, any>) => {
     compileVue(ctx, file, compiler, {})
   },
+  //
+  /*hooks:{
+    beforeCompile:() =>{
+
+    },
+    compile:()=>{
+
+    },
+    beforeCreateModule:()=>{
+
+    },
+    createdModule:()=>{
+
+    },
+    mounted:()=>{
+
+    },
+  }*/
 }
 
 export const mergeConfig = (config: playConfig, defaultConfigs = defaultConfig) => {
