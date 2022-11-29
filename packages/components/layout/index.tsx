@@ -9,7 +9,7 @@ interface ILayoutProps {
   left?: JSX.Element
   right?: JSX.Element
 }
-
+// TODO: 拖拽卡死
 export const Layout = (props: ILayoutProps) => {
   const [isVertical, setVertical] = useState(props.layout === 'vertical')
   let className = ''

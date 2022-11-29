@@ -67,3 +67,7 @@ export async function injectClient(fileST: typeof fileStore, isSSR: boolean) {
   )
   return injectRes
 }
+
+export async function injectSandBoxMounted(injectScriptList: Array<string>) {
+  injectScriptList.push('parent.postMessage({ action: \'iframeMounted\'}, \'*\');')
+}

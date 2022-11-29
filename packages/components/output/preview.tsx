@@ -3,7 +3,7 @@
 // TODO: react 代码优化
 // TODO: css 注入失败
 // TODO: 预览的报错
-import {useMount, useSafeState, useUnmount} from "ahooks";
+import {useMount, usePrevious, useSafeState, useUnmount} from "ahooks";
 import {depsStore} from "../../store/deps";
 // @ts-ignore
 import srcdoc from './preview-sandbox.html?raw'
@@ -12,7 +12,8 @@ import {fileStore} from "../../store/file";
 import evtBus from "../../utils/event-bus";
 import '../../asset/preview.scss'
 import {createSandBox} from "../../utils";
-import {injectClient, injectSSRServer} from "../../utils/runtime/runtime";
+import {injectClient, injectSandBoxMounted, injectSSRServer} from "../../utils/runtime/runtime";
+
 
 export default function Preview(props: IPreviewProps){
   let runtimeError = ''
@@ -62,7 +63,6 @@ export default function Preview(props: IPreviewProps){
       JSON.stringify(importMap)
     )
   }
-
   async function updatePreview() {
     runtimeError = ''
     runtimeWarning = ''
@@ -72,11 +72,18 @@ export default function Preview(props: IPreviewProps){
       // if SSR, generate the SSR bundle and eval it to render the HTML
       // ssr 预览编译渲染
       if (isSSR && mainFile.endsWith('.vue')) {
+        const injectSSRServerRes = await injectSSRServer(fileStore,isSSR!)
         // 注入vue的ssr代码
-        proxy && await proxy.eval(await injectSSRServer(fileStore,isSSR!))
+        proxy && await proxy.eval(injectSSRServerRes)
       }
       // eval code in sandbox
-      proxy && await proxy.eval(await injectClient(fileStore, isSSR!))
+      let injectClientRes = await injectClient(fileStore,isSSR!)
+      // if(!fileStore.isMounted){
+      //   injectClientRes = await injectSandBoxMounted(injectClientRes)
+      //   fileStore.isMounted = true
+      // }
+      await injectSandBoxMounted(injectClientRes)
+      proxy && await proxy.eval(injectClientRes)
 
     } catch (e: any) {
       console.error(e)

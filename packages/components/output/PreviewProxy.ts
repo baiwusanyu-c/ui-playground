@@ -1,6 +1,9 @@
 // ReplProxy and srcdoc implementation from Svelte REPL
 // MIT License https://github.com/sveltejs/svelte-repl/blob/master/LICENSE
 
+import {fileStore} from "../../store/file";
+import {runHooks} from "../../utils";
+
 let uid = 1
 // 与 iframe 沙盒通信的代理对象
 export class PreviewProxy {
@@ -79,6 +82,9 @@ export class PreviewProxy {
         return this.handlers.onUnhandledRejection(event.data)
       case 'console':
         return this.handlers.onConsole(event.data)
+      case 'iframeMounted':
+        runHooks(fileStore.hooks,'sandBoxMounted')
+        return
     }
   }
 

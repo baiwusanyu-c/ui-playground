@@ -55,12 +55,13 @@ function processFile(
 
   // 编译 js 模块 (file.compiled.js 在 transform.ts 中已经被vue编译了)
   // 这里只要是将其模块化
-  let [js, importedFiles] = processModule(
+  const [code, importedFiles] = processModule(
     compiler,
     fileST,
     isSSR ? file.compiled.ssr : file.compiled.js,
     file.filename,
   )
+  let js = code
   // append css
   // 编译当前文件中的 css
   if (!isSSR && file.compiled.css)
@@ -306,7 +307,6 @@ function processHtmlFile(
       jsCode += `\n${content}`
       return ''
     })
-  console.log(html)
   processed.push(`document.body.innerHTML = ${JSON.stringify(html)}`)
   processed.push(...deps)
   processed.push(jsCode)

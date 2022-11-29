@@ -35,6 +35,7 @@ export const fileStore = {
   pendingCompiler: null as Promise<any> | null,
   errors: [] as (string | Error)[], // 错误信息
   hooks: {} as IHooks,
+  isMounted: false,
   async init(
     file: File,
     compileOutput: TCompileOutput,
@@ -111,7 +112,7 @@ export const fileStore = {
         this.compiler,
       )
     }
-    // 其他文件类型调用用户的编译钩子完成
+    // TODO: 其他文件类型调用用户的编译钩子完成
     /* if(file.filename.endsWith('.jsx')){
       // file.compiled.js = file.code
     }

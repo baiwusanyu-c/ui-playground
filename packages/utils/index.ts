@@ -86,6 +86,7 @@ export function createSandBox() {
       'allow-top-navigation-by-user-activation',
     ].join(' '),
   )
+  sandbox.id = 'play_sandbox_frame'
   return sandbox
 }
 

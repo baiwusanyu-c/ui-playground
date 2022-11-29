@@ -198,9 +198,9 @@ export const defaultConfig: playConfig = {
       // injects[1] =  injects[1].replace('Hello','WoW')
       console.log(fileST, isSSR, injects)
     },
-    // sandbox 首次注入后
+    // sandbox 首次注入后 ✔
     sandBoxMounted: () => {
-
+      console.log('sandBoxMounted')
     },
   },
 }
