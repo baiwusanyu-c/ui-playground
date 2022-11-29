@@ -13,7 +13,13 @@ export declare interface PlayGroundProps {
 export const PlayGround = (props: PlayGroundProps) => {
   const config = mergeConfig(props.config)
   depsStore.init(config.importMap)
-  fileStore.init(config.mainFile, config.compiler)
+  fileStore.init(
+    config.mainFile,
+    config.compileOutput,
+    config.compileModule,
+    config.compileInject,
+    config.hooks,
+  )
   return (
     <div className="play-ground">
       <PlayHeader config={config.headerOption} />

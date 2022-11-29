@@ -32,7 +32,7 @@ export const depsStore = {
         name: value.name,
         pkgName: value.pkgName,
         type: value.type,
-        version: value.type === 'ui' ? uiVersion : libVersion
+        version: value.type === 'ui' ? uiVersion : libVersion,
       }
 
       if (value.type === 'lib' || value.type === 'ui') {

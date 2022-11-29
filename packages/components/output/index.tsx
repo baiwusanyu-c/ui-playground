@@ -42,6 +42,7 @@ export default function output() {
   // 接受来自 fileStore 交互的通知信息
   evtBus.on('fileMessage',receiveEvtFromEditor)
 
+  // TODO: ssr
   return (
     <>
       <OutputSelector event$={event$}></OutputSelector>

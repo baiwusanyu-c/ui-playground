@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.8.0",
+    "@types/hash-sum": "^1.0.0",
     "ahooks": "^3.7.2",
     "antd": "^5.0.1",
     "compare-versions": "^4.1.3",

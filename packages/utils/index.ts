@@ -1,4 +1,6 @@
 import { strFromU8, strToU8, unzlibSync, zlibSync } from 'fflate'
+import type { IHooks } from './config'
+import type { fileStore } from '../store/file'
 // 防抖 没啥好说的
 export function debounce(fn: Function, n = 100) {
   let handle: any
@@ -68,4 +70,38 @@ export const isFunction = (val: unknown): val is Function => typeof val === 'fun
 export function isAsyncFunction(fn: Function) {
   const fnStr = fn.toString()
   return Object.prototype.toString.call(fn) === '[object AsyncFunction]' || fnStr.includes('return _regenerator.default.async(function')
+}
+
+export function createSandBox() {
+  const sandbox = document.createElement('iframe')
+  sandbox.setAttribute(
+    'sandbox',
+    [
+      'allow-forms',
+      'allow-modals',
+      'allow-pointer-lock',
+      'allow-popups',
+      'allow-same-origin',
+      'allow-scripts',
+      'allow-top-navigation-by-user-activation',
+    ].join(' '),
+  )
+  sandbox.id = 'play_sandbox_frame'
+  return sandbox
+}
+
+export function wrapperCustomCompiler(compileFunc: Function) {
+  return isAsyncFunction(compileFunc)
+    ? compileFunc
+    : async(ctx: typeof fileStore, ...arg: any[]) => {
+      return new Promise((resolve) => {
+        resolve(compileFunc(ctx, ...arg))
+      })
+    }
+}
+
+export function runHooks(hooks: IHooks, name: string, ...arg: Array<any>) {
+  const hookFunc = hooks[name as keyof typeof hooks]
+  if (typeof hookFunc === 'function')
+    hooks[name as keyof typeof hooks]!(...arg)
 }

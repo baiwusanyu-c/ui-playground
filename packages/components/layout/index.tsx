@@ -9,7 +9,7 @@ interface ILayoutProps {
   left?: JSX.Element
   right?: JSX.Element
 }
-
+// TODO: 拖拽卡死
 export const Layout = (props: ILayoutProps) => {
   const [isVertical, setVertical] = useState(props.layout === 'vertical')
   let className = ''
@@ -31,7 +31,7 @@ export const Layout = (props: ILayoutProps) => {
   useEffect(() => {
     setVertical(props.layout === 'vertical')
     setClassName()
-  }, [props.layout])
+  }, [props.layout, setClassName])
 
   let startPosition = 0
   let startSplit = 0

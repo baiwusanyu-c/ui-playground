@@ -1,7 +1,8 @@
 // TIP： 展示编译内容只根据当前激活虚拟文件
 import evtBus from '../utils/event-bus'
 import { compileTS } from '../utils/compiler/compile-ts'
-import { isAsyncFunction } from '../utils'
+import { runHooks, wrapperCustomCompiler } from '../utils'
+import type { IHooks, TCompileInject, TCompileModule, TCompileOutput } from '../utils/config'
 import type { IDepsList } from './deps'
 export interface File {
   filename: string // 文件名
@@ -12,25 +13,6 @@ export interface File {
     css: string // css 编译结果
     ssr: string // ssr 编译结果
   }
-}
-
-export interface StoreState {
-  mainFile: string // 虚拟入口主文件，CodeMirror 将从它为入口开始运行
-  files: Record<string, File> // 虚拟文件集合对象
-  activeFile: File // 当前选择的文件
-  errors: (string | Error)[] // 错误信息
-  vueRuntimeURL: string // vue 的运行时地址
-  vueServerRendererURL: string // vue 的 ssr 渲染器地址
-  // used to force reset the sandbox
-  resetFlip: boolean // 是否重置预览沙盒
-  init: Function
-}
-
-// sfc 选项
-export interface SFCOptions {
-  // script?: Omit<SFCScriptCompileOptions, 'id'>
-  // style?: SFCAsyncStyleCompileOptions
-  // template?: SFCTemplateCompileOptions
 }
 
 export const fileStore = {
@@ -46,22 +28,29 @@ export const fileStore = {
   } as File,
   mainFile: '',
   files: {} as Record<string, File>, // 虚拟文件集合对象
-  compilerFn: null as Function | null,
+  compileOutput: null as Function | null,
+  compileModule: null as Function | null,
+  compileInject: null as Function | null,
   compiler: {} as Record<string, any>,
   pendingCompiler: null as Promise<any> | null,
   errors: [] as (string | Error)[], // 错误信息
-  async init(file: File, compilerFn: Function) {
+  hooks: {} as IHooks,
+  isMounted: false,
+  async init(
+    file: File,
+    compileOutput: TCompileOutput,
+    compileModule: TCompileInject,
+    compileInject: TCompileModule,
+    hooks: IHooks,
+  ) {
     this.mainFile = file.filename
     this.activeFile.filename = file.filename
     this.activeFile.code = file.code
     this.files[file.filename] = { ...this.activeFile }
-    this.compilerFn = isAsyncFunction(compilerFn)
-      ? compilerFn
-      : async(ctx: typeof fileStore, file: File, compiler: Record<string, any>) => {
-        return new Promise((resolve) => {
-          resolve(compilerFn(ctx, file, compiler))
-        })
-      }
+    this.compileOutput = wrapperCustomCompiler(compileOutput)
+    this.compileModule = wrapperCustomCompiler(compileModule)
+    this.compileInject = wrapperCustomCompiler(compileInject)
+    this.hooks = hooks
   },
 
   add(file: File) {
@@ -104,11 +93,26 @@ export const fileStore = {
     if (file.filename.endsWith('.ts'))
       file.compiled.js = await compileTS(file.code)
 
-    if (this.compilerFn) {
+    if (this.compileOutput) {
+      runHooks(
+        this.hooks,
+        'beforeCompileOutput',
+        this,
+        file,
+        this.compiler,
+      )
       // 同时把从配置中 importMap 的 lib 类型的依赖传递出去，
-      file = await this.compilerFn(this, file, this.compiler)
+      file = await this.compileOutput(this, file, this.compiler)
+
+      runHooks(
+        this.hooks,
+        'compiledOutput',
+        this,
+        file,
+        this.compiler,
+      )
     }
-    // 其他文件类型调用用户的编译钩子完成
+    // TODO: 其他文件类型调用用户的编译钩子完成
     /* if(file.filename.endsWith('.jsx')){
       // file.compiled.js = file.code
     }
