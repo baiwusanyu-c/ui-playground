@@ -48,7 +48,7 @@ export default function output() {
       <OutputSelector event$={event$}></OutputSelector>
       <div className="output-container">
         {curTab === 'preview' ?
-          <Preview ssr={true}/>
+          <Preview ssr={false}/>
           :
           <CodeMirror readonly={true}
                     mode={outMode}

@@ -1,5 +1,4 @@
 // TODO: 钩子设计 **
-// TODO: 自定义编译（output） 、自定义编译（preview）、自定义编译（inject）->module、compiler、inject抽象 ***
 // TODO: 监听依赖、版本、虚拟文件代码，重置沙盒
 // TODO: 预览的报错
 // output 编译前
@@ -79,10 +78,10 @@ export default function Preview(props: IPreviewProps){
       // ssr 预览编译渲染
       if (isSSR && mainFile.endsWith('.vue')) {
         // 注入vue的ssr代码
-        proxy && await proxy.eval(injectSSRServer(fileStore, mainFile))
+        proxy && await proxy.eval(await injectSSRServer(fileStore))
       }
       // eval code in sandbox
-      proxy && await proxy.eval(injectClient(fileStore, mainFile, isSSR!))
+      proxy && await proxy.eval(await injectClient(fileStore, isSSR!))
 
     } catch (e: any) {
       console.error(e)

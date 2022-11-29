@@ -1,4 +1,5 @@
 import { strFromU8, strToU8, unzlibSync, zlibSync } from 'fflate'
+import {File, fileStore} from "../store/file";
 // 防抖 没啥好说的
 export function debounce(fn: Function, n = 100) {
   let handle: any
@@ -85,4 +86,14 @@ export function createSandBox() {
     ].join(' '),
   )
   return sandbox
+}
+
+export function wrapperCustomCompiler(compileFunc: Function) {
+  return isAsyncFunction(compileFunc)
+    ? compileFunc
+    : async(ctx: typeof fileStore, ...arg: any[]) => {
+      return new Promise((resolve) => {
+        resolve(compileFunc(ctx, ...arg))
+      })
+    }
 }

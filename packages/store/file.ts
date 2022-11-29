@@ -1,7 +1,7 @@
 // TIP： 展示编译内容只根据当前激活虚拟文件
 import evtBus from '../utils/event-bus'
 import { compileTS } from '../utils/compiler/compile-ts'
-import { isAsyncFunction } from '../utils'
+import {isAsyncFunction, wrapperCustomCompiler} from '../utils'
 import type { IDepsList } from './deps'
 export interface File {
   filename: string // 文件名
@@ -46,22 +46,25 @@ export const fileStore = {
   } as File,
   mainFile: '',
   files: {} as Record<string, File>, // 虚拟文件集合对象
-  compilerFn: null as Function | null,
+  compileOutput: null as Function | null,
+  compileModule: null as Function | null,
+  compileInject: null as Function | null,
   compiler: {} as Record<string, any>,
   pendingCompiler: null as Promise<any> | null,
   errors: [] as (string | Error)[], // 错误信息
-  async init(file: File, compilerFn: Function) {
+  async init(
+    file: File,
+    compileOutput: Function,
+    compileModule: Function,
+    compileInject: Function,
+    ) {
     this.mainFile = file.filename
     this.activeFile.filename = file.filename
     this.activeFile.code = file.code
     this.files[file.filename] = { ...this.activeFile }
-    this.compilerFn = isAsyncFunction(compilerFn)
-      ? compilerFn
-      : async(ctx: typeof fileStore, file: File, compiler: Record<string, any>) => {
-        return new Promise((resolve) => {
-          resolve(compilerFn(ctx, file, compiler))
-        })
-      }
+    this.compileOutput = wrapperCustomCompiler(compileOutput)
+    this.compileModule = wrapperCustomCompiler(compileModule)
+    this.compileInject = wrapperCustomCompiler(compileInject)
   },
 
   add(file: File) {
@@ -104,9 +107,9 @@ export const fileStore = {
     if (file.filename.endsWith('.ts'))
       file.compiled.js = await compileTS(file.code)
 
-    if (this.compilerFn) {
+    if (this.compileOutput) {
       // 同时把从配置中 importMap 的 lib 类型的依赖传递出去，
-      file = await this.compilerFn(this, file, this.compiler)
+      file = await this.compileOutput(this, file, this.compiler)
     }
     // 其他文件类型调用用户的编译钩子完成
     /* if(file.filename.endsWith('.jsx')){

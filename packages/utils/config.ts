@@ -1,7 +1,10 @@
 // TODO： vue 的预设
-import { compileVue } from './compiler/compiler-vue'
+import { compileVue } from './compiler/compiler-output-vue'
 import { extend } from './index'
 import type { File } from '../store/file'
+import {compileModulesForPreview} from "./compiler/compiler-module-vue";
+import {fileStore} from "../store/file";
+import {compilerInjectVue} from "./compiler/compiler-inject-vue";
 export declare interface iconItem {
   link: string
   url: string
@@ -41,7 +44,9 @@ export declare interface playConfig {
     filename: string
     code: string
   }
-  compiler?: Function
+  compileOutput?: Function,
+  compileInject?: Function,
+  compileModule?: Function
 }
 export const jsdelivrLink = 'https://fastly.jsdelivr.net/npm/'
 export const unpkgLink = 'https://unpkg.com/'
@@ -134,8 +139,16 @@ export const defaultConfig: playConfig = {
       + '</template>',
   },
   // output 的编译方法
-  compiler: (ctx: any, file: File, compiler: Record<string, any>) => {
-    compileVue(ctx, file, compiler, {})
+  compileOutput: (fileST: typeof fileStore,  file: File, compiler: Record<string, any>) => {
+    compileVue(fileST, file, compiler, {})
+  },
+  // module 的编译方法
+  compileModule: (fileST: typeof fileStore, isSSR = false) => {
+    return compileModulesForPreview(fileST, isSSR)
+  },
+  // Inject 的编译方法
+  compileInject: (fileST: typeof fileStore, isSSR = false,modules: Array<string>) => {
+    return compilerInjectVue(fileST, isSSR, modules)
   },
   //
   /* hooks:{
