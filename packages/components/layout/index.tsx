@@ -1,6 +1,7 @@
 import '../../asset/layout.css'
 import PropTypes from 'prop-types'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSafeState } from 'ahooks'
 import type { MouseEvent } from 'react'
 import type { elType } from '../../utils/types'
 
@@ -9,41 +10,42 @@ interface ILayoutProps {
   left?: JSX.Element
   right?: JSX.Element
 }
-// TODO: 拖拽卡死
+
 export const Layout = (props: ILayoutProps) => {
   const [isVertical, setVertical] = useState(props.layout === 'vertical')
-  let className = ''
-  const setClassName = () => {
-    const classOption = {
-      'split-pane': true,
-      'dragging': false, // TODO: 布局央视
-      'show-output': false, // TODO: 布局央视
-      'vertical': false, // TODO: 布局央视
-    }
-    const classOptionKeys = Object.keys(classOption)
-    classOptionKeys.forEach((val, index) => {
-      if (classOption[val as keyof typeof classOption])
-        className = `${className} ${classOptionKeys[index]}`
-    })
-  }
-  setClassName()
-
-  useEffect(() => {
-    setVertical(props.layout === 'vertical')
-    setClassName()
-  }, [props.layout, setClassName])
-
-  let startPosition = 0
-  let startSplit = 0
-
+  const [className, setClassname] = useState('')
   const [state, setState] = useState({
     dragging: false,
     split: 50,
   })
+  const [showOutput, setShowOutput] = useState(false)
+  const handleClick = () => {
+    setShowOutput(!showOutput)
+  }
+  useEffect(() => {
+    setVertical(props.layout === 'vertical')
+    const classOption = {
+      'split-pane': true,
+      'dragging': state.dragging,
+      'show-output': showOutput,
+      'vertical': isVertical,
+    }
+    const classOptionKeys = Object.keys(classOption)
+    let name = ''
+    classOptionKeys.forEach((val, index) => {
+      if (classOption[val as keyof typeof classOption])
+        name = `${name} ${classOptionKeys[index]}`
+    })
+    setClassname(name)
+  }, [props.layout, state, showOutput, isVertical])
 
-  const boundSplit = useMemo(() => {
+  let startPosition = 0
+  let startSplit = 0
+
+  const [boundSplit, setBoundSplit] = useSafeState(20)
+  useEffect(() => {
     const { split } = state
-    return split < 20 ? 20 : split > 80 ? 80 : split
+    setBoundSplit(split < 20 ? 20 : split > 80 ? 80 : split)
   }, [state])
 
   function dragStart(e: MouseEvent<HTMLElement>) {
@@ -70,11 +72,7 @@ export const Layout = (props: ILayoutProps) => {
   }
 
   const { left, right } = props
-  // TODO：showOutput
-  const [showOutput, setShowOutput] = useState(true)
-  const handleClick = () => {
-    setShowOutput(!showOutput)
-  }
+
   return (
     <div
       onMouseMove={dragMove}

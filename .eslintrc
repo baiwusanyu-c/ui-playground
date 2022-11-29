@@ -2,6 +2,7 @@
   "extends": "@baiwusanyu",
   "rules": {
     "no-console": ["warn", { "allow": ["log","error"] }],
-    "@typescript-eslint/ban-ts-comment": ["warn"]
+    "@typescript-eslint/ban-ts-comment": ["warn"],
+    "react-hooks/exhaustive-deps": "off"
   }
 }

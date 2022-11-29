@@ -23,7 +23,7 @@ export const PlayGround = (props: PlayGroundProps) => {
   return (
     <div className="play-ground">
       <PlayHeader config={config.headerOption} />
-      <PlayMain />
+      <PlayMain layout={config.layout}/>
     </div>
   )
 }
