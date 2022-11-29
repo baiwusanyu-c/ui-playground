@@ -1,12 +1,12 @@
-import {fileStore} from "../../store/file";
+import type { fileStore } from '../../store/file'
 
 export function compilerInjectVue(
   fileST: typeof fileStore,
   isSSR: boolean,
-  modules: Array<string>){
+  modules: Array<string>) {
   const { mainFile } = fileST
-  if(isSSR){
-    return  [
+  if (isSSR) {
+    return [
       'const __modules__ = {};',
       ...modules,
       `import { renderToString as _renderToString } from '@vue/server-renderer'
@@ -23,7 +23,7 @@ export function compilerInjectVue(
          })
         `,
     ]
-  }else{
+  } else {
     // csr 的 vue 注入
     const codeToEval = [
       'window.__modules__ = {}\nwindow.__css__ = \'\'\n'

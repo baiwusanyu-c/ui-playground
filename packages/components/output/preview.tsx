@@ -1,13 +1,8 @@
 // TODO: 钩子设计 **
 // TODO: 监听依赖、版本、虚拟文件代码，重置沙盒
+// TODO: react 代码优化
+// TODO: css 注入失败
 // TODO: 预览的报错
-// output 编译前
-// output 编译后
-// Module 编译后
-// Module 编译后
-// ssr server 注入前
-// csr、ssr  注入前
-// sandbox 首次注入后
 import {useMount, useSafeState, useUnmount} from "ahooks";
 import {depsStore} from "../../store/deps";
 // @ts-ignore
@@ -78,7 +73,7 @@ export default function Preview(props: IPreviewProps){
       // ssr 预览编译渲染
       if (isSSR && mainFile.endsWith('.vue')) {
         // 注入vue的ssr代码
-        proxy && await proxy.eval(await injectSSRServer(fileStore))
+        proxy && await proxy.eval(await injectSSRServer(fileStore,isSSR!))
       }
       // eval code in sandbox
       proxy && await proxy.eval(await injectClient(fileStore, isSSR!))

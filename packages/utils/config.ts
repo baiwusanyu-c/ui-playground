@@ -1,10 +1,10 @@
 // TODO： vue 的预设
 import { compileVue } from './compiler/compiler-output-vue'
+import { compileModulesForPreview } from './compiler/compiler-module-vue'
+import { compilerInjectVue } from './compiler/compiler-inject-vue'
 import { extend } from './index'
-import type { File } from '../store/file'
-import {compileModulesForPreview} from "./compiler/compiler-module-vue";
-import {fileStore} from "../store/file";
-import {compilerInjectVue} from "./compiler/compiler-inject-vue";
+import type { File, fileStore } from '../store/file'
+
 export declare interface iconItem {
   link: string
   url: string
@@ -37,6 +37,18 @@ export declare interface importItem {
   type: 'lib' | 'ui' | 'other'
   cdnLink?: string // 'other' 类型才传
 }
+export declare interface IHooks {
+  beforeCompileOutput?: Function
+  compiledOutput?: Function
+  beforeCompileModule?: Function
+  compiledModule?: Function
+  beforeCreateInject?: Function
+  createdInject?: Function
+  sandBoxMounted?: Function
+}
+export declare type TCompileOutput = (fileST: typeof fileStore, file: File, compiler: Record<string, any>) => void
+export declare type TCompileInject = (fileST: typeof fileStore, isSSR: boolean, modules: Array<string>) => Array<string>
+export declare type TCompileModule = (fileST: typeof fileStore, isSSR: boolean) => Array<string>
 export declare interface playConfig {
   headerOption: headerOption
   importMap: Array<importItem>
@@ -44,9 +56,10 @@ export declare interface playConfig {
     filename: string
     code: string
   }
-  compileOutput?: Function,
-  compileInject?: Function,
-  compileModule?: Function
+  compileOutput?: TCompileOutput
+  compileInject?: TCompileInject
+  compileModule?: TCompileModule
+  hooks: IHooks
 }
 export const jsdelivrLink = 'https://fastly.jsdelivr.net/npm/'
 export const unpkgLink = 'https://unpkg.com/'
@@ -139,7 +152,7 @@ export const defaultConfig: playConfig = {
       + '</template>',
   },
   // output 的编译方法
-  compileOutput: (fileST: typeof fileStore,  file: File, compiler: Record<string, any>) => {
+  compileOutput: (fileST: typeof fileStore, file: File, compiler: Record<string, any>) => {
     compileVue(fileST, file, compiler, {})
   },
   // module 的编译方法
@@ -147,27 +160,49 @@ export const defaultConfig: playConfig = {
     return compileModulesForPreview(fileST, isSSR)
   },
   // Inject 的编译方法
-  compileInject: (fileST: typeof fileStore, isSSR = false,modules: Array<string>) => {
+  compileInject: (fileST: typeof fileStore, isSSR = false, modules: Array<string>) => {
     return compilerInjectVue(fileST, isSSR, modules)
   },
-  //
-  /* hooks:{
-    beforeCompile:() =>{
+  // 钩子
+  hooks: {
+    // output 编译前 ✔
+    beforeCompileOutput: (fileST: typeof fileStore, file: File, compiler: Record<string, any>) => {
+      console.log(fileST, file, compiler)
+    },
+    // output 编译后 ✔
+    compiledOutput: (fileST: typeof fileStore, file: File, compiler: Record<string, any>) => {
+      console.log(fileST, file, compiler)
+    },
+    // Module 编译前 ✔
+    beforeCompileModule: (fileST: typeof fileStore, isSSR: boolean) => {
+      console.log(fileST, isSSR)
+    },
+    // Module 编译后 ✔
+    compiledModule: (fileST: typeof fileStore, isSSR: boolean, modules: string[]) => {
+      let module = modules[0]
+      module = module.replace('from \'vue\'', 'from \'@vue/runtime-dom\'')
+      module = module.replace('from "vue"', 'from \'@vue/runtime-dom\'')
+      if (isSSR) {
+        module = module.replace('from \'vue/server-renderer\'', 'from \'@vue/server-renderer\'')
+        module = module.replace('from "vue/server-renderer"', 'from \'@vue/server-renderer\'')
+      }
+
+      modules[0] = module
+    },
+    // ssr server 、csr、ssr 注入前 ✔
+    beforeCreateInject: (fileST: typeof fileStore, isSSR: boolean, modules: string[]) => {
+      console.log(fileST, isSSR, modules)
+    },
+    // ssr server 、csr、ssr 注入后 ✔
+    createdInject: (fileST: typeof fileStore, isSSR: boolean, injects: string[]) => {
+      // injects[1] =  injects[1].replace('Hello','WoW')
+      console.log(fileST, isSSR, injects)
+    },
+    // sandbox 首次注入后
+    sandBoxMounted: () => {
 
     },
-    compiled:()=>{
-
-    },
-    beforeCreateModule:()=>{
-
-    },
-    createdModule:()=>{
-
-    },
-    mounted:()=>{
-
-    },
-  } */
+  },
 }
 
 export const mergeConfig = (config: playConfig, defaultConfigs = defaultConfig) => {

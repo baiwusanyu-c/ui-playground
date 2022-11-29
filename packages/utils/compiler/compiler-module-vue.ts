@@ -60,7 +60,6 @@ function processFile(
     fileST,
     isSSR ? file.compiled.ssr : file.compiled.js,
     file.filename,
-    isSSR,
   )
   // append css
   // 编译当前文件中的 css
@@ -82,7 +81,6 @@ function processModule(
   fileST: typeof fileStore,
   src: string,
   filename: string,
-  isSSR: boolean,
 ): [string, Set<string>] {
   const {
     babelParse,
@@ -93,13 +91,7 @@ function processModule(
     isInDestructureAssignment,
     isStaticProperty,
   } = compiler
-  // 修改引用为核心的编译名称
-  src = src.replace('from \'vue\'', 'from \'@vue/runtime-dom\'')
-  src = src.replace('from "vue"', 'from \'@vue/runtime-dom\'')
-  if (isSSR) {
-    src = src.replace('from \'vue/server-renderer\'', 'from \'@vue/server-renderer\'')
-    src = src.replace('from "vue/server-renderer"', 'from \'@vue/server-renderer\'')
-  }
+
   const s = new MagicString(src)
   const ast = babelParse(src, {
     sourceFilename: filename,

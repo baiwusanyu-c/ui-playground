@@ -1,4 +1,3 @@
-// @ts-expect-error
 import hashId from 'hash-sum'
 import { compileTS } from './compile-ts'
 import type { File, fileStore } from '../../store/file'

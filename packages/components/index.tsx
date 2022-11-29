@@ -17,7 +17,9 @@ export const PlayGround = (props: PlayGroundProps) => {
     config.mainFile,
     config.compileOutput,
     config.compileModule,
-    config.compileInject)
+    config.compileInject,
+    config.hooks,
+  )
   return (
     <div className="play-ground">
       <PlayHeader config={config.headerOption} />

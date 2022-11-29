@@ -56,6 +56,7 @@ importers:
     specifiers:
       '@ant-design/icons': ^4.8.0
       '@types/codemirror': ^5.60.2
+      '@types/hash-sum': ^1.0.0
       ahooks: ^3.7.2
       antd: ^5.0.1
       codemirror: ^5.62.3
@@ -67,6 +68,7 @@ importers:
 
     dependencies:
       '@ant-design/icons': 4.8.0_biqbaboplfbrettd7655fr4n2y
+      '@types/hash-sum': 1.0.0
       ahooks: 3.7.2_react@18.2.0
       antd: 5.0.1_biqbaboplfbrettd7655fr4n2y
       compare-versions: 4.1.4
@@ -1049,6 +1051,10 @@ packages:
   /@types/estree/1.0.0:
     resolution: {integrity: sha512-WulqXMDUTYAXCjZnk6JtIHPigp55cVtDgDrO2gHRwhyJto21+1zbVCtOYB2L1F9w4qCQ0rOGWBnBe0FNTiEJIQ==}
     dev: true
+
+  /@types/hash-sum/1.0.0:
+    resolution: {integrity: sha512-FdLBT93h3kcZ586Aee66HPCVJ6qvxVjBlDWNmxSGSbCZe9hTsjRKdSsl4y1T+3zfujxo9auykQMnFsfyHWD7wg==}
+    dev: false
 
   /@types/is-ci/3.0.0:
     resolution: {integrity: sha512-Q0Op0hdWbYd1iahB+IFNQcWXFq4O0Q5MwQP7uN0souuQ4rPg1vEYcnIOfr1gY+M+6rc8FGoRaBO1mOOvL29sEQ==}
