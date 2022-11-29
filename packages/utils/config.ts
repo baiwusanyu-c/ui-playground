@@ -4,7 +4,6 @@ import { compileModulesForPreview } from './compiler/compiler-module-vue'
 import { compilerInjectVue } from './compiler/compiler-inject-vue'
 import { extend } from './index'
 import type { File, fileStore } from '../store/file'
-import {bool} from "prop-types";
 
 export declare interface iconItem {
   link: string
@@ -54,7 +53,7 @@ export declare type TCompileOutput = (fileST: typeof fileStore, file: File, comp
 export declare type TCompileInject = (fileST: typeof fileStore, isSSR: boolean, modules: Array<string>) => Array<string>
 export declare type TCompileModule = (fileST: typeof fileStore, isSSR: boolean) => Array<string>
 export declare interface playConfig {
-  layout:ILayoutConfig,
+  layout: ILayoutConfig
   headerOption: headerOption
   importMap: Array<importItem>
   mainFile: {
@@ -69,8 +68,8 @@ export declare interface playConfig {
 export const jsdelivrLink = 'https://fastly.jsdelivr.net/npm/'
 export const unpkgLink = 'https://unpkg.com/'
 export const defaultConfig: playConfig = {
-  layout:{
-    vertical: false
+  layout: {
+    vertical: false,
   },
   headerOption: {
     title: 'Ant Design',

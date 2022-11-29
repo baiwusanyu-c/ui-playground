@@ -3,12 +3,11 @@ import { Layout } from '../layout'
 import Editor from '../editor'
 import Output from '../output'
 interface IPlayMainProps {
-  layout:{
+  layout: {
     vertical: boolean
   }
 }
 export const PlayMain = (props: IPlayMainProps) => {
-
   // TODO：layout
   return (
     <div className="play-container">
