@@ -6,7 +6,7 @@ import { fileStore } from '../../store/file'
 import { checkFileType, extend } from '../../utils'
 import type { EventEmitter } from 'ahooks/lib/useEventEmitter'
 import type { FC } from 'react'
-// TODO: 所有文件信息、版本信息地址栏持久化
+// TODO: cdn loading
 // TODO: 编辑器报错显示
 export const FileSelector: FC<{
   event$: EventEmitter<void>

@@ -52,6 +52,10 @@ export const fileStore = {
     this.hooks = hooks
   },
 
+  setFiles(files: Record<string, File>) {
+    this.files = files
+  },
+
   add(file: File) {
     this.activeFile = file
     this.files[file.filename] = { ...this.activeFile }

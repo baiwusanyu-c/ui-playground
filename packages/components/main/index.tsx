@@ -15,8 +15,9 @@ export const PlayMain = (props: IPlayMainProps) => {
         layout={props.layout.vertical ? 'vertical' : ''}
         left={Editor()}
         right={Output({
-          ssr: props.isSSR
-        })} />
+          ssr: props.isSSR,
+        })}
+      />
     </div>
   )
 }

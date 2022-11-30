@@ -49,18 +49,19 @@ export declare interface IHooks {
 export declare interface ILayoutConfig {
   vertical: boolean
 }
+export declare interface IMainFile {
+  filename: string
+  code: string
+}
 export declare type TCompileOutput = (fileST: typeof fileStore, file: File, compiler: Record<string, any>) => void
 export declare type TCompileInject = (fileST: typeof fileStore, isSSR: boolean, modules: Array<string>) => Array<string>
 export declare type TCompileModule = (fileST: typeof fileStore, isSSR: boolean) => Array<string>
 export declare interface playConfig {
-  layout: ILayoutConfig,
-  isSSR: boolean,
+  layout: ILayoutConfig
+  isSSR: boolean
   headerOption: headerOption
   importMap: Array<importItem>
-  mainFile: {
-    filename: string
-    code: string
-  }
+  mainFile: IMainFile
   compileOutput?: TCompileOutput
   compileInject?: TCompileInject
   compileModule?: TCompileModule
@@ -128,7 +129,7 @@ export const defaultConfig: playConfig = {
       type: 'lib',
     },
     {
-      name: '  @vue/compiler-sfc',
+      name: '@vue/compiler-sfc',
       pkgName: '@vue/compiler-sfc',
       indexPath: '/dist/compiler-sfc.esm-browser.js',
       type: 'lib',
@@ -181,19 +182,19 @@ export const defaultConfig: playConfig = {
   hooks: {
     // output 编译前 ✔
     beforeCompileOutput: (fileST: typeof fileStore, file: File, compiler: Record<string, any>) => {
-      // console.log(fileST, file, compiler)
+      console.log(fileST, file, compiler)
     },
     // output 编译后 ✔
     compiledOutput: (fileST: typeof fileStore, file: File, compiler: Record<string, any>) => {
-      // console.log(fileST, file, compiler)
+      console.log(fileST, file, compiler)
     },
     // Module 编译前 ✔
     beforeCompileModule: (fileST: typeof fileStore, isSSR: boolean) => {
-      // console.log(fileST, isSSR)
+      console.log(fileST, isSSR)
     },
     // Module 编译后 ✔
     compiledModule: (fileST: typeof fileStore, isSSR: boolean, modules: string[]) => {
-      modules.forEach((value,index) => {
+      modules.forEach((value, index) => {
         value = value.replace('from \'vue\'', 'from \'@vue/runtime-dom\'')
         value = value.replace('from "vue"', 'from \'@vue/runtime-dom\'')
         if (isSSR) {
@@ -205,12 +206,12 @@ export const defaultConfig: playConfig = {
     },
     // ssr server 、csr、ssr 注入前 ✔
     beforeCreateInject: (fileST: typeof fileStore, isSSR: boolean, modules: string[]) => {
-      // console.log(fileST, isSSR, modules)
+      console.log(fileST, isSSR, modules)
     },
     // ssr server 、csr、ssr 注入后 ✔
     createdInject: (fileST: typeof fileStore, isSSR: boolean, injects: string[]) => {
       // injects[1] =  injects[1].replace('Hello','WoW')
-      //  console.log(fileST, isSSR, injects)
+      console.log(fileST, isSSR, injects)
     },
     // sandbox 首次注入后 ✔
     sandBoxMounted: () => {

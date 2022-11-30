@@ -50,7 +50,7 @@ export default function Preview(props: IPreviewProps){
     })
 
   }
-  // 开启预览监听 接受来自 fileStore 交互的通知信息
+  // 开启预览监听 接受来自 fileStore 交互的通知信息，更新preivew
   evtBus.on('fileMessage',updatePreview)
 
   function createDeps(){

@@ -1,6 +1,6 @@
 import { strFromU8, strToU8, unzlibSync, zlibSync } from 'fflate'
-import type { IHooks } from './config'
 import type { fileStore } from '../store/file'
+import type { IHooks, importItem } from './config'
 // 防抖 没啥好说的
 export function debounce(fn: Function, n = 100) {
   let handle: any
@@ -35,6 +35,22 @@ export function atou(base64: string): string {
   // old unicode hacks for backward compatibility
   // https://base64.guru/developers/javascript/examples/unicode-strings
   return decodeURIComponent(escape(binary))
+}
+
+export function deserialize(text: string): Record<string, any> {
+  return text ? JSON.parse(atou(text)) : text
+}
+
+export function serialize(
+  mainFile: string,
+  importMap: Array<importItem>,
+  files: Record<string, any>) {
+  const state: Record<string, any> = {
+    mainFile,
+    importMap,
+    files,
+  }
+  return utoa(JSON.stringify(state))
 }
 
 export const extend = (objFir: any, objSec: any) => {

@@ -42,7 +42,7 @@ export default function output(props: IOutputProps) {
   }
   // 接受来自 editor 交互的通知信息
   evtBus.on('editorMessage',receiveEvtFromEditor)
-  // 接受来自 fileStore 交互的通知信息
+  // 接受来自 fileStore 交互的通知信息,更新 output
   evtBus.on('fileMessage',receiveEvtFromEditor)
 
   return (
