@@ -191,7 +191,27 @@ export const defaultConfig: playConfig = {
     },
     // Module 编译后 ✔
     compiledModule: (fileST: typeof fileStore, isSSR: boolean, modules: string[]) => {
-      let module = modules[0]
+     /* let moduleArr:string[] = []
+      modules.forEach(value => {
+        let val = value.replace('from \'vue\'', 'from \'@vue/runtime-dom\'')
+        val = val.replace('from "vue"', 'from \'@vue/runtime-dom\'')
+        if (isSSR) {
+          val = val.replace('from \'vue/server-renderer\'', 'from \'@vue/server-renderer\'')
+          val = val.replace('from "vue/server-renderer"', 'from \'@vue/server-renderer\'')
+        }
+        moduleArr.push(val)
+      })
+      modules = moduleArr*/
+      modules.forEach((value,index) => {
+        value = value.replace('from \'vue\'', 'from \'@vue/runtime-dom\'')
+        value = value.replace('from "vue"', 'from \'@vue/runtime-dom\'')
+        if (isSSR) {
+          value = value.replace('from \'vue/server-renderer\'', 'from \'@vue/server-renderer\'')
+          value = value.replace('from "vue/server-renderer"', 'from \'@vue/server-renderer\'')
+        }
+        modules[index] = value
+      })
+     /* let module = modules[0]
       module = module.replace('from \'vue\'', 'from \'@vue/runtime-dom\'')
       module = module.replace('from "vue"', 'from \'@vue/runtime-dom\'')
       if (isSSR) {
@@ -199,7 +219,7 @@ export const defaultConfig: playConfig = {
         module = module.replace('from "vue/server-renderer"', 'from \'@vue/server-renderer\'')
       }
 
-      modules[0] = module
+      modules[0] = module*/
     },
     // ssr server 、csr、ssr 注入前 ✔
     beforeCreateInject: (fileST: typeof fileStore, isSSR: boolean, modules: string[]) => {

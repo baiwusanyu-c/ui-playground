@@ -247,7 +247,7 @@ async function doCompileVueTemplate(
     source: descriptor.template!.content,
     filename: descriptor.filename,
     id,
-    scoped: descriptor.styles.somesome((s: { scoped: string }) => s.scoped),
+    scoped: descriptor.styles.some((s: { scoped: string }) => s.scoped),
     slotted: descriptor.slotted,
     ssr,
     ssrCssVars: descriptor.cssVars,

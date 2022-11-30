@@ -2,21 +2,21 @@ import { runHooks } from '../index'
 import type { fileStore } from '../../store/file'
 
 export async function injectSSRServer(fileST: typeof fileStore, isSSR: boolean) {
-  runHooks(
+   runHooks(
     fileST.hooks,
     'beforeCompileModule',
     fileST,
     isSSR,
   )
   const ssrModules = await fileST.compileModule!(fileST, isSSR)
-  runHooks(
+   runHooks(
     fileST.hooks,
     'compiledModule',
     fileST,
     isSSR,
     ssrModules,
   )
-  runHooks(
+   runHooks(
     fileST.hooks,
     'beforeCreateInject',
     fileST,
@@ -24,7 +24,7 @@ export async function injectSSRServer(fileST: typeof fileStore, isSSR: boolean) 
     ssrModules,
   )
   const injectRes = await fileST.compileInject!(fileST, isSSR, ssrModules)
-  runHooks(
+   runHooks(
     fileST.hooks,
     'createdInject',
     fileST,
@@ -43,14 +43,14 @@ export async function injectClient(fileST: typeof fileStore, isSSR?: boolean) {
   )
   // 将源码编译，得到编译后结果(这里会根据虚拟文件分割模块)
   const modules = await fileST.compileModule!(fileST, isSSR)
-  runHooks(
+   runHooks(
     fileST.hooks,
     'compiledModule',
     fileST,
     isSSR,
     modules,
   )
-  runHooks(
+   runHooks(
     fileST.hooks,
     'beforeCreateInject',
     fileST,
@@ -58,7 +58,7 @@ export async function injectClient(fileST: typeof fileStore, isSSR?: boolean) {
     modules,
   )
   const injectRes = await fileST.compileInject!(fileST, isSSR, modules)
-  runHooks(
+   runHooks(
     fileST.hooks,
     'createdInject',
     fileST,
