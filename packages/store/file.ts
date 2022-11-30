@@ -102,8 +102,7 @@ export const fileStore = {
         this.compiler,
       )
       // 同时把从配置中 importMap 的 lib 类型的依赖传递出去，
-      file = await this.compileOutput(this, file, this.compiler)
-
+      await this.compileOutput(this, file, this.compiler)
       runHooks(
         this.hooks,
         'compiledOutput',

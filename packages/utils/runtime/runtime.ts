@@ -34,7 +34,7 @@ export async function injectSSRServer(fileST: typeof fileStore, isSSR: boolean) 
   return injectRes
 }
 
-export async function injectClient(fileST: typeof fileStore, isSSR: boolean) {
+export async function injectClient(fileST: typeof fileStore, isSSR?: boolean) {
   runHooks(
     fileST.hooks,
     'beforeCompileModule',

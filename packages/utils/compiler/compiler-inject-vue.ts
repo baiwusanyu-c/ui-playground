@@ -23,19 +23,19 @@ export function compilerInjectVue(
          })
         `,
     ]
-  } else {
-    // csr 的 vue 注入
-    const codeToEval = [
-      'window.__modules__ = {}\nwindow.__css__ = \'\'\n'
+  }
+  // csr 的 vue 注入
+  const codeToEval = [
+    'window.__modules__ = {}\nwindow.__css__ = \'\'\n'
       + `if (window.__app__) window.__app__.unmount()\n${
         isSSR ? '' : 'document.body.innerHTML = \'<div id="app"></div>\''}`,
-      ...modules,
-      'document.getElementById(\'__sfc-styles\').innerHTML = window.__css__',
-    ]
+    ...modules,
+    'document.getElementById(\'__sfc-styles\').innerHTML = window.__css__',
+  ]
 
-    // if main file is a vue file, mount it.
-    if (mainFile.endsWith('.vue')) {
-      codeToEval.push(
+  // if main file is a vue file, mount it.
+  if (mainFile.endsWith('.vue')) {
+    codeToEval.push(
         `import { ${
           isSSR ? 'createSSRApp' : 'createApp'
         } as _createApp } from "@vue/runtime-dom"
@@ -52,8 +52,7 @@ export function compilerInjectVue(
         } else {
           _mount()
         }`,
-      )
-    }
-    return codeToEval
+    )
   }
+  return codeToEval
 }

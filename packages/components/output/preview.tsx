@@ -1,6 +1,6 @@
 // TODO: 监听依赖、版本、虚拟文件代码，重置沙盒
 // TODO: react 代码优化
-// TODO: css 注入失败
+// TODO: 组件引用 注入失败
 // TODO: 预览的报错
 // TODO: 切换后 preview 不显示，报错
 import {useMount, usePrevious, useSafeState, useUnmount} from "ahooks";
@@ -77,7 +77,7 @@ export default function Preview(props: IPreviewProps){
         proxy && await proxy.eval(injectSSRServerRes)
       }
       // eval code in sandbox
-      let injectClientRes = await injectClient(fileStore,isSSR!)
+      let injectClientRes = await injectClient(fileStore)
       // if(!fileStore.isMounted){
       //   injectClientRes = await injectSandBoxMounted(injectClientRes)
       //   fileStore.isMounted = true

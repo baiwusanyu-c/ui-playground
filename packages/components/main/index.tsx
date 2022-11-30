@@ -8,7 +8,6 @@ interface IPlayMainProps {
   }
 }
 export const PlayMain = (props: IPlayMainProps) => {
-  // TODO：layout
   return (
     <div className="play-container">
       <Layout layout={props.layout.vertical ? 'vertical' : ''} left={Editor()} right={Output()} />

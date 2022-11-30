@@ -154,13 +154,18 @@ export const defaultConfig: playConfig = {
       + '</script>\n'
       + '\n'
       + '<template>\n'
-      + '  <h1>{{ msg }}</h1>\n'
+      + '  <h1 id=\'title_demo\'>{{ msg }}</h1>\n'
       + '  <input v-model="msg">\n'
-      + '</template>',
+      + '</template>\n'
+      + '<style>\n'
+      + '  #title_demo{\n'
+      + '    color: red\n'
+      + '  }\n'
+      + '</style>',
   },
   // output 的编译方法
-  compileOutput: (fileST: typeof fileStore, file: File, compiler: Record<string, any>) => {
-    compileVue(fileST, file, compiler, {})
+  compileOutput: async(fileST: typeof fileStore, file: File, compiler: Record<string, any>) => {
+    await compileVue(fileST, file, compiler, {})
   },
   // module 的编译方法
   compileModule: (fileST: typeof fileStore, isSSR = false) => {
@@ -174,15 +179,15 @@ export const defaultConfig: playConfig = {
   hooks: {
     // output 编译前 ✔
     beforeCompileOutput: (fileST: typeof fileStore, file: File, compiler: Record<string, any>) => {
-      console.log(fileST, file, compiler)
+      // console.log(fileST, file, compiler)
     },
     // output 编译后 ✔
     compiledOutput: (fileST: typeof fileStore, file: File, compiler: Record<string, any>) => {
-      console.log(fileST, file, compiler)
+      // console.log(fileST, file, compiler)
     },
     // Module 编译前 ✔
     beforeCompileModule: (fileST: typeof fileStore, isSSR: boolean) => {
-      console.log(fileST, isSSR)
+      // console.log(fileST, isSSR)
     },
     // Module 编译后 ✔
     compiledModule: (fileST: typeof fileStore, isSSR: boolean, modules: string[]) => {
@@ -198,12 +203,12 @@ export const defaultConfig: playConfig = {
     },
     // ssr server 、csr、ssr 注入前 ✔
     beforeCreateInject: (fileST: typeof fileStore, isSSR: boolean, modules: string[]) => {
-      console.log(fileST, isSSR, modules)
+      // console.log(fileST, isSSR, modules)
     },
     // ssr server 、csr、ssr 注入后 ✔
     createdInject: (fileST: typeof fileStore, isSSR: boolean, injects: string[]) => {
       // injects[1] =  injects[1].replace('Hello','WoW')
-      console.log(fileST, isSSR, injects)
+      //  console.log(fileST, isSSR, injects)
     },
     // sandbox 首次注入后 ✔
     sandBoxMounted: () => {
