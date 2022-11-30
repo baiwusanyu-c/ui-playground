@@ -35,7 +35,6 @@ export const fileStore = {
   pendingCompiler: null as Promise<any> | null,
   errors: [] as (string | Error)[], // 错误信息
   hooks: {} as IHooks,
-  isMounted: false,
   async init(
     file: File,
     compileOutput: TCompileOutput,

@@ -53,7 +53,8 @@ export declare type TCompileOutput = (fileST: typeof fileStore, file: File, comp
 export declare type TCompileInject = (fileST: typeof fileStore, isSSR: boolean, modules: Array<string>) => Array<string>
 export declare type TCompileModule = (fileST: typeof fileStore, isSSR: boolean) => Array<string>
 export declare interface playConfig {
-  layout: ILayoutConfig
+  layout: ILayoutConfig,
+  isSSR: boolean,
   headerOption: headerOption
   importMap: Array<importItem>
   mainFile: {
@@ -68,6 +69,7 @@ export declare interface playConfig {
 export const jsdelivrLink = 'https://fastly.jsdelivr.net/npm/'
 export const unpkgLink = 'https://unpkg.com/'
 export const defaultConfig: playConfig = {
+  isSSR: false,
   layout: {
     vertical: false,
   },

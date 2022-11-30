@@ -1,8 +1,6 @@
 // TODO: 监听依赖、版本、虚拟文件代码，重置沙盒
 // TODO: react 代码优化
-// TODO: 组件引用时 css 丢失
-// TODO: 预览的报错
-// TODO: 切换后 preview 不显示，报错
+
 import {useMount, useUnmount} from "ahooks";
 import {depsStore} from "../../store/deps";
 // @ts-ignore
@@ -83,10 +81,6 @@ export default function Preview(props: IPreviewProps){
       }
       // eval code in sandbox
       let injectClientRes = await injectClient(fileStore)
-      // if(!fileStore.isMounted){
-      //   injectClientRes = await injectSandBoxMounted(injectClientRes)
-      //   fileStore.isMounted = true
-      // }
       await injectSandBoxMounted(injectClientRes)
       proxy && await proxy.eval(injectClientRes)
 

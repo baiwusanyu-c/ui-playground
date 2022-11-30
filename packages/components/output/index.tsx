@@ -7,7 +7,10 @@ import {useEventEmitter} from "ahooks";
 import {outputType} from "../../utils/types";
 import evtBus from "../../utils/event-bus"
 import Preview from "./preview";
-export default function output() {
+interface IOutputProps {
+  ssr: boolean
+}
+export default function output(props: IOutputProps) {
 
   const [curTab, setCurTab] = useState<outputType | 'preview'>('preview')
   const [outMode, setOutputMode] = useState('htmlmixed')
@@ -42,13 +45,12 @@ export default function output() {
   // 接受来自 fileStore 交互的通知信息
   evtBus.on('fileMessage',receiveEvtFromEditor)
 
-  // TODO: ssr
   return (
     <>
       <OutputSelector event$={event$}></OutputSelector>
       <div className="output-container">
         {curTab === 'preview' ?
-          <Preview ssr={true}/>
+          <Preview ssr={props.ssr}/>
           :
           <CodeMirror readonly={true}
                     mode={outMode}
