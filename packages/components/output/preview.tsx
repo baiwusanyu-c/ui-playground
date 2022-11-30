@@ -3,7 +3,7 @@
 // TODO: 组件引用时 css 丢失
 // TODO: 预览的报错
 // TODO: 切换后 preview 不显示，报错
-import {useMount, usePrevious, useSafeState, useUnmount} from "ahooks";
+import {useMount, useUnmount} from "ahooks";
 import {depsStore} from "../../store/deps";
 // @ts-ignore
 import srcdoc from './preview-sandbox.html?raw'
@@ -11,7 +11,7 @@ import {createPreviewProxy, PreviewProxy} from "./PreviewProxy";
 import {fileStore} from "../../store/file";
 import evtBus from "../../utils/event-bus";
 import '../../asset/preview.scss'
-import {createSandBox} from "../../utils";
+import {createSandBox, isEmptyObj} from "../../utils";
 import {injectClient, injectSandBoxMounted, injectSSRServer} from "../../utils/runtime/runtime";
 
 
@@ -20,7 +20,7 @@ export default function Preview(props: IPreviewProps){
   let runtimeWarning = ''
   let container: null | HTMLElement = null
   let sandbox: HTMLIFrameElement
-  const [proxy, serProxy] = useSafeState<PreviewProxy | null>(null)
+  let proxy: PreviewProxy | null = null
 
   function initPreview(){
     container = document.getElementById('sandbox_container')
@@ -39,13 +39,18 @@ export default function Preview(props: IPreviewProps){
     container && container.appendChild(sandbox)
 
    // new 一个沙盒与上层应用的通信代理（基于post message）
-    serProxy(createPreviewProxy(sandbox,runtimeError,runtimeWarning ))
+    proxy = (createPreviewProxy(sandbox,runtimeError,runtimeWarning ))
 
     // 沙盒载入时
     sandbox.addEventListener('load', () => {
       // 触发 link 钩子，确保沙盒内 a 标签能够点击跳转(不设置 target属性都可以开tab)
       proxy && proxy.handleLinksClick()
+      // output 切换 preview 渲染沙盒
+      if(!isEmptyObj(fileStore.compiler)){
+        updatePreview()
+      }
     })
+
   }
   // 开启预览监听 接受来自 fileStore 交互的通知信息
   evtBus.on('fileMessage',updatePreview)

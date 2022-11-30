@@ -19,7 +19,7 @@ export const OutputSelector: FC<{
     {key:'ssr',label:'ssr'},
   ]
   const [activeKey, setActiveKey] = useState(fileList[0].key)
-  const [items, setItems] = useState(fileList)
+  const [items] = useState(fileList)
 
   /**
    * 设置激活tab
