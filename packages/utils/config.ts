@@ -151,7 +151,7 @@ export const defaultConfig: playConfig = {
   mainFile: {
     filename: 'App.vue',
     code: '<script setup>\n'
-      + 'import { ref } from \'vue\'\n'
+      + 'import { ref, ver } from \'vue\'\n'
       + '\n'
       + 'const msg = ref(\'Hello World!\')\n'
       + '</script>\n'
@@ -160,7 +160,7 @@ export const defaultConfig: playConfig = {
       + '  <h1 id=\'title_demo\'>{{ msg }}</h1>\n'
       + '  <input v-model="msg">\n'
       + '</template>\n'
-      + '<style module>\n'
+      + '<style>\n'
       + '  #title_demo{\n'
       + '    color: red\n'
       + '  }\n'

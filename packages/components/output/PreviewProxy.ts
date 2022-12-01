@@ -107,19 +107,8 @@ export function createPreviewProxy(
   return new PreviewProxy(sandbox, {
     // 沙盒钩子 -- 错误捕获
     onError: (event: any) => {
-      const msg =
-        event.value instanceof Error ? event.value.message : event.value
-      if (
-        msg.includes('Failed to resolve module specifier') ||
-        msg.includes('Error resolving module specifier')
-      ) {
-        let error =
-          msg.replace(/\. Relative references must.*$/, '') +
-          `.\nTip: edit the "Import Map" tab to specify import paths for dependencies.`
-        sendException(error,'error')
-      } else {
-        sendException(event.value,'error')
-      }
+      const msg =  event.value instanceof Error ? event.value.message : event.value
+      sendException(msg,'error')
     },
 
     // 沙盒钩子 -- 注入错误
