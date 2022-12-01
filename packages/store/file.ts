@@ -1,7 +1,7 @@
 // TIP： 展示编译内容只根据当前激活虚拟文件
 import evtBus from '../utils/event-bus'
 import { compileTS } from '../utils/compiler/compile-ts'
-import { runHooks, wrapperCustomCompiler } from '../utils'
+import { runHooks, sendException, wrapperCustomCompiler } from '../utils'
 import type { IHooks, TCompileInject, TCompileModule, TCompileOutput } from '../utils/config'
 import type { IDepsList } from './deps'
 export interface File {
@@ -97,22 +97,27 @@ export const fileStore = {
       file.compiled.js = await compileTS(file.code)
 
     if (this.compileOutput) {
-      runHooks(
-        this.hooks,
-        'beforeCompileOutput',
-        this,
-        file,
-        this.compiler,
-      )
-      // 同时把从配置中 importMap 的 lib 类型的依赖传递出去，
-      await this.compileOutput(this, file, this.compiler)
-      runHooks(
-        this.hooks,
-        'compiledOutput',
-        this,
-        file,
-        this.compiler,
-      )
+      try {
+        runHooks(
+          this.hooks,
+          'beforeCompileOutput',
+          this,
+          file,
+          this.compiler,
+        )
+        // 同时把从配置中 importMap 的 lib 类型的依赖传递出去，
+        await this.compileOutput(this, file, this.compiler)
+
+        runHooks(
+          this.hooks,
+          'compiledOutput',
+          this,
+          file,
+          this.compiler,
+        )
+      } catch (e) {
+        sendException((e as Error).message, 'error')
+      }
     }
     // TODO: 其他文件类型调用用户的编译钩子完成
     /* if(file.filename.endsWith('.jsx')){

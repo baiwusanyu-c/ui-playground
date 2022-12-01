@@ -4,9 +4,10 @@ import { CodeMirror } from '../code-mirror'
 import { fileStore } from '../../store/file'
 import { OutputSelector } from './output-selector'
 import {useEventEmitter} from "ahooks";
-import {outputType} from "../../utils/types";
+import {exceptionType, outputType} from "../../utils/types";
 import evtBus from "../../utils/event-bus"
 import Preview from "./preview";
+import {notification} from "antd";
 interface IOutputProps {
   ssr: boolean
 }
@@ -45,8 +46,20 @@ export default function output(props: IOutputProps) {
   // 接受来自 fileStore 交互的通知信息,更新 output
   evtBus.on('fileMessage',receiveEvtFromEditor)
 
+  // 监控异常
+  const [api, contextHolder] = notification.useNotification();
+  evtBus.on('exceptionMessage',(data: exceptionType)=>{
+    api[data.type]({
+      message: data.type.toUpperCase(),
+      description:data.msg,
+      key:data.msg,
+      duration:null,
+      placement: 'bottomRight',
+    });
+  })
   return (
     <>
+      {contextHolder}
       <OutputSelector event$={event$}></OutputSelector>
       <div className="output-container">
           <Preview ssr={props.ssr} show={curTab === 'preview'}/>

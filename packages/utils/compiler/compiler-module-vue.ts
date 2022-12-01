@@ -1,4 +1,17 @@
+import { sendException } from '../index'
 import type { File, fileStore } from '../../store/file'
+declare interface vueASTNode {
+  name: string
+  id: number
+  start: number
+  end: number
+  type: string
+  arguments: Array<vueASTNode>
+  parentStack: Array<vueASTNode>
+  shorthand: boolean
+  superClass: vueASTNode
+  value: string
+}
 
 export function compileModulesForPreview(fileST: typeof fileStore, isSSR = false) {
   const seen = new Set<File>()
@@ -104,10 +117,11 @@ function processModule(
   const importedFiles = new Set<string>()
   const importToIdMap = new Map<string, string>()
 
-  function defineImport(node: Node, source: string) {
+  function defineImport(node: vueASTNode, source: string) {
     const filename = source.replace(/^\.\/+/, '')
     if (!(filename in fileST.files))
       throw new Error(`File "${filename}" does not exist.`)
+    sendException(`File "${filename}" does not exist.`, 'error')
 
     if (importedFiles.has(filename))
       return importToIdMap.get(filename)!
@@ -229,7 +243,7 @@ function processModule(
   // 3. convert references to import bindings
   for (const node of ast) {
     if (node.type === 'ImportDeclaration') continue
-    walkIdentifiers(node, (id, parent, parentStack) => {
+    walkIdentifiers(node, (id: vueASTNode, parent: vueASTNode, parentStack: Array<vueASTNode>) => {
       const binding = idToImportMap.get(id.name)
       if (!binding)
         return
@@ -261,7 +275,7 @@ function processModule(
 
   // 4. convert dynamic imports
   (walk as any)(ast, {
-    enter(node: Node, parent: Node) {
+    enter(node: vueASTNode, parent: vueASTNode) {
       if (node.type === 'Import' && parent.type === 'CallExpression') {
         const arg = parent.arguments[0]
         if (arg.type === 'StringLiteral' && arg.value.startsWith('./')) {

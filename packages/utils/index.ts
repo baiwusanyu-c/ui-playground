@@ -1,4 +1,5 @@
 import { strFromU8, strToU8, unzlibSync, zlibSync } from 'fflate'
+import evtBus from './event-bus'
 import type { fileStore } from '../store/file'
 import type { IHooks, importItem } from './config'
 // 防抖 没啥好说的
@@ -120,4 +121,12 @@ export function runHooks(hooks: IHooks, name: string, ...arg: Array<any>) {
   const hookFunc = hooks[name as keyof typeof hooks]
   if (typeof hookFunc === 'function')
     hooks[name as keyof typeof hooks]!(...arg)
+}
+
+export function sendException(msg: string, type: 'error' | 'warning') {
+  evtBus.emit('exceptionMessage', {
+    show: true,
+    msg,
+    type,
+  })
 }

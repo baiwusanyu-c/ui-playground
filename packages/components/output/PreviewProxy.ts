@@ -2,8 +2,9 @@
 // MIT License https://github.com/sveltejs/svelte-repl/blob/master/LICENSE
 
 import {fileStore} from "../../store/file";
-import {runHooks} from "../../utils";
+import {runHooks, sendException} from "../../utils";
 import {depsStore} from "../../store/deps";
+import evtBus from "../../utils/event-bus";
 
 let uid = 1
 // 与 iframe 沙盒通信的代理对象
@@ -57,6 +58,7 @@ export class PreviewProxy {
         let e = new Error(message)
         e.stack = stack
         handler.reject(e)
+        sendException(message,'error')
       }
 
       if (action === 'cmdOk') {
@@ -66,6 +68,7 @@ export class PreviewProxy {
       console.error('command not found', id, cmdData, [
         ...this.pendingCmds.keys()
       ])
+      sendException('command not found','error')
     }
   }
 
@@ -100,9 +103,7 @@ export class PreviewProxy {
 }
 
 export function createPreviewProxy(
-  sandbox: HTMLIFrameElement,
-  runtimeError: string,
-  runtimeWarning: string){
+  sandbox: HTMLIFrameElement){
   return new PreviewProxy(sandbox, {
     // 沙盒钩子 -- 错误捕获
     onError: (event: any) => {
@@ -112,11 +113,12 @@ export function createPreviewProxy(
         msg.includes('Failed to resolve module specifier') ||
         msg.includes('Error resolving module specifier')
       ) {
-        runtimeError =
+        let error =
           msg.replace(/\. Relative references must.*$/, '') +
           `.\nTip: edit the "Import Map" tab to specify import paths for dependencies.`
+        sendException(error,'error')
       } else {
-        runtimeError = event.value
+        sendException(event.value,'error')
       }
     },
 
@@ -126,7 +128,7 @@ export function createPreviewProxy(
       if (typeof error === 'string') {
         error = { message: error }
       }
-      runtimeError = 'Uncaught (in promise): ' + error.message
+      sendException('Uncaught (in promise): ' + error.message,'error')
     },
 
     // 沙盒钩子 -- 警告和错误输出
@@ -136,12 +138,12 @@ export function createPreviewProxy(
       }
       if (log.level === 'error') {
         if (log.args[0] instanceof Error) {
-          runtimeError = log.args[0].message
+          sendException(log.args[0].message,'error')
         } else {
-          runtimeError = log.args[0]
+          sendException(log.args[0],'error')
         }
       } else if (log.level === 'warn') {
-        runtimeWarning = log.args
+        sendException(log.args,'warning')
       }
     }
   })

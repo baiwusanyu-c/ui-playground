@@ -160,7 +160,7 @@ export const defaultConfig: playConfig = {
       + '  <h1 id=\'title_demo\'>{{ msg }}</h1>\n'
       + '  <input v-model="msg">\n'
       + '</template>\n'
-      + '<style>\n'
+      + '<style module>\n'
       + '  #title_demo{\n'
       + '    color: red\n'
       + '  }\n'

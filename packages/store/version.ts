@@ -1,4 +1,5 @@
 import { compare } from 'compare-versions'
+import { sendException } from '../utils'
 import type { headerOption } from '../utils/config'
 // 'https://data.jsdelivr.com/v1/package/npm/vue'
 
@@ -74,8 +75,9 @@ export const versionStore = {
           this.libVersionList = res
 
         resolve(res)
-      }).catch((error) => {
+      }).catch((error: Error) => {
         console.log(error)
+        sendException(error.message, 'error')
         reject(error)
       })
     })

@@ -7,7 +7,6 @@ import { checkFileType, extend } from '../../utils'
 import type { EventEmitter } from 'ahooks/lib/useEventEmitter'
 import type { FC } from 'react'
 // TODO: cdn loading
-// TODO: 编辑器报错显示
 export const FileSelector: FC<{
   event$: EventEmitter<void>
 }> = (props) => {

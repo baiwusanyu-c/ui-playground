@@ -12,7 +12,7 @@ const Editor = () => {
     // 更新到 store 中的当前文件代码属性上
     fileStore.activeFile.code = code
     if (!isEmptyObj(fileStore.compiler))
-      fileStore.compileFile(fileStore.activeFile)
+      fileStore.compileFile(fileStore.activeFile, false)
   }, 250)
 
   // 计算获取当前选择虚拟文件的文件类型
