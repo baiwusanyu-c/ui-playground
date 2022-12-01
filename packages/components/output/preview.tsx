@@ -1,11 +1,10 @@
-// TODO: 监听依赖、版本、虚拟文件代码，重置沙盒
-// TODO: react 代码优化
+// TODO: 监听依赖、重置沙盒
 
 import {useMount, useUnmount} from "ahooks";
 import {depsStore} from "../../store/deps";
 // @ts-ignore
 import srcdoc from './preview-sandbox.html?raw'
-import {createPreviewProxy, PreviewProxy} from "./PreviewProxy";
+import {createPreviewProxy, createSandBoxImportMap, PreviewProxy} from "./PreviewProxy";
 import {fileStore} from "../../store/file";
 import evtBus from "../../utils/event-bus";
 import '../../asset/preview.scss'
@@ -28,12 +27,12 @@ export default function Preview(props: IPreviewProps){
       proxy && proxy.destroy()
       // UNCERTAIN:
       // stopUpdateWatcher && stopUpdateWatcher()
-      container && container.removeChild(sandbox)
+      container && container.removeChild(document.getElementById('play_sandbox_frame')!)
     }
 
     sandbox = createSandBox()
     // 添加沙盒到容器下（srcdoc是srcdoc.html的字符串）
-    sandbox.srcdoc = createDeps()
+    sandbox.srcdoc = createDeps(srcdoc)
     container && container.appendChild(sandbox)
 
    // new 一个沙盒与上层应用的通信代理（基于post message）
@@ -43,27 +42,28 @@ export default function Preview(props: IPreviewProps){
     sandbox.addEventListener('load', () => {
       // 触发 link 钩子，确保沙盒内 a 标签能够点击跳转(不设置 target属性都可以开tab)
       proxy && proxy.handleLinksClick()
-      // output 切换 preview 渲染沙盒
+      // 依赖版本切换 =》更新渲染沙盒
       if(!isEmptyObj(fileStore.compiler)){
         updatePreview()
       }
     })
 
   }
-  // 开启预览监听 接受来自 fileStore 交互的通知信息，更新preivew
-  evtBus.on('fileMessage',updatePreview)
-
-  function createDeps(){
-    const importMap = {
-      imports:{} as Record<string, string>
+  // 开启预览监听 接受来自 fileStore 交互的通知信息，更新 preview
+  evtBus.on('fileMessage', (type: string) =>{
+    if(type === 'update_file'){
+      updatePreview()
+    }else{
+      initPreview()
     }
-    depsStore.deps.forEach(val=>{
-      importMap.imports[val.name] = val.path
-    })
+  })
+
+
+  function createDeps(srcdocContent: string){
     // 替换依赖图
-    return srcdoc.replace(
+    return srcdocContent.replace(
       /<!--IMPORT_MAP-->/,
-      JSON.stringify(importMap)
+      JSON.stringify(createSandBoxImportMap())
     )
   }
   async function updatePreview() {
@@ -97,9 +97,12 @@ export default function Preview(props: IPreviewProps){
     proxy && proxy.destroy()
   })
 
-  return <div className="iframe-container" id='sandbox_container'></div>
+  return <div className="iframe-container"
+              id='sandbox_container'
+              style={{display: !props.show ? 'none': 'initial'}}></div>
 }
 
 interface IPreviewProps {
   ssr?: boolean
+  show?: boolean
 }

@@ -83,7 +83,7 @@ export const fileStore = {
     }
   },
 
-  async compileFile(file: File) {
+  async compileFile(file: File, isUpdateDeps: boolean) {
     // css 不需要编译了
     if (file.filename.endsWith('.css'))
       file.compiled.css = file.code
@@ -125,7 +125,11 @@ export const fileStore = {
 
     // 更新 active 到 file
     this.updatedFilesByActive()
-    // 通知 output 更新
-    evtBus.emit('fileMessage')
+    if (isUpdateDeps) {
+      evtBus.emit('fileMessage', 'update_deps')
+    } else {
+      // 通知 output 更新
+      evtBus.emit('fileMessage', 'update_file')
+    }
   },
 }

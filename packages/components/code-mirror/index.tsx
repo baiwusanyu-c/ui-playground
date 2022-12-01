@@ -9,6 +9,7 @@ interface ICodeMirrorProps {
   mode?: string
   value?: string
   readonly?: boolean
+  show?: boolean
   change?: Function
 }
 
@@ -72,7 +73,11 @@ export const CodeMirror = (props: ICodeMirrorProps) => {
       editorInst && editorInst!.setValue(props.value!)
   }, [props.value, editorInst])
 
-  return <div className="editor" ref={el as elType} />
+  return (<div
+    className="editor"
+    ref={el as elType}
+    style={{ display: !props.show ? 'none' : 'initial' }}
+          />)
 }
 
 CodeMirror.propTypes = {
@@ -80,10 +85,12 @@ CodeMirror.propTypes = {
   value: PropTypes.string,
   readonly: PropTypes.bool,
   change: PropTypes.func,
+  show: PropTypes.bool,
 }
 CodeMirror.defaultProps = {
   mode: 'htmlmixed',
   value: '',
+  show: true,
   readonly: false,
   change: () => {},
 }

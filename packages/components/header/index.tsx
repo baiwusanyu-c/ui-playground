@@ -35,7 +35,9 @@ export const PlayHeader = (props: IHeaderProps) => {
       cdnType,
       uiVersion,
       libVersion,
-      props.config.cdnSet)
+      false,
+      props.config.cdnSet,
+    )
   })
 
   versionStore.init(props.config)
@@ -60,7 +62,9 @@ export const PlayHeader = (props: IHeaderProps) => {
       cdnType,
       uiVersion,
       libVersion,
-      props.config.cdnSet)
+      true,
+      props.config.cdnSet,
+    )
   }
 
   /** ******************* 相关连接图标设置 **********************/
@@ -110,6 +114,7 @@ export const PlayHeader = (props: IHeaderProps) => {
       cdnType = e.domEvent.currentTarget.innerText,
       uiVersion,
       libVersion,
+      true,
       props.config.cdnSet)
   }
   return (

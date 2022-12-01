@@ -3,6 +3,7 @@
 
 import {fileStore} from "../../store/file";
 import {runHooks} from "../../utils";
+import {depsStore} from "../../store/deps";
 
 let uid = 1
 // 与 iframe 沙盒通信的代理对象
@@ -21,7 +22,7 @@ export class PreviewProxy {
     // handler 沙盒钩子对象
     this.handlers = handlers
     this.pendingCmds = new Map()
-   this.setMsgEvt()
+    this.setMsgEvt()
   }
   setMsgEvt(){
     // 建立 message 监听，接收 iframe 发送过来的消息
@@ -144,4 +145,14 @@ export function createPreviewProxy(
       }
     }
   })
+}
+
+export function createSandBoxImportMap(){
+  const importMap = {
+    imports:{} as Record<string, string>
+  }
+  depsStore.deps.forEach(val=>{
+    importMap.imports[val.name] = val.path
+  })
+  return importMap
 }

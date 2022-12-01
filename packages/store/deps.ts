@@ -23,6 +23,7 @@ export const depsStore = {
     cdnType: string,
     uiVersion: string,
     libVersion: string,
+    isUpdate: boolean,
     cdnSet?: Function,
   ) {
     this.deps = []
@@ -66,7 +67,7 @@ export const depsStore = {
     // 载入依赖
     await fileStore.loadCompiler(this.deps)
     // 载入重新编译
-    fileStore.compileFile(fileStore.activeFile)
+    fileStore.compileFile(fileStore.activeFile, isUpdate)
   },
 }
 

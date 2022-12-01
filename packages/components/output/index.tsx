@@ -49,12 +49,11 @@ export default function output(props: IOutputProps) {
     <>
       <OutputSelector event$={event$}></OutputSelector>
       <div className="output-container">
-        {curTab === 'preview' ?
-          <Preview ssr={props.ssr}/>
-          :
+          <Preview ssr={props.ssr} show={curTab === 'preview'}/>
           <CodeMirror readonly={true}
                     mode={outMode}
-                    value={outputCode} />}
+                    show={curTab !== 'preview'}
+                    value={outputCode} />
       </div>
     </>
   )
