@@ -1,5 +1,5 @@
 // TODO: 监听依赖、重置沙盒
-
+// TODO: dark ui 主题
 import {useMount, useUnmount} from "ahooks";
 // @ts-ignore
 import srcdoc from './preview-sandbox.html?raw'
@@ -82,7 +82,7 @@ export default function Preview(props: IPreviewProps){
       let injectClientRes = await injectClient(fileStore)
       await injectSandBoxMounted(injectClientRes)
       proxy && await proxy.eval(injectClientRes)
-
+      evtBus.emit('showLoading',false)
     } catch (e) {
       console.error(e)
       sendException((e as Error).message,'error')

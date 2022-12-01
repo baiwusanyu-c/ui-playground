@@ -10,6 +10,7 @@ import { versionStore } from '../../store/version'
 import { createSelectList, getStorage, setStorage } from '../../utils'
 import { depsStore } from '../../store/deps'
 import { unpkgLink } from '../../utils/config'
+import evtBus from '../../utils/event-bus'
 import type { ISelectItem } from '../../utils'
 import type { headerOption, iconItem } from '../../utils/config'
 import type { MenuProps } from 'antd'
@@ -54,6 +55,7 @@ export const PlayHeader = (props: IHeaderProps) => {
 
   const handleSelect = (data: string, type: 'ui' | 'lib') => {
     versionStore.setVersion(data, type)
+    evtBus.emit('showLoading', true)
     // 更新 cdn
     const uiVersion = versionStore.uiVersion
     const libVersion = versionStore.libVersion
@@ -109,6 +111,7 @@ export const PlayHeader = (props: IHeaderProps) => {
   const handleSelectCDN = (e: any) => {
     const uiVersion = versionStore.uiVersion
     const libVersion = versionStore.libVersion
+    evtBus.emit('showLoading', true)
     depsStore.setDepsByCDN(
       cdnLink = e.key,
       cdnType = e.domEvent.currentTarget.innerText,

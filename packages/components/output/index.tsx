@@ -7,7 +7,7 @@ import {useEventEmitter} from "ahooks";
 import {exceptionType, outputType} from "../../utils/types";
 import evtBus from "../../utils/event-bus"
 import Preview from "./preview";
-import {notification} from "antd";
+import {notification, Spin} from "antd";
 interface IOutputProps {
   ssr: boolean
 }
@@ -57,17 +57,22 @@ export default function output(props: IOutputProps) {
       placement: 'bottomRight',
     });
   })
+
+  const [loading, setLoading] = useState(true);
+  evtBus.on('showLoading',(show:boolean)=>{
+    setLoading(show)
+  })
   return (
-    <>
-      {contextHolder}
-      <OutputSelector event$={event$}></OutputSelector>
-      <div className="output-container">
-          <Preview ssr={props.ssr} show={curTab === 'preview'}/>
-          <CodeMirror readonly={true}
-                    mode={outMode}
-                    show={curTab !== 'preview'}
-                    value={outputCode} />
-      </div>
-    </>
+      <Spin spinning={loading} size="large">
+        {contextHolder}
+        <OutputSelector event$={event$}></OutputSelector>
+        <div className="output-container">
+            <Preview ssr={props.ssr} show={curTab === 'preview'}/>
+            <CodeMirror readonly={true}
+                      mode={outMode}
+                      show={curTab !== 'preview'}
+                      value={outputCode} />
+        </div>
+      </Spin>
   )
 }

@@ -1,5 +1,5 @@
 .output-container {
-  height: calc(100% - var(--selector-h));
+  height: calc(100vh - 100px);
   overflow: hidden;
   position: relative;
   .editor {
