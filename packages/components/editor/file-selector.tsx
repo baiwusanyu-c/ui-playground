@@ -6,7 +6,6 @@ import { fileStore } from '../../store/file'
 import { checkFileType, extend } from '../../utils'
 import type { EventEmitter } from 'ahooks/lib/useEventEmitter'
 import type { FC } from 'react'
-// TODO: cdn loading
 export const FileSelector: FC<{
   event$: EventEmitter<void>
 }> = (props) => {

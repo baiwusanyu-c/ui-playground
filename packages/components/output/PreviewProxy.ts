@@ -4,7 +4,6 @@
 import {fileStore} from "../../store/file";
 import {runHooks, sendException} from "../../utils";
 import {depsStore} from "../../store/deps";
-import evtBus from "../../utils/event-bus";
 
 let uid = 1
 // 与 iframe 沙盒通信的代理对象

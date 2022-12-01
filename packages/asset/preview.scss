@@ -3,5 +3,10 @@
   width: 100%;
   height: 100%;
   border: none;
-  background-color: #fff;
+  background-color: var(--bg);
+  transition: background-color .3s;
+}
+.dark .iframe-container,
+.dark .iframe-container iframe {
+  background-color: var(--bg-soft);
 }

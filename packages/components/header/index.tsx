@@ -101,6 +101,7 @@ export const PlayHeader = (props: IHeaderProps) => {
   useEffect(() => {
     const htmlEl = document.querySelector('html') as Element
     htmlEl.className = isDark ? 'dark' : ''
+    evtBus.emit('isDark', isDark)
   }, [isDark])
 
   /** ******************* cdn 设置 **********************/
@@ -138,7 +139,7 @@ export const PlayHeader = (props: IHeaderProps) => {
           style={{ width: 120, margin: '0 10px' }}
           options={uiVersionList}
         />
-        <span className="version-label">dep version: {isDark}</span>
+        <span className="version-label">dep version: </span>
         <Select
           className="version-select"
           onChange={data => handleSelect(data, 'lib')}

@@ -1,3 +1,5 @@
+import { ConfigProvider, theme } from 'antd'
+import { useState } from 'react'
 import { mergeConfig } from '../utils/config'
 import { depsStore } from '../store/deps'
 import { fileStore } from '../store/file'
@@ -37,13 +39,23 @@ export const PlayGround = (props: PlayGroundProps) => {
   replaceState()
   // 开启预览监听 接受来自 fileStore 交互的通知信息，更新 url
   evtBus.on('fileMessage', replaceState)
+
+  const [isAntdDark, setAntdDark] = useState<boolean>(false)
+  evtBus.on('isDark', (dark: boolean) => setAntdDark(dark))
   return (
-    <div className="play-ground">
-      <PlayHeader config={config.headerOption} />
-      <PlayMain
-        layout={config.layout}
-        isSSR={config.isSSR}
-      />
-    </div>
+    <ConfigProvider
+      theme={{
+        algorithm: isAntdDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
+      }}
+    >
+      <div className="play-ground">
+        <PlayHeader config={config.headerOption} />
+        <PlayMain
+          layout={config.layout}
+          isSSR={config.isSSR}
+        />
+      </div>
+    </ConfigProvider>
+
   )
 }

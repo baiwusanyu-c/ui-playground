@@ -54,6 +54,7 @@ importers:
   packages:
 
     specifiers:
+      '@ant-design/colors': ^6.0.0
       '@ant-design/icons': ^4.8.0
       '@types/codemirror': ^5.60.2
       '@types/hash-sum': ^1.0.0
@@ -67,6 +68,7 @@ importers:
       vite: ^3.2.3
 
     dependencies:
+      '@ant-design/colors': 6.0.0
       '@ant-design/icons': 4.8.0_biqbaboplfbrettd7655fr4n2y
       '@types/hash-sum': 1.0.0
       ahooks: 3.7.2_react@18.2.0
