@@ -15,7 +15,7 @@ export default function Preview(props: IPreviewProps){
   let sandbox: HTMLIFrameElement
   let proxy: PreviewProxy | null = null
 
-  function initPreview(){
+  function initPreview(type?: string){
     try {
       container = document.getElementById('sandbox_container')
       if (sandbox) {
@@ -40,7 +40,7 @@ export default function Preview(props: IPreviewProps){
         // 触发 link 钩子，确保沙盒内 a 标签能够点击跳转(不设置 target属性都可以开tab)
         proxy && proxy.handleLinksClick()
         // 依赖版本切换 =》更新渲染沙盒
-        if (!isEmptyObj(fileStore.compiler)) {
+        if (!isEmptyObj(fileStore.compiler) && type === 'update_deps') {
           updatePreview()
         }
       })
@@ -54,7 +54,7 @@ export default function Preview(props: IPreviewProps){
     if(type === 'update_file'){
       updatePreview()
     }else{
-      initPreview()
+      initPreview(type)
     }
   })
 
@@ -90,7 +90,7 @@ export default function Preview(props: IPreviewProps){
   }
 
   // 创建沙盒
-  useMount(initPreview)
+  useMount(()=>initPreview())
   useUnmount(()=>{
     proxy && proxy.destroy()
   })
