@@ -110,13 +110,19 @@ export function injectUICSS(depsCss: Array<IDepsList>) {
     script = `${script} '${value.path}'\n`
   })
   script = `${script}]\n`
+  script = `${script}function loadStyle(href) {\n`
+    + '    return new Promise((resolve, reject) => {\n'
+    + '      const link = document.createElement(\'link\')\n'
+    + '      link.rel = \'stylesheet\'\n'
+    + '      link.href = href\n'
+    + '      link.addEventListener(\'load\', resolve)\n'
+    + '      link.addEventListener(\'error\', reject)\n'
+    + '      document.head.append(link)\n'
+    + '    })\n'
+    + '  }\n'
 
-  script = `${script} uiCSSList.forEach(value => {\n`
-    + '    const link = document.createElement(\'link\')\n'
-    + '    link.rel = \'stylesheet\'\n'
-    + '    link.href = value\n'
-    + '    document.head.append(link)\n'
-    + '  })\n'
-
+  script = `${script} for (let i = 0; i < uiCSSList.length; i++) {\n`
+    + '    await loadStyle(uiCSSList[i])\n'
+    + '  }'
   return script
 }
