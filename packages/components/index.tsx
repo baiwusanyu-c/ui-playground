@@ -29,7 +29,7 @@ export const PlayGround = (props: PlayGroundProps) => {
     config.compileModule,
     config.compileInject,
     config.hooks,
-    config.presetType
+    config.presetType,
   )
   function replaceState() {
     history.replaceState(

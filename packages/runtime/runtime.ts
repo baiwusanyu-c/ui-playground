@@ -1,7 +1,7 @@
 import { runHooks, sendException } from '../utils'
+import { transformVue } from './transform-vue'
 import type { fileStore } from '../store/file'
-import {transformVue} from "./transform-vue";
-import {presetTypes} from "../play.config";
+import type { presetTypes } from '../play.config'
 
 export async function injectSSRServer(fileST: typeof fileStore, isSSR: boolean) {
   try {
@@ -98,8 +98,7 @@ export function runPresetTransform(
   type: presetTypes,
   fileST: typeof fileStore,
   isSSR: boolean,
-  modules: string[]){
-  if(type === 'vue'){
+  modules: string[]) {
+  if (type === 'vue')
     transformVue(fileST, isSSR, modules)
-  }
 }

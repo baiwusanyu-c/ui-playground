@@ -9,3 +9,5 @@ export declare interface exceptionType {
   msg: string
   type: 'warning' | 'error'
 }
+
+export declare interface ISelectItem { value: string, label: string, key: string }

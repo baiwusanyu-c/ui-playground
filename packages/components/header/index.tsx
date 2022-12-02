@@ -9,9 +9,9 @@ import { CarbonMoon } from '../icon/moon'
 import { versionStore } from '../../store/version'
 import { createSelectList, getStorage, setStorage } from '../../utils'
 import { depsStore } from '../../store/deps'
-import { unpkgLink } from '../../play.config'
+import { unpkgLink } from '../../utils/constant'
 import evtBus from '../../utils/event-bus'
-import type { ISelectItem } from '../../utils'
+import type { ISelectItem } from '../../utils/types'
 import type { headerOption, iconItem } from '../../play.config'
 import type { MenuProps } from 'antd'
 // TODO：CDN
@@ -131,24 +131,27 @@ export const PlayHeader = (props: IHeaderProps) => {
         <span>{props.config.subTitle}</span>
       </div>
       <div className="header-right">
-        {props.config.useVersion ? (
-          <><span className="version-label">version:</span>
-            <Select
-              className="version-select"
-              onChange={data => handleSelect(data, 'ui')}
-              defaultValue={uiVersion}
-              style={{ width: 120, margin: '0 10px' }}
-              options={uiVersionList}
-            />
-            <span className="version-label">dep version: </span>
-            <Select
-              className="version-select"
-              onChange={data => handleSelect(data, 'lib')}
-              defaultValue={libVersion}
-              style={{ width: 120, margin: '0 10px' }}
-              options={libVersionList}
-            /></>
-        ): <></>}
+        {props.config.useVersion
+          ? (
+            <><span className="version-label">version:</span>
+              <Select
+                className="version-select"
+                onChange={data => handleSelect(data, 'ui')}
+                defaultValue={uiVersion}
+                style={{ width: 120, margin: '0 10px' }}
+                options={uiVersionList}
+              />
+              <span className="version-label">dep version: </span>
+              <Select
+                className="version-select"
+                onChange={data => handleSelect(data, 'lib')}
+                defaultValue={libVersion}
+                style={{ width: 120, margin: '0 10px' }}
+                options={libVersionList}
+              />
+            </>
+            )
+          : ''}
         {iconList(props.config.iconList)}
 
         {isDark

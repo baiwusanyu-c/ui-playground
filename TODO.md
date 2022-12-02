@@ -4,7 +4,7 @@
  - 支持header配置ui版本
  - 支持header配置框架版本 ✔
  - 支持header配置链接logo ✔
- - 支持header配置主题切换
+ - 支持header配置主题切换 ✔
  - 支持header配置cdn
  - 支持自定义组件库依赖添加
  - 支持以本地唯一来作为组件库添加

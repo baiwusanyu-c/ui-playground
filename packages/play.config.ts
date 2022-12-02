@@ -1,7 +1,15 @@
-
+import logo from '../play/asset/logo.png'
+import {
+  homePage,
+  jsdelivrLink,
+  latestVersion,
+  react,
+  reactLogo,
+  uiMinVersion, uiVersionLink, unpkgLink, vue, vueLogo,
+} from './utils/constant'
 import { extend } from './utils'
 import type { File, fileStore } from './store/file'
-
+// @ts-expect-error 加载图片
 export declare interface iconItem {
   link: string
   url: string
@@ -26,7 +34,7 @@ export declare interface headerOption {
   iconList?: Array<iconItem>
   dark: boolean
   cdnList: Array<CDNItem>
-  cdnSet: ( link: string, pkgName: string, version: string, indexPath: string) => string
+  cdnSet: (link: string, pkgName: string, version: string, indexPath: string) => string
 }
 export declare interface importItem {
   name: string
@@ -70,11 +78,6 @@ export declare interface playConfig extends ICompileConfig{
   headerOption: headerOption
 }
 
-
-
-export const jsdelivrLink = 'https://fastly.jsdelivr.net/npm/'
-export const unpkgLink = 'https://unpkg.com/'
-
 export const defaultConfig: playConfig = {
   isSSR: false,
   layout: {
@@ -82,24 +85,23 @@ export const defaultConfig: playConfig = {
   },
   presetType: 'unknown',
   headerOption: {
-    title: 'Be-UI',
+    title: 'UI',
     subTitle: 'playground',
-    logo: 'https://github.com/baiwusanyu-c/ui-playground/blob/master/play/asset/logo.png?raw=true',
-    homePage: 'https://github.com/baiwusanyu-c/ui-playground',
-
+    logo,
+    homePage,
     useVersion: true,
-    uiVersionLink: 'https://data.jsdelivr.com/v1/package/npm/ant-design-vue',
-    uiVersion: 'latest',
-    uiMinVersion: '3.0.0',
+    uiVersionLink,
+    uiVersion: latestVersion,
+    uiMinVersion,
 
     iconList: [
       {
-        url: 'https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg',
-        link: 'https://react.docschina.org/',
+        url: reactLogo,
+        link: react,
       },
       {
-        url: 'https://qn.antdv.com/vue.png',
-        link: 'https://github.com/vuejs/core',
+        url: vueLogo,
+        link: vue,
       },
     ],
 
@@ -120,12 +122,12 @@ export const defaultConfig: playConfig = {
       indexPath: string,
     ) => `${link}${pkgName}@${version}${indexPath}`,
   },
-  hooks:{},
-  mainFile:{
-    filename:'',
-    code: ''
+  hooks: {},
+  mainFile: {
+    filename: '',
+    code: '',
   },
-  importMap:[]
+  importMap: [],
 }
 
 export const mergeConfig = (config: playConfig, defaultConfigs = defaultConfig) => {

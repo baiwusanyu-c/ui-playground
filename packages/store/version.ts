@@ -76,7 +76,7 @@ export const versionStore = {
 
         resolve(res)
       }).catch((error: Error) => {
-        console.log(error)
+        console.error(error)
         sendException(error.message, 'error')
         reject(error)
       })

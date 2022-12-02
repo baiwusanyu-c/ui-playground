@@ -2,7 +2,7 @@
 import evtBus from '../utils/event-bus'
 import { compileTS } from '../compiler/compile-ts'
 import { runHooks, sendException, wrapperCustomCompiler } from '../utils'
-import type {IHooks, presetTypes, TCompileInject, TCompileModule, TCompileOutput} from '../play.config'
+import type { IHooks, TCompileInject, TCompileModule, TCompileOutput, presetTypes } from '../play.config'
 import type { IDepsList } from './deps'
 export interface File {
   filename: string // 文件名
@@ -42,7 +42,7 @@ export const fileStore = {
     compileModule: TCompileInject,
     compileInject: TCompileModule,
     hooks: IHooks,
-    presetType: presetTypes
+    presetType: presetTypes,
   ) {
     this.mainFile = file.filename
     this.activeFile.filename = file.filename
@@ -77,6 +77,7 @@ export const fileStore = {
   },
 
   async loadCompiler(importMap: Array<IDepsList>) {
+    this.compiler = {}
     for (let i = 0; i < importMap.length; i++) {
       if (importMap[i].type === 'lib') {
         this.pendingCompiler = import(/* @vite-ignore */ importMap[i].path) // 编译器

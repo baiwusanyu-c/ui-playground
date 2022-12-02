@@ -58,7 +58,6 @@ export const extend = (objFir: any, objSec: any) => {
   return Object.assign({}, objFir, objSec)
 }
 
-export declare interface ISelectItem { value: string, label: string, key: string }
 export const createSelectList = (list: Array<string>, key: string) => {
   return list.map((val) => {
     return { value: val, label: val, key: val + key }
@@ -80,9 +79,6 @@ export function getStorage(key: string) {
 export const checkFileType = (filename: string) => /\.(vue|js|jsx|tsx|ts|css)$/.test(filename)
 
 export const isEmptyObj = (item: unknown): boolean => JSON.stringify(item) === '{}'
-
-export const isObject = (val: unknown): val is Record<any, any> => val !== null && typeof val === 'object'
-export const isFunction = (val: unknown): val is Function => typeof val === 'function'
 
 export function isAsyncFunction(fn: Function) {
   const fnStr = fn.toString()

@@ -1,9 +1,8 @@
-import {ICompileConfig} from "../play.config";
-import {File, fileStore} from "../store/file";
-import {compileVue} from "../compiler/compiler-output-vue";
-import {compileModulesForPreview} from "../compiler/compiler-module-vue";
-import {compilerInjectVue} from "../compiler/compiler-inject-vue";
-
+import { compileVue } from '../compiler/compiler-output-vue'
+import { compileModulesForPreview } from '../compiler/compiler-module-vue'
+import { compilerInjectVue } from '../compiler/compiler-inject-vue'
+import type { File, fileStore } from '../store/file'
+import type { ICompileConfig } from '../play.config'
 
 export const presetVueConfig: ICompileConfig = {
   presetType: 'vue',
@@ -57,5 +56,5 @@ export const presetVueConfig: ICompileConfig = {
   compileInject: (fileST: typeof fileStore, isSSR = false, modules: Array<string>) => {
     return compilerInjectVue(fileST, isSSR, modules)
   },
-  hooks: {}
+  hooks: {},
 }
