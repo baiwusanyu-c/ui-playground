@@ -14,7 +14,6 @@ import evtBus from '../../utils/event-bus'
 import type { ISelectItem } from '../../utils/types'
 import type { headerOption, iconItem } from '../../play.config'
 import type { MenuProps } from 'antd'
-// TODO：CDN
 
 interface IHeaderProps {
   config: headerOption

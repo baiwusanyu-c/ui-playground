@@ -1,4 +1,3 @@
-// TODO: 监听依赖、重置沙盒
 import {useMount, useUnmount} from "ahooks";
 // @ts-ignore
 import srcdoc from './preview-sandbox.html?raw'
@@ -7,7 +6,8 @@ import {fileStore} from "../../store/file";
 import evtBus from "../../utils/event-bus";
 import '../../asset/preview.scss'
 import {createSandBox, isEmptyObj, sendException} from "../../utils";
-import {injectClient, injectSandBoxMounted, injectSSRServer} from "../../runtime/runtime";
+import {injectClient, injectSandBoxMounted, injectSSRServer, injectUICSS} from "../../runtime/runtime";
+import {depsStore} from "../../store/deps";
 
 
 export default function Preview(props: IPreviewProps){
@@ -69,6 +69,10 @@ export default function Preview(props: IPreviewProps){
   async function updatePreview() {
     let isSSR = props.ssr
     try {
+      // 注入 ui组件库css依赖
+      const injectUICssRes = injectUICSS(depsStore.depsCss)
+      proxy && await proxy.eval(injectUICssRes)
+
       const mainFile = fileStore.mainFile
       // if SSR, generate the SSR bundle and eval it to render the HTML
       // ssr vue 预览编译渲染

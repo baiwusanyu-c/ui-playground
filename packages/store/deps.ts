@@ -5,12 +5,13 @@ export declare interface IDepsList {
   name: string
   pkgName: string
   path: string
-  type: 'lib' | 'ui' | 'other'
+  type: 'lib' | 'ui' | 'other' | 'css'
   version: string
 }
 export const depsStore = {
   importMap: [] as Array<importItem>,
   deps: [] as Array<IDepsList>,
+  depsCss: [] as Array<IDepsList>,
   init(config: Array<importItem>) {
     this.importMap = config
   },
@@ -33,9 +34,12 @@ export const depsStore = {
         name: value.name,
         pkgName: value.pkgName,
         type: value.type,
-        version: value.type === 'ui' ? uiVersion : libVersion,
+        version: '',
       }
-
+      if (value.type === 'css') {
+        this.depsCss.push(depsItem)
+        return
+      }
       if (value.type === 'lib' || value.type === 'ui') {
         if (cdnType === 'unpkg' || cdnType === 'jsdelivr') {
           depsItem.path = formatCDNLink(
@@ -61,7 +65,6 @@ export const depsStore = {
           }
         }
       }
-
       this.deps.push(depsItem)
     })
     // 载入依赖

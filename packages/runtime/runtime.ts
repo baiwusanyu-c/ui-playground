@@ -1,5 +1,6 @@
 import { runHooks, sendException } from '../utils'
 import { transformVue } from './transform-vue'
+import type { IDepsList } from '../store/deps'
 import type { fileStore } from '../store/file'
 import type { presetTypes } from '../play.config'
 
@@ -101,4 +102,21 @@ export function runPresetTransform(
   modules: string[]) {
   if (type === 'vue')
     transformVue(fileST, isSSR, modules)
+}
+
+export function injectUICSS(depsCss: Array<IDepsList>) {
+  let script = 'const uiCSSList = ['
+  depsCss.forEach((value) => {
+    script = `${script} '${value.path}'\n`
+  })
+  script = `${script}]\n`
+
+  script = `${script} uiCSSList.forEach(value => {\n`
+    + '    const link = document.createElement(\'link\')\n'
+    + '    link.rel = \'stylesheet\'\n'
+    + '    link.href = value\n'
+    + '    document.head.append(link)\n'
+    + '  })\n'
+
+  return script
 }

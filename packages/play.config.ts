@@ -40,7 +40,7 @@ export declare interface importItem {
   name: string
   pkgName: string
   indexPath: string
-  type: 'lib' | 'ui' | 'other'
+  type: 'lib' | 'ui' | 'other' | 'css'
   cdnLink?: string // 'other' 类型才传
 }
 export declare interface IHooks {
