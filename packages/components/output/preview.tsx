@@ -1,5 +1,4 @@
 // TODO: 监听依赖、重置沙盒
-// TODO: dark ui 主题
 import {useMount, useUnmount} from "ahooks";
 // @ts-ignore
 import srcdoc from './preview-sandbox.html?raw'
@@ -8,7 +7,7 @@ import {fileStore} from "../../store/file";
 import evtBus from "../../utils/event-bus";
 import '../../asset/preview.scss'
 import {createSandBox, isEmptyObj, sendException} from "../../utils";
-import {injectClient, injectSandBoxMounted, injectSSRServer} from "../../utils/runtime/runtime";
+import {injectClient, injectSandBoxMounted, injectSSRServer} from "../../runtime/runtime";
 
 
 export default function Preview(props: IPreviewProps){
@@ -72,7 +71,7 @@ export default function Preview(props: IPreviewProps){
     try {
       const mainFile = fileStore.mainFile
       // if SSR, generate the SSR bundle and eval it to render the HTML
-      // ssr 预览编译渲染
+      // ssr vue 预览编译渲染
       if (isSSR && mainFile.endsWith('.vue')) {
         const injectSSRServerRes = await injectSSRServer(fileStore,isSSR!)
         // 注入vue的ssr代码
@@ -82,6 +81,7 @@ export default function Preview(props: IPreviewProps){
       let injectClientRes = await injectClient(fileStore)
       await injectSandBoxMounted(injectClientRes)
       proxy && await proxy.eval(injectClientRes)
+
       evtBus.emit('showLoading',false)
     } catch (e) {
       console.error(e)

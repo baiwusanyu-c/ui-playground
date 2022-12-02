@@ -1,5 +1,5 @@
-import { sendException } from '../index'
-import type { File, fileStore } from '../../store/file'
+import { sendException } from '../utils'
+import type { File, fileStore } from '../store/file'
 declare interface vueASTNode {
   name: string
   id: number

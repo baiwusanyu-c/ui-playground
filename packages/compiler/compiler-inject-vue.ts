@@ -1,4 +1,4 @@
-import type { fileStore } from '../../store/file'
+import type { fileStore } from '../store/file'
 
 export function compilerInjectVue(
   fileST: typeof fileStore,

@@ -1,13 +1,13 @@
 import { ConfigProvider, theme } from 'antd'
 import { useState } from 'react'
-import { mergeConfig } from '../utils/config'
+import { mergeConfig } from '../play.config'
 import { depsStore } from '../store/deps'
 import { fileStore } from '../store/file'
 import evtBus from '../utils/event-bus'
 import { deserialize, serialize } from '../utils'
 import { PlayMain } from './main'
 import { PlayHeader } from './header'
-import type { playConfig } from '../utils/config'
+import type { playConfig } from '../play.config'
 import '../asset/index.scss'
 import 'antd/dist/reset.css'
 
@@ -29,6 +29,7 @@ export const PlayGround = (props: PlayGroundProps) => {
     config.compileModule,
     config.compileInject,
     config.hooks,
+    config.presetType
   )
   function replaceState() {
     history.replaceState(

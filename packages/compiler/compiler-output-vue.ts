@@ -1,7 +1,7 @@
 import hashId from 'hash-sum'
-import { sendException } from '../index'
+import { sendException } from '../utils'
 import { compileTS } from './compile-ts'
-import type { File, fileStore } from '../../store/file'
+import type { File, fileStore } from '../store/file'
 
 export const COMP_IDENTIFIER = '__sfc__'
 

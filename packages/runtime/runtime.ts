@@ -1,5 +1,7 @@
-import { runHooks, sendException } from '../index'
-import type { fileStore } from '../../store/file'
+import { runHooks, sendException } from '../utils'
+import type { fileStore } from '../store/file'
+import {transformVue} from "./transform-vue";
+import {presetTypes} from "../play.config";
 
 export async function injectSSRServer(fileST: typeof fileStore, isSSR: boolean) {
   try {
@@ -10,6 +12,12 @@ export async function injectSSRServer(fileST: typeof fileStore, isSSR: boolean) 
       isSSR,
     )
     const ssrModules = await fileST.compileModule!(fileST, isSSR)
+    runPresetTransform(
+      fileST.presetType,
+      fileST,
+      isSSR,
+      ssrModules,
+    )
     runHooks(
       fileST.hooks,
       'compiledModule',
@@ -48,6 +56,12 @@ export async function injectClient(fileST: typeof fileStore, isSSR?: boolean) {
     )
     // 将源码编译，得到编译后结果(这里会根据虚拟文件分割模块)
     const modules = await fileST.compileModule!(fileST, isSSR)
+    runPresetTransform(
+      fileST.presetType,
+      fileST,
+      isSSR!,
+      modules,
+    )
     runHooks(
       fileST.hooks,
       'compiledModule',
@@ -78,4 +92,14 @@ export async function injectClient(fileST: typeof fileStore, isSSR?: boolean) {
 
 export async function injectSandBoxMounted(injectScriptList: Array<string>) {
   injectScriptList.push('parent.postMessage({ action: \'iframeMounted\'}, \'*\');')
+}
+
+export function runPresetTransform(
+  type: presetTypes,
+  fileST: typeof fileStore,
+  isSSR: boolean,
+  modules: string[]){
+  if(type === 'vue'){
+    transformVue(fileST, isSSR, modules)
+  }
 }

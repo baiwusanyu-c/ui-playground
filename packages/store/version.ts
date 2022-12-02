@@ -1,6 +1,6 @@
 import { compare } from 'compare-versions'
 import { sendException } from '../utils'
-import type { headerOption } from '../utils/config'
+import type { headerOption } from '../play.config'
 // 'https://data.jsdelivr.com/v1/package/npm/vue'
 
 function getVersionFromCDN(url: string): Promise<string> {

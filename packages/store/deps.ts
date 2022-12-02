@@ -1,6 +1,6 @@
-import { unpkgLink } from '../utils/config'
+import { unpkgLink } from '../play.config'
 import { fileStore } from './file'
-import type { importItem } from '../utils/config'
+import type { importItem } from '../play.config'
 export declare interface IDepsList {
   name: string
   pkgName: string

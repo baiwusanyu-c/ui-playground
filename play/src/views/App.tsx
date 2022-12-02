@@ -1,9 +1,12 @@
 import '../assets/scss/App.css'
-import { PlayGround } from 'ui-playground-pkg'
+import { PlayGround,usePlayPreset } from 'ui-playground-pkg'
+
+const playConfig = usePlayPreset('vue')
+playConfig.headerOption.useVersion = true
 const App = () => {
   return (
     <div className="App">
-      <PlayGround />
+      <PlayGround config={playConfig}/>
     </div>
   )
 }

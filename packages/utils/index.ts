@@ -1,7 +1,7 @@
 import { strFromU8, strToU8, unzlibSync, zlibSync } from 'fflate'
 import evtBus from './event-bus'
 import type { fileStore } from '../store/file'
-import type { IHooks, importItem } from './config'
+import type { IHooks, importItem } from '../play.config'
 // 防抖 没啥好说的
 export function debounce(fn: Function, n = 100) {
   let handle: any

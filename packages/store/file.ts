@@ -1,8 +1,8 @@
 // TIP： 展示编译内容只根据当前激活虚拟文件
 import evtBus from '../utils/event-bus'
-import { compileTS } from '../utils/compiler/compile-ts'
+import { compileTS } from '../compiler/compile-ts'
 import { runHooks, sendException, wrapperCustomCompiler } from '../utils'
-import type { IHooks, TCompileInject, TCompileModule, TCompileOutput } from '../utils/config'
+import type {IHooks, presetTypes, TCompileInject, TCompileModule, TCompileOutput} from '../play.config'
 import type { IDepsList } from './deps'
 export interface File {
   filename: string // 文件名
@@ -35,12 +35,14 @@ export const fileStore = {
   pendingCompiler: null as Promise<any> | null,
   errors: [] as (string | Error)[], // 错误信息
   hooks: {} as IHooks,
+  presetType: 'unknown' as presetTypes,
   async init(
     file: File,
     compileOutput: TCompileOutput,
     compileModule: TCompileInject,
     compileInject: TCompileModule,
     hooks: IHooks,
+    presetType: presetTypes
   ) {
     this.mainFile = file.filename
     this.activeFile.filename = file.filename
@@ -50,6 +52,7 @@ export const fileStore = {
     this.compileModule = wrapperCustomCompiler(compileModule)
     this.compileInject = wrapperCustomCompiler(compileInject)
     this.hooks = hooks
+    this.presetType = presetType
   },
 
   setFiles(files: Record<string, File>) {
