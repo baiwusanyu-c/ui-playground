@@ -9,8 +9,8 @@ export function compilerInjectVue(
     return [
       'const __modules__ = {};',
       ...modules,
-      `import { renderToString as _renderToString } from '@vue/server-renderer'
-         import { createSSRApp as _createApp } from '@vue/runtime-dom'
+      `import { renderToString as _renderToString } from 'vue/server-renderer'
+         import { createSSRApp as _createApp } from 'vue'
          const AppComponent = __modules__["${mainFile}"].default
          AppComponent.name = 'Repl'
          const app = _createApp(AppComponent)
@@ -38,7 +38,7 @@ export function compilerInjectVue(
     codeToEval.push(
         `import { ${
           isSSR ? 'createSSRApp' : 'createApp'
-        } as _createApp } from "@vue/runtime-dom"
+        } as _createApp } from "vue"
         const _mount = () => {
           const AppComponent = __modules__["${mainFile}"].default
           AppComponent.name = 'Repl'

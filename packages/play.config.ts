@@ -1,3 +1,4 @@
+// @ts-expect-error 加载图片
 import logo from '../play/asset/logo.png'
 import {
   homePage,
@@ -9,7 +10,6 @@ import {
 } from './utils/constant'
 import { extend } from './utils'
 import type { File, fileStore } from './store/file'
-// @ts-expect-error 加载图片
 export declare interface iconItem {
   link: string
   url: string

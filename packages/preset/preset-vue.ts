@@ -8,7 +8,7 @@ export const presetVueConfig: ICompileConfig = {
   presetType: 'vue',
   importMap: [
     {
-      name: '@vue/runtime-dom',
+      name: 'vue',
       pkgName: '@vue/runtime-dom',
       indexPath: '/dist/runtime-dom.esm-browser.js',
       type: 'lib',
