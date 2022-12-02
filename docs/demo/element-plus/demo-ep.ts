@@ -1,5 +1,5 @@
-import { getPlayPreset } from 'ui-playground-pkg'
-import { jsdelivrLink } from 'ui-playground-pkg/utils/constant'
+import { getPlayPreset } from 'ui-playground'
+import { jsdelivrLink } from 'ui-playground/utils/constant'
 // @ts-expect-error 加载demo模板
 import demoEpMain from './demo-ep-main.vue?raw'
 

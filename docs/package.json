@@ -1,0 +1,17 @@
+{
+  "name": "@ui-playground/docs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "island dev src --config config.ts",
+    "build": "island build src --config config.ts",
+    "preview": "island start src --config config.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "islandjs": "^0.7.19"
+  }
+}
