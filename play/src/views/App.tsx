@@ -1,8 +1,8 @@
 
 import '../assets/scss/App.css'
 import { PlayGround } from 'ui-playground'
-import { demoAntd } from '../../../docs/demo/ant-design-vue/demo-antd'
-const playConfig = demoAntd()
+import { demoArco } from '../../../docs/demo/arco-design-vue/demo-arco'
+const playConfig = demoArco()
 
 const App = () => {
   return (

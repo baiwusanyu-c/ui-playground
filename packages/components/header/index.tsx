@@ -9,7 +9,7 @@ import { CarbonMoon } from '../icon/moon'
 import { versionStore } from '../../store/version'
 import { createSelectList, getStorage, setStorage } from '../../utils'
 import { depsStore } from '../../store/deps'
-import { unpkgLink } from '../../utils/constant'
+import { jsdelivrLink } from '../../utils/constant'
 import evtBus from '../../utils/event-bus'
 import type { ISelectItem } from '../../utils/types'
 import type { headerOption, iconItem } from '../../play.config'
@@ -25,8 +25,8 @@ export const PlayHeader = (props: IHeaderProps) => {
   // 初始化版本
   const [uiVersion] = useState<string>(props.config.uiVersion!)
   const [libVersion] = useState<string>(props.config.libVersion!)
-  let cdnType = 'unpkg'
-  let cdnLink = unpkgLink
+  let cdnType = 'jsdelivr'
+  let cdnLink = jsdelivrLink
   useMount(() => {
     setDarkClass(true)
     // 初始化 cdn

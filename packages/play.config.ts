@@ -106,14 +106,14 @@ export const defaultConfig: playConfig = {
     ],
 
     dark: false,
-    cdnList: [{
-      name: 'unpkg',
-      link: unpkgLink,
-    },
-    {
-      name: 'jsdelivr',
-      link: jsdelivrLink,
-    },
+    cdnList: [
+      {
+        name: 'jsdelivr',
+        link: jsdelivrLink,
+      }, {
+        name: 'unpkg',
+        link: unpkgLink,
+      },
     ],
     cdnSet: (
       link: string,

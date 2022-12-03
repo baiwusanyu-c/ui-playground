@@ -1,4 +1,4 @@
-export const jsdelivrLink = 'https://fastly.jsdelivr.net/npm/'
+export const jsdelivrLink = 'https://cdn.jsdelivr.net/npm/'
 export const unpkgLink = 'https://unpkg.com/'
 export const uiVersionLink = 'https://data.jsdelivr.com/v1/package/npm/ant-design-vue'
 export const homePage = 'https://github.com/baiwusanyu-c/ui-playground'
