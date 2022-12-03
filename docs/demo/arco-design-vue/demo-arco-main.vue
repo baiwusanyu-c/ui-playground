@@ -23,8 +23,12 @@ const msg = ref('Hello Arco Vue!')
     <a-divider />
     <a-space>
       <a-typography-text>Space:</a-typography-text>
-      <a-button type="primary">Item1</a-button>
-      <a-button type="primary">Item2</a-button>
+      <a-button type="primary">
+        Item1
+      </a-button>
+      <a-button type="primary">
+        Item2
+      </a-button>
       <a-switch default-checked />
     </a-space>
   </div>
