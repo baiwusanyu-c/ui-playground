@@ -1,7 +1,8 @@
 import { runHooks, sendException } from '../utils'
+import { fileStore } from '../store/file'
+import { compilerUNOCSS, generate } from '../compiler/compiler-inject-unocss'
 import { transformVue } from './transform-vue'
 import type { IDepsList } from '../store/deps'
-import type { fileStore } from '../store/file'
 import type { presetTypes } from '../play.config'
 
 export async function injectSSRServer(fileST: typeof fileStore, isSSR: boolean) {
@@ -125,4 +126,12 @@ export function injectUICSS(depsCss: Array<IDepsList>) {
     + '    await loadStyle(uiCSSList[i])\n'
     + '  }'
   return script
+}
+
+// 注入unocss
+export function injectUNOCSS(useUno = false, iframeElm: HTMLIFrameElement) {
+  if (useUno)
+    compilerUNOCSS(iframeElm)
+
+  runHooks(fileStore.hooks, 'sandBoxMounted')
 }

@@ -1,9 +1,8 @@
 // ReplProxy and srcdoc implementation from Svelte REPL
 // MIT License https://github.com/sveltejs/svelte-repl/blob/master/LICENSE
-
-import {fileStore} from "../../store/file";
-import {runHooks, sendException} from "../../utils";
+import {sendException} from "../../utils";
 import {depsStore} from "../../store/deps";
+import {injectUNOCSS} from "../../runtime/runtime";
 
 let uid = 1
 // 与 iframe 沙盒通信的代理对象
@@ -15,8 +14,9 @@ export class PreviewProxy {
       reject: (reason?: any) => void
     }>
   handleEvent: ((e: any) => void) | undefined
-
-  constructor(iframe: HTMLIFrameElement, handlers: Record<string, Function>) {
+  uno: boolean | undefined
+  constructor(iframe: HTMLIFrameElement, handlers: Record<string, Function>, uno?: boolean) {
+    this.uno = uno
     // 沙盒 iframe
     this.iframe = iframe
     // handler 沙盒钩子对象
@@ -87,7 +87,7 @@ export class PreviewProxy {
       case 'console':
         return this.handlers.onConsole(event.data)
       case 'iframeMounted':
-        runHooks(fileStore.hooks,'sandBoxMounted')
+        injectUNOCSS(this.uno, this.iframe)
         return
     }
   }
@@ -102,7 +102,8 @@ export class PreviewProxy {
 }
 
 export function createPreviewProxy(
-  sandbox: HTMLIFrameElement){
+  sandbox: HTMLIFrameElement,
+  uno?: boolean){
   return new PreviewProxy(sandbox, {
     // 沙盒钩子 -- 错误捕获
     onError: (event: any) => {
@@ -134,7 +135,9 @@ export function createPreviewProxy(
         sendException(log.args,'warning')
       }
     }
-  })
+  },
+   uno
+  )
 }
 
 export function createSandBoxImportMap(){

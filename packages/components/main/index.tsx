@@ -7,6 +7,7 @@ interface IPlayMainProps {
     vertical: boolean
   }
   isSSR: boolean
+  useUno: boolean
 }
 export const PlayMain = (props: IPlayMainProps) => {
   return (
@@ -16,6 +17,7 @@ export const PlayMain = (props: IPlayMainProps) => {
         left={Editor()}
         right={Output({
           ssr: props.isSSR,
+          uno: props.useUno,
         })}
       />
     </div>

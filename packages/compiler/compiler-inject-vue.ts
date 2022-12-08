@@ -30,7 +30,7 @@ export function compilerInjectVue(
       + `if (window.__app__) window.__app__.unmount()\n${
         isSSR ? '' : 'document.body.innerHTML = \'<div id="app"></div>\''}`,
     ...modules,
-    'document.getElementById(\'__sfc-styles\').innerHTML = window.__css__',
+    'document.getElementById(\'play_styles\').innerHTML = window.__css__',
   ]
 
   // if main file is a vue file, mount it.

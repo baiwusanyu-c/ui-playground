@@ -75,11 +75,13 @@ export declare interface ICompileConfig {
 export declare interface playConfig extends ICompileConfig{
   layout: ILayoutConfig
   isSSR: boolean
+  useUno: boolean
   headerOption: headerOption
 }
 
 export const defaultConfig: playConfig = {
   isSSR: false,
+  useUno: false,
   layout: {
     vertical: false,
   },

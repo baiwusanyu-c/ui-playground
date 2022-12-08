@@ -33,7 +33,7 @@ export default function Preview(props: IPreviewProps){
       container && container.appendChild(sandbox)
 
       // new 一个沙盒与上层应用的通信代理（基于post message）
-      proxy = createPreviewProxy(sandbox)
+      proxy = createPreviewProxy(sandbox, props.uno)
 
       // 沙盒载入时
       sandbox.addEventListener('load', () => {
@@ -109,4 +109,5 @@ export default function Preview(props: IPreviewProps){
 interface IPreviewProps {
   ssr?: boolean
   show?: boolean
+  uno?: boolean
 }

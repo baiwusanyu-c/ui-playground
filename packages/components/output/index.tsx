@@ -10,6 +10,7 @@ import Preview from "./preview";
 import {notification, Spin} from "antd";
 interface IOutputProps {
   ssr: boolean
+  uno: boolean
 }
 export default function output(props: IOutputProps) {
 
@@ -67,7 +68,7 @@ export default function output(props: IOutputProps) {
         {contextHolder}
         <OutputSelector event$={event$}></OutputSelector>
         <div className="output-container">
-            <Preview ssr={props.ssr} show={curTab === 'preview'}/>
+            <Preview ssr={props.ssr} uno={props.uno} show={curTab === 'preview'}/>
             <CodeMirror readonly={true}
                       mode={outMode}
                       show={curTab !== 'preview'}

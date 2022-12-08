@@ -6,7 +6,7 @@ import demoArcoMain from './demo-arco-main.vue?raw'
 export const demoArco = () => {
   const playConfig = getPlayPreset('vue')
   playConfig.headerOption.useVersion = true
-  playConfig.headerOption.uiVersionLink = 'https://data.jsdelivr.com/v1/package/npm/element-plus'
+  playConfig.headerOption.uiVersionLink = 'https://data.jsdelivr.com/v1/package/npm/@arco-design/web-vue'
   playConfig.headerOption.uiMinVersion = '2.2.8'
   playConfig.headerOption.logo = 'https://avatars.githubusercontent.com/u/64576149?s=200&v=4'
   playConfig.headerOption.title = 'Arco Design Vue'

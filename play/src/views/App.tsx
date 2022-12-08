@@ -1,9 +1,9 @@
 
 import '../assets/scss/App.css'
 import { PlayGround } from 'ui-playground'
-import { demoArco } from '../../../docs/demo/arco-design-vue/demo-arco'
-const playConfig = demoArco()
-
+import { demoEp } from '../../../docs/demo/element-plus/demo-ep'
+const playConfig = demoEp()
+playConfig.useUno = true
 const App = () => {
   return (
     <div className="App">
