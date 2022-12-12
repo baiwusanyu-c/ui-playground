@@ -4,7 +4,7 @@ importers:
 
   .:
     specifiers:
-      '@baiwusanyu/eslint-config': ^1.0.8
+      '@baiwusanyu/eslint-config': ^1.0.9
       '@changesets/cli': ^2.23.1
       '@commitlint/cli': ^16.2.1
       '@commitlint/config-conventional': ^16.2.1
@@ -30,7 +30,7 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
-      '@baiwusanyu/eslint-config': 1.0.8_hsf322ms6xhhd4b5ne6lb74y4a
+      '@baiwusanyu/eslint-config': 1.0.9_hsf322ms6xhhd4b5ne6lb74y4a
       '@changesets/cli': 2.25.2
       '@commitlint/cli': 16.3.0
       '@commitlint/config-conventional': 16.2.4
@@ -551,12 +551,12 @@ packages:
       '@babel/helper-validator-identifier': 7.19.1
       to-fast-properties: 2.0.0
 
-  /@baiwusanyu/eslint-config/1.0.8_hsf322ms6xhhd4b5ne6lb74y4a:
-    resolution: {integrity: sha512-aPN7CLyPX8tDeBptvumi7uIZSce8IuGiTDtzPMyeO5rNfsCY7cxhrh74ITWQApVLW9HQdk87u/g0uGubZb7gKg==}
+  /@baiwusanyu/eslint-config/1.0.9_hsf322ms6xhhd4b5ne6lb74y4a:
+    resolution: {integrity: sha512-mGsOvLR+e7OOX8qpU8Ub818My1V5cmA3bBjg3zFPR6wCQ8xer+f5A/EOofONyspT4gR4juT0nmtLc6EFoCX/Kg==}
     peerDependencies:
       eslint: ^8.0.0
     dependencies:
-      '@baiwusanyu/eslint-plugin': 1.0.8_hsf322ms6xhhd4b5ne6lb74y4a
+      '@baiwusanyu/eslint-plugin': 1.0.9_hsf322ms6xhhd4b5ne6lb74y4a
       eslint: 8.28.0
     transitivePeerDependencies:
       - eslint-import-resolver-webpack
@@ -564,8 +564,8 @@ packages:
       - typescript
     dev: true
 
-  /@baiwusanyu/eslint-plugin/1.0.8_hsf322ms6xhhd4b5ne6lb74y4a:
-    resolution: {integrity: sha512-m9P5Fz4SRNSA1mDGP4vu1prV4o3+zDGegDGd9boHfEeCcZg4iz5F779sduW5/f0yGAsUh44agCQVhf9hOLhKBQ==}
+  /@baiwusanyu/eslint-plugin/1.0.9_hsf322ms6xhhd4b5ne6lb74y4a:
+    resolution: {integrity: sha512-AgrJmtsdxku5BsNt0N3QRH1PdpOgMqmi6X17ahxTJCnv4v5dMmo0vqsxTwxqONDJMlYrhqiK0iU/eg/WTlh5fg==}
     peerDependencies:
       eslint: ^8.0.0
     dependencies:
