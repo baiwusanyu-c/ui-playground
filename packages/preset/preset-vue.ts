@@ -1,3 +1,4 @@
+
 import { compileVue } from '../compiler/compiler-output-vue'
 import { compileModulesForPreview } from '../compiler/compiler-module-vue'
 import { compilerInjectVue } from '../compiler/compiler-inject-vue'
@@ -56,5 +57,9 @@ export const presetVueConfig: ICompileConfig = {
   compileInject: (fileST: typeof fileStore, isSSR = false, modules: Array<string>) => {
     return compilerInjectVue(fileST, isSSR, modules)
   },
-  hooks: {},
+  hooks: {
+    eval: async(evalFn: Function) => {
+      await (evalFn)('console.log("inject script running")')
+    },
+  },
 }

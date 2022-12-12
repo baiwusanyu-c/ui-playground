@@ -1,6 +1,6 @@
 import { runHooks, sendException } from '../utils'
 import { fileStore } from '../store/file'
-import { compilerUNOCSS, generate } from '../compiler/compiler-inject-unocss'
+import { compilerUNOCSS } from '../compiler/compiler-inject-unocss'
 import { transformVue } from './transform-vue'
 import type { IDepsList } from '../store/deps'
 import type { presetTypes } from '../play.config'

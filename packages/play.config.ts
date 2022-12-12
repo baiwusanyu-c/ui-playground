@@ -51,6 +51,7 @@ export declare interface IHooks {
   beforeCreateInject?: Function
   createdInject?: Function
   sandBoxMounted?: Function
+  eval?: Function
 }
 export declare interface ILayoutConfig {
   vertical: boolean

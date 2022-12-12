@@ -5,7 +5,7 @@ import {createPreviewProxy, createSandBoxImportMap, PreviewProxy} from "./Previe
 import {fileStore} from "../../store/file";
 import evtBus from "../../utils/event-bus";
 import '../../asset/preview.scss'
-import {createSandBox, isEmptyObj, sendException} from "../../utils";
+import {createSandBox, isEmptyObj, runHooks, sendException} from "../../utils";
 import {injectClient, injectSandBoxMounted, injectSSRServer, injectUICSS} from "../../runtime/runtime";
 import {depsStore} from "../../store/deps";
 
@@ -87,6 +87,12 @@ export default function Preview(props: IPreviewProps){
       proxy && await proxy.eval(injectClientRes)
 
       evtBus.emit('showLoading',false)
+
+      runHooks(
+        fileStore.hooks,
+        'eval',
+        proxy && await proxy.eval.bind(proxy)
+        )
     } catch (e) {
       console.error(e)
       sendException((e as Error).message,'error')

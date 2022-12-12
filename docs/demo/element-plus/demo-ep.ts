@@ -3,6 +3,7 @@ import { jsdelivrLink } from 'ui-playground/utils/constant'
 // @ts-expect-error 加载demo模板
 import demoEpMain from './demo-ep-main.vue?raw'
 
+// 最佳实践demo element-plus （defaultConfig -> presetVue -> EpConfigDemo）
 export const demoEp = () => {
   const playConfig = getPlayPreset('vue')
   playConfig.headerOption.useVersion = true
