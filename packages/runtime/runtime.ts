@@ -133,5 +133,5 @@ export function injectUNOCSS(useUno = false, iframeElm: HTMLIFrameElement) {
   if (useUno)
     compilerUNOCSS(iframeElm)
 
-  runHooks(fileStore.hooks, 'sandBoxMounted')
+  runHooks(fileStore.hooks, 'sandBoxMounted', iframeElm)
 }

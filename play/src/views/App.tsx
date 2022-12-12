@@ -1,9 +1,9 @@
 
 import '../assets/scss/App.css'
 import { PlayGround } from 'ui-playground'
-import { demoEp } from '../../../docs/demo/element-plus/demo-ep'
-const playConfig = demoEp()
-playConfig.useUno = true
+import { demoOnu } from '../../../docs/demo/onu-ui/demo-onu'
+const playConfig = demoOnu()
+playConfig.useUno = false
 console.log(playConfig)
 const App = () => {
   return (
