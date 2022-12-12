@@ -105,10 +105,10 @@ export function runPresetTransform(
     transformVue(fileST, isSSR, modules)
 }
 
-export function injectUICSS(depsCss: Array<IDepsList>) {
+export function injectUICSS(depsCss: Record<string, IDepsList>) {
   let script = 'const uiCSSList = ['
-  depsCss.forEach((value) => {
-    script = `${script} '${value.path}'\n`
+  Object.keys(depsCss).forEach((value) => {
+    script = `${script} '${depsCss[value].path}'\n`
   })
   script = `${script}]\n`
   script = `${script}function loadStyle(href) {\n`

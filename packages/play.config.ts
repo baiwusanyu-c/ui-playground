@@ -35,6 +35,7 @@ export declare interface headerOption {
   dark: boolean
   cdnList: Array<CDNItem>
   cdnSet: (link: string, pkgName: string, version: string, indexPath: string) => string
+  setting: ISetting
 }
 export declare interface importItem {
   name: string
@@ -59,6 +60,14 @@ export declare interface ILayoutConfig {
 export declare interface IMainFile {
   filename: string
   code: string
+}
+export declare interface ISetting {
+  ssr: boolean
+  share: boolean
+  dev: boolean
+  download: boolean
+  cdn: boolean
+  userDeps: boolean
 }
 export declare type TCompileOutput = (fileST: typeof fileStore, file: File, compiler: Record<string, any>) => void
 export declare type TCompileInject = (fileST: typeof fileStore, isSSR: boolean, modules: Array<string>) => Array<string>
@@ -124,6 +133,15 @@ export const defaultConfig: playConfig = {
       version: string,
       indexPath: string,
     ) => `${link}${pkgName}@${version}${indexPath}`,
+
+    setting: {
+      ssr: false,
+      share: false,
+      dev: false,
+      download: false,
+      cdn: false,
+      userDeps: false,
+    },
   },
   hooks: {},
   mainFile: {

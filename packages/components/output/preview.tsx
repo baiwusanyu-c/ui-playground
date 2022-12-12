@@ -82,7 +82,7 @@ export default function Preview(props: IPreviewProps){
         proxy && await proxy.eval(injectSSRServerRes)
       }
       // eval code in sandbox
-      let injectClientRes = await injectClient(fileStore)
+      let injectClientRes = await injectClient(fileStore,isSSR)
       await injectSandBoxMounted(injectClientRes)
       proxy && await proxy.eval(injectClientRes)
 

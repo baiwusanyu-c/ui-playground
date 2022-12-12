@@ -97,7 +97,7 @@ export class PreviewProxy {
   }
 
   handleLinksClick() {
-    return this.sendCommandToIFrame('catchClicks', {})
+    //return this.sendCommandToIFrame('catchClicks', {})
   }
 }
 

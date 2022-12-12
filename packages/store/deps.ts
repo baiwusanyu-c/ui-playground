@@ -11,7 +11,7 @@ export declare interface IDepsList {
 export const depsStore = {
   importMap: [] as Array<importItem>,
   deps: [] as Array<IDepsList>,
-  depsCss: [] as Array<IDepsList>,
+  depsCss: {} as Record<string, IDepsList>,
   init(config: Array<importItem>) {
     this.importMap = config
   },
@@ -37,7 +37,7 @@ export const depsStore = {
         version: '',
       }
       if (value.type === 'css') {
-        this.depsCss.push(depsItem)
+        this.depsCss[depsItem.name] = depsItem
         return
       }
       if (value.type === 'lib' || value.type === 'ui') {

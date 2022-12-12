@@ -53,6 +53,30 @@
         color: var(--text-light);
     }
 }
+
+.header-setting{
+    .header-setting--item{
+        display: flex;
+        align-items: center;
+        margin: 1rem;
+        .ant-switch{
+            margin: 0 10px;
+        }
+        .anticon{
+            cursor: pointer;
+            margin: 0 10px;
+        }
+        .ant-select{
+            margin: 0 10px;
+        }
+        .label{
+            margin: 0;
+        }
+
+    }
+
+}
+
 /* mobile */
 @media (max-width: 980px) {
     .version-select,.version-label{

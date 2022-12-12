@@ -1,19 +1,19 @@
 import '../../asset/header.scss'
 import PropTypes from 'prop-types'
-import { Dropdown, Select } from 'antd'
+import { Select } from 'antd'
 import { useEffect, useState } from 'react'
 import { useMount } from 'ahooks'
 import { CarbonSun } from '../icon/sun'
-import { CarbonSetting } from '../icon/setting'
 import { CarbonMoon } from '../icon/moon'
 import { versionStore } from '../../store/version'
 import { createSelectList, getStorage, setStorage } from '../../utils'
 import { depsStore } from '../../store/deps'
 import { jsdelivrLink } from '../../utils/constant'
 import evtBus from '../../utils/event-bus'
+import { HeaderSetting } from './header-setting'
+import type { ICDNItems } from './header-setting'
 import type { ISelectItem } from '../../utils/types'
 import type { headerOption, iconItem } from '../../play.config'
-import type { MenuProps } from 'antd'
 
 interface IHeaderProps {
   config: headerOption
@@ -105,21 +105,22 @@ export const PlayHeader = (props: IHeaderProps) => {
 
   /** ******************* cdn 设置 **********************/
 
-  const items: MenuProps['items'] = props.config.cdnList.map((val) => {
+  const items: Array<ICDNItems> = props.config.cdnList.map((val) => {
     return { value: val.link, label: val.name, key: val.link }
   })
-  const handleSelectCDN = (e: any) => {
+  const handleSelectCDN = (value: string, item: ICDNItems) => {
     const uiVersion = versionStore.uiVersion
     const libVersion = versionStore.libVersion
     evtBus.emit('showLoading', true)
     depsStore.setDepsByCDN(
-      cdnLink = e.key,
-      cdnType = e.domEvent.currentTarget.innerText,
+      cdnLink = value,
+      cdnType = item.label,
       uiVersion,
       libVersion,
       true,
       props.config.cdnSet)
   }
+
   return (
     <div className="play-header">
       <div className="header-left">
@@ -157,9 +158,11 @@ export const PlayHeader = (props: IHeaderProps) => {
           ? <CarbonMoon className="icon" onClick={() => setDarkClass(undefined, false)} />
           : <CarbonSun className="icon" onClick={() => setDarkClass(undefined, true)} />}
 
-        <Dropdown menu={{ items, onClick: e => handleSelectCDN(e) }}>
-          <CarbonSetting className="icon" />
-        </Dropdown>
+        <HeaderSetting
+          config={props.config.setting}
+          cdnList={items}
+          handleSelectCDN={handleSelectCDN}
+        />
       </div>
     </div>
   )
