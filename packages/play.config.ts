@@ -135,12 +135,12 @@ export const defaultConfig: playConfig = {
     ) => `${link}${pkgName}@${version}${indexPath}`,
 
     setting: {
-      ssr: false,
-      share: false,
-      dev: false,
-      download: false,
-      cdn: false,
-      userDeps: false,
+      ssr: true,
+      share: true,
+      dev: true,
+      download: true,
+      cdn: true,
+      userDeps: true,
     },
   },
   hooks: {},

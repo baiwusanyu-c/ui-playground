@@ -1,4 +1,4 @@
-import { Input, Modal, Select, Switch } from 'antd'
+import { Input, Modal, Select, Switch, message } from 'antd'
 import { useState } from 'react'
 import {
   DeleteOutlined,
@@ -137,8 +137,24 @@ export const HeaderSetting = (props: HeaderSettingProps) => {
     setIsModalOpen(false)
   }
 
+  /** ***************** shared *****************************/
+  const [messageApi, contextHolder] = message.useMessage()
+  const sharedLink = () => {
+    const oInput = document.createElement('input')
+    oInput.value = window.location.href
+    document.body.appendChild(oInput)
+    oInput.select()
+    document.execCommand('Copy')
+    oInput.style.display = 'none'
+    document.body.removeChild(oInput)
+    messageApi.open({
+      type: 'success',
+      content: 'The share link has been copied to the clipboard',
+    })
+  }
   return (
     <>
+      {contextHolder}
       <CarbonSetting className="icon" onClick={showModal} />
       <Modal
         title="Setting"
@@ -166,7 +182,7 @@ export const HeaderSetting = (props: HeaderSettingProps) => {
           }
 
           {props.config.share
-            ? <ShareAltOutlined style={{ fontSize: '25px' }} />
+            ? <ShareAltOutlined style={{ fontSize: '25px' }} onClick={sharedLink} />
             : ''
           }
           {props.config.download
