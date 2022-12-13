@@ -12,11 +12,14 @@
     "ahooks": "^3.7.2",
     "antd": "^5.0.2",
     "compare-versions": "^4.1.3",
-    "sucrase": "^3.29.0",
-    "ohmyfetch": "^0.4.21"
+    "file-saver": "^2.0.5",
+    "jszip": "^3.6.0",
+    "ohmyfetch": "^0.4.21",
+    "sucrase": "^3.29.0"
   },
   "devDependencies": {
     "@types/codemirror": "^5.60.2",
+    "@types/file-saver": "^2.0.5",
     "codemirror": "^5.62.3",
     "fflate": "^0.7.3",
     "hash-sum": "^2.0.0",

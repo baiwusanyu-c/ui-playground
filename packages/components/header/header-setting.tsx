@@ -2,13 +2,15 @@ import { Input, Modal, Select, Switch, message } from 'antd'
 import { useState } from 'react'
 import {
   DeleteOutlined,
-  DownloadOutlined,
+  DownloadOutlined, ExclamationCircleFilled,
   PlusCircleOutlined,
   ShareAltOutlined,
 } from '@ant-design/icons'
 import { CarbonSetting } from '../icon/setting'
 import { jsdelivrLink } from '../../utils/constant'
 import { getUuid } from '../../utils'
+import { fileStore } from '../../store/file'
+import { downloadProject } from './download/download'
 import type React from 'react'
 import type { ISetting } from '../../play.config'
 export interface ICDNItems {
@@ -137,7 +139,7 @@ export const HeaderSetting = (props: HeaderSettingProps) => {
     setIsModalOpen(false)
   }
 
-  /** ***************** shared *****************************/
+  /** ****************** shared *****************************/
   const [messageApi, contextHolder] = message.useMessage()
   const sharedLink = () => {
     const oInput = document.createElement('input')
@@ -150,6 +152,17 @@ export const HeaderSetting = (props: HeaderSettingProps) => {
     messageApi.open({
       type: 'success',
       content: 'The share link has been copied to the clipboard',
+    })
+  }
+
+  /** ****************** download *****************************/
+  const download = () => {
+    Modal.confirm({
+      title: 'Download project files?',
+      icon: <ExclamationCircleFilled />,
+      async onOk() {
+        await downloadProject(fileStore)
+      },
     })
   }
   return (
@@ -186,7 +199,7 @@ export const HeaderSetting = (props: HeaderSettingProps) => {
             : ''
           }
           {props.config.download
-            ? <DownloadOutlined style={{ fontSize: '25px' }} />
+            ? <DownloadOutlined style={{ fontSize: '25px' }} onClick={download} />
             : ''
         }
         </div>
