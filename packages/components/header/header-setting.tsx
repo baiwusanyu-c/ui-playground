@@ -10,6 +10,7 @@ import { CarbonSetting } from '../icon/setting'
 import { jsdelivrLink } from '../../utils/constant'
 import { getUuid } from '../../utils'
 import { fileStore } from '../../store/file'
+import evtBus from '../../utils/event-bus'
 import { downloadProject } from './download/download'
 import type React from 'react'
 import type { ISetting } from '../../play.config'
@@ -31,10 +32,12 @@ export const HeaderSetting = (props: HeaderSettingProps) => {
   const [isDev, setDev] = useState(false)
   const [isSSR, setSSR] = useState(true)
   const onSwitchChange = (value: boolean, type: string) => {
-    if (type === 'ssr')
-      setDev(value)
-    else
+    if (type === 'ssr') {
       setSSR(value)
+      evtBus.emit('updateSSR', true)
+    } else {
+      setDev(value)
+    }
   }
 
   /** ************************* CDN **********************************/
@@ -130,9 +133,9 @@ export const HeaderSetting = (props: HeaderSettingProps) => {
     setIsModalOpen(false)
     console.log(cdn)
     console.log(isDev)
-    console.log(isSSR)
     console.log(depsList)
     props.handleSelectCDN(cdn.value, cdn.type)
+    evtBus.emit('fileMessage', 'update_file')
   }
 
   const handleCancel = () => {

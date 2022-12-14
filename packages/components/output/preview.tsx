@@ -49,7 +49,7 @@ export default function Preview(props: IPreviewProps){
       sendException((e as Error).message,'error')
     }
   }
-  // 开启预览监听 接受来自 fileStore 交互的通知信息，更新 preview
+  // 开启预览监听 接受来自 fileStore/ header setting 交互的通知信息，更新 preview
   evtBus.on('fileMessage', (type: string) =>{
     if(type === 'update_file'){
       updatePreview()

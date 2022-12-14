@@ -38,7 +38,7 @@ export const PlayGround = (props: PlayGroundProps) => {
         `#${serialize(config.mainFile.filename, config.importMap, fileStore.files)}`)
   }
   replaceState()
-  // 开启预览监听 接受来自 fileStore 交互的通知信息，更新 url
+  // 开启预览监听 接受来自 fileStore/ header setting 交互的通知信息，更新 url
   evtBus.on('fileMessage', replaceState)
 
   const [isAntdDark, setAntdDark] = useState<boolean>(false)

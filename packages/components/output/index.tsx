@@ -44,7 +44,7 @@ export default function output(props: IOutputProps) {
   }
   // 接受来自 editor 交互的通知信息
   evtBus.on('editorMessage',receiveEvtFromEditor)
-  // 接受来自 fileStore 交互的通知信息,更新 output
+  // 接受来自 fileStore/ header setting 交互的通知信息,更新 output
   evtBus.on('fileMessage',receiveEvtFromEditor)
 
   // 监控异常
@@ -63,12 +63,18 @@ export default function output(props: IOutputProps) {
   evtBus.on('showLoading',(show:boolean)=>{
     setLoading(show)
   })
+
+  const [isSSR, setSSR] = useState(props.ssr)
+  // 接受来自 header setting 交互的通知信息,更新 ssr
+  evtBus.on('updateSSR',(ssr:boolean)=>{
+    setSSR(ssr)
+  })
   return (
       <Spin spinning={loading} size="large">
         {contextHolder}
         <OutputSelector event$={event$}></OutputSelector>
         <div className="output-container">
-            <Preview ssr={props.ssr} uno={props.uno} show={curTab === 'preview'}/>
+            <Preview ssr={isSSR} uno={props.uno} show={curTab === 'preview'}/>
             <CodeMirror readonly={true}
                       mode={outMode}
                       show={curTab !== 'preview'}
