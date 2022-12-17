@@ -23,6 +23,7 @@ interface HeaderSettingProps {
   config: ISetting
   handleSelectCDN: Function
   cdnList: Array<ICDNItems>
+  isSSR: boolean
 }
 
 export const HeaderSetting = (props: HeaderSettingProps) => {
@@ -30,12 +31,14 @@ export const HeaderSetting = (props: HeaderSettingProps) => {
 
   /** *************** handle Switch change(ssr/dev) *****************************/
   const [isDev, setDev] = useState(false)
-  const [isSSR, setSSR] = useState(true)
+  const [isSSR, setSSR] = useState(props.isSSR)
   const onSwitchChange = (value: boolean, type: string) => {
     if (type === 'ssr') {
+      fileStore.isSSRCompile = value
       setSSR(value)
-      evtBus.emit('updateSSR', true)
+      evtBus.emit('updateSSR', value)
     } else {
+      fileStore.isProdCompile = value
       setDev(value)
     }
   }
@@ -184,7 +187,7 @@ export const HeaderSetting = (props: HeaderSettingProps) => {
           {props.config.ssr
             ? <>
               <span className="label">SSR:</span>
-              <Switch defaultChecked={isDev} onChange={v => onSwitchChange(v, 'ssr')} />
+              <Switch defaultChecked={isSSR} onChange={v => onSwitchChange(v, 'ssr')} />
               </>
             : ''
           }
@@ -192,7 +195,7 @@ export const HeaderSetting = (props: HeaderSettingProps) => {
           {props.config.dev
             ? <>
               <span className="label">DEV:</span>
-              <Switch defaultChecked={isSSR} onChange={v => onSwitchChange(v, 'dev')} />
+              <Switch defaultChecked={isDev} onChange={v => onSwitchChange(v, 'dev')} />
               </>
             : ''
           }

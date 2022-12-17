@@ -46,15 +46,30 @@ export const presetVueConfig: ICompileConfig = {
       + '</style>',
   },
   // output 的编译方法
-  compileOutput: async(fileST: typeof fileStore, file: File, compiler: Record<string, any>) => {
-    await compileVue(fileST, file, compiler, {})
+  compileOutput: async(
+    fileST: typeof fileStore,
+    isSSR = false,
+    isProd = false,
+    file: File,
+    compiler: Record<string, any>) => {
+    // console.log('isProd', isProd)
+    // console.log('isSSR', isSSR)
+    await compileVue(fileST, file, isSSR, isProd, compiler, {})
   },
   // module 的编译方法
-  compileModule: (fileST: typeof fileStore, isSSR = false) => {
+  compileModule: (fileST: typeof fileStore,
+    isSSR = false,
+  ) => {
+    // console.log('isProd', fileST.isProdCompile)
+    // console.log('isSSR', isSSR)
     return compileModulesForPreview(fileST, isSSR)
   },
   // Inject 的编译方法
-  compileInject: (fileST: typeof fileStore, isSSR = false, modules: Array<string>) => {
+  compileInject: (fileST: typeof fileStore,
+    isSSR = false,
+    modules: Array<string>) => {
+    // console.log('isProd', fileST.isProdCompile)
+    // console.log('isSSR', isSSR)
     return compilerInjectVue(fileST, isSSR, modules)
   },
   hooks: {

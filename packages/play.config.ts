@@ -69,9 +69,20 @@ export declare interface ISetting {
   cdn: boolean
   userDeps: boolean
 }
-export declare type TCompileOutput = (fileST: typeof fileStore, file: File, compiler: Record<string, any>) => void
-export declare type TCompileInject = (fileST: typeof fileStore, isSSR: boolean, modules: Array<string>) => Array<string>
-export declare type TCompileModule = (fileST: typeof fileStore, isSSR: boolean) => Array<string>
+export declare type TCompileOutput = (
+  fileST: typeof fileStore,
+  isSSR: boolean,
+  isProd: boolean,
+  file: File,
+  compiler: Record<string, any>) => void
+export declare type TCompileInject = (
+  fileST: typeof fileStore,
+  isSSR: boolean,
+  modules: Array<string>) => Array<string>
+export declare type TCompileModule = (
+  fileST: typeof fileStore,
+  isSSR: boolean,
+) => Array<string>
 export declare type presetTypes = 'vue' | 'react' | 'svelte' | 'unknown'
 export declare interface ICompileConfig {
   presetType: presetTypes

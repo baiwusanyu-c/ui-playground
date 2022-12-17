@@ -17,6 +17,7 @@ import type { headerOption, iconItem } from '../../play.config'
 
 interface IHeaderProps {
   config: headerOption
+  isSSR: boolean
 }
 
 export const PlayHeader = (props: IHeaderProps) => {
@@ -161,6 +162,7 @@ export const PlayHeader = (props: IHeaderProps) => {
         <HeaderSetting
           config={props.config.setting}
           cdnList={items}
+          isSSR={props.isSSR}
           handleSelectCDN={handleSelectCDN}
         />
       </div>

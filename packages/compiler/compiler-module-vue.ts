@@ -13,7 +13,7 @@ declare interface vueASTNode {
   value: string
 }
 
-export function compileModulesForPreview(fileST: typeof fileStore, isSSR = false) {
+export function compileModulesForPreview(fileST: typeof fileStore, isSSR = false, isProd = false) {
   const seen = new Set<File>()
   const processed: string[] = []
   processFile(
@@ -23,6 +23,7 @@ export function compileModulesForPreview(fileST: typeof fileStore, isSSR = false
     processed,
     seen,
     isSSR,
+    isProd,
   )
   if (!isSSR) {
     // also add css files that are not imported
@@ -55,6 +56,7 @@ function processFile(
   processed: string[],
   seen: Set<File>,
   isSSR: boolean,
+  isProd: boolean,
 ) {
   // 编译过的虚拟文件直接返回不再处理
   if (seen.has(file))
@@ -84,7 +86,7 @@ function processFile(
   // js 中有引用模块 递归编译
   if (importedFiles.size) {
     for (const imported of importedFiles)
-      processFile(compiler, fileST, fileST.files[imported], processed, seen, isSSR)
+      processFile(compiler, fileST, fileST.files[imported], processed, seen, isSSR, isProd)
   }
   // 编译结果添加
   processed.push(js)
@@ -312,7 +314,7 @@ function processHtmlFile(
       const [code, importedFiles] = processModule(compiler, fileST, content, filename)
       if (importedFiles.size) {
         for (const imported of importedFiles)
-          processFile(compiler, fileST, fileST.files[imported], deps, seen, false)
+          processFile(compiler, fileST, fileST.files[imported], deps, seen, false, false)
       }
       jsCode += `\n${code}`
       return ''

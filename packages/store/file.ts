@@ -36,6 +36,8 @@ export const fileStore = {
   errors: [] as (string | Error)[], // 错误信息
   hooks: {} as IHooks,
   presetType: 'unknown' as presetTypes,
+  isProdCompile: false,
+  isSSRCompile: false,
   async init(
     file: File,
     compileOutput: TCompileOutput,
@@ -110,7 +112,7 @@ export const fileStore = {
           this.compiler,
         )
         // 同时把从配置中 importMap 的 lib 类型的依赖传递出去，
-        await this.compileOutput(this, file, this.compiler)
+        await this.compileOutput(this, this.isSSRCompile, this.isProdCompile, file, this.compiler)
 
         runHooks(
           this.hooks,
