@@ -16,6 +16,7 @@ declare interface vueASTNode {
 export function compileModulesForPreview(fileST: typeof fileStore, isSSR = false, isProd = false) {
   const seen = new Set<File>()
   const processed: string[] = []
+  if(!fileST.compiler['@vue/compiler-sfc']) return processed
   processFile(
     fileST.compiler['@vue/compiler-sfc'],
     fileST,

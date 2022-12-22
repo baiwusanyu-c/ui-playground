@@ -12,6 +12,7 @@ export async function compileVue(
   isProd: boolean,
   compiler: Record<string, any>,
   options: Record<string, any>) {
+  if(!compiler['@vue/compiler-sfc']) return
   // create the ast by file（.vue）
   const {
     descriptor,
