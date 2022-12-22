@@ -30,14 +30,14 @@ export const HeaderSetting = (props: HeaderSettingProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   /** *************** handle Switch change(ssr/dev) *****************************/
-  const [isDev, setDev] = useState(false)
+  const [isDev, setDev] = useState(!fileStore.isProdCompile)
   const [isSSR, setSSR] = useState(props.isSSR)
   const onSwitchChange = (value: boolean, type: string) => {
     if (type === 'ssr') {
       fileStore.isSSRCompile = value
       setSSR(value)
     } else {
-      fileStore.isProdCompile = value
+      fileStore.isProdCompile = !value
       setDev(value)
     }
   }

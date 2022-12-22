@@ -70,7 +70,8 @@ export async function compileVue(
   // only need dedicated compilation if not using <script setup>
   if (
     descriptor.template
-    && (!descriptor.scriptSetup || options?.script?.inlineTemplate === false)
+    && (!descriptor.scriptSetup ||
+          options?.script?.inlineTemplate === false || !isProd)
   ) {
     const clientTemplateResult = await doCompileVueTemplate(
       ctx,
@@ -130,7 +131,7 @@ export async function compileVue(
 
   // styles
   const [css, styleSuccess] = await doCompileSFCStyle(file, descriptor,
-    id, compiler['@vue/compiler-sfc'], options)
+    id,  isProd, compiler['@vue/compiler-sfc'], options)
   if (!styleSuccess)
     return
 
@@ -184,21 +185,25 @@ async function doCompileVueScript(
   if (descriptor.script || descriptor.scriptSetup) {
     try {
       const expressionPlugins = isTS ? ['typescript'] : undefined
-      const compiledScript = compiler.compileScript(descriptor, {
-        inlineTemplate: true,
+      const co = {
+        inlineTemplate: isProd,
         ...options?.script,
         id,
         isProd,
+        reactivityTransform: true,
         templateOptions: {
           ...options?.template,
+          isProd,
           ssr,
           ssrCssVars: descriptor.cssVars,
           compilerOptions: {
             ...options?.template?.compilerOptions,
+            isProd,
             expressionPlugins,
           },
         },
-      })
+      }
+      const compiledScript = compiler.compileScript(descriptor, co)
 
       // <script setup>
       let code = ''
@@ -249,8 +254,9 @@ async function doCompileVueTemplate(
     slotted: descriptor.slotted,
     ssr,
     ssrCssVars: descriptor.cssVars,
-    isProd,
+    isProd:false,
     compilerOptions: {
+      isProd,
       ...options?.template?.compilerOptions,
       bindingMetadata,
       expressionPlugins: isTS ? ['typescript'] : undefined,
@@ -277,6 +283,7 @@ async function doCompileSFCStyle(
   file: File,
   descriptor: Record<string, any>,
   id: string,
+  isProd:boolean,
   compiler: Record<string, any>,
   options: Record<string, any>,
 ) {
@@ -288,6 +295,7 @@ async function doCompileSFCStyle(
 
     const styleResult = await compiler.compileStyleAsync({
       ...options?.style,
+      isProd,
       source: style.content,
       filename: file.filename,
       id,

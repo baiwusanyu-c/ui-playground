@@ -55,23 +55,26 @@
 							}
                             // 从消息参数中取出脚本，封装成数组
 							let { script: scripts } = ev.data.args
-							if (typeof scripts === 'string') scripts = [scripts]
-                            // 遍历脚本数组，创建 script标签，实现脚本注入
-							for (const script of scripts) {
-								const scriptEl = document.createElement('script')
-								scriptEl.setAttribute('type', 'module')
-								// send ok in the module script to ensure sequential evaluation
-								// of multiple proxy.eval() calls
-								const done = new Promise((resolve) => {
-									window.__next__ = resolve
-								})
-								scriptEl.innerHTML = script + `\nwindow.__next__()`
-								document.head.appendChild(scriptEl)
-								scriptEl.onerror = err => sendError(err.message, err.stack)
-								scriptEls.push(scriptEl)
-								await done
+							if(scripts){
+								if (typeof scripts === 'string') scripts = [scripts]
+								// 遍历脚本数组，创建 script标签，实现脚本注入
+								for (const script of scripts) {
+									const scriptEl = document.createElement('script')
+									scriptEl.setAttribute('type', 'module')
+									// send ok in the module script to ensure sequential evaluation
+									// of multiple proxy.eval() calls
+									const done = new Promise((resolve) => {
+										window.__next__ = resolve
+									})
+									scriptEl.innerHTML = script + `\nwindow.__next__()`
+									document.head.appendChild(scriptEl)
+									scriptEl.onerror = err => sendError(err.message, err.stack)
+									scriptEls.push(scriptEl)
+									await done
+								}
+								sendOk()
 							}
-							sendOk()
+
 						} catch (e) {
 							sendError(e.message, e.stack);
 						}
