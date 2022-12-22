@@ -45,6 +45,7 @@ export const fileStore = {
     compileInject: TCompileModule,
     hooks: IHooks,
     presetType: presetTypes,
+    ssr: boolean
   ) {
     this.mainFile = file.filename
     this.activeFile.filename = file.filename
@@ -54,6 +55,7 @@ export const fileStore = {
     this.compileModule = wrapperCustomCompiler(compileModule)
     this.compileInject = wrapperCustomCompiler(compileInject)
     this.hooks = hooks
+    this.isSSRCompile = ssr
     this.presetType = presetType
   },
 

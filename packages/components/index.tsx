@@ -30,6 +30,7 @@ export const PlayGround = (props: PlayGroundProps) => {
     config.compileInject,
     config.hooks,
     config.presetType,
+    config.isSSR,
   )
   function replaceState() {
     history.replaceState(
