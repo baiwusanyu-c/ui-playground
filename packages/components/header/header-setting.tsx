@@ -36,7 +36,6 @@ export const HeaderSetting = (props: HeaderSettingProps) => {
     if (type === 'ssr') {
       fileStore.isSSRCompile = value
       setSSR(value)
-      evtBus.emit('updateSSR', value)
     } else {
       fileStore.isProdCompile = value
       setDev(value)

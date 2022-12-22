@@ -64,17 +64,12 @@ export default function output(props: IOutputProps) {
     setLoading(show)
   })
 
-  const [isSSR, setSSR] = useState(props.ssr)
-  // 接受来自 header setting 交互的通知信息,更新 ssr
-  evtBus.on('updateSSR',(ssr:boolean)=>{
-    setSSR(ssr)
-  })
   return (
       <Spin spinning={loading} size="large">
         {contextHolder}
         <OutputSelector event$={event$}></OutputSelector>
         <div className="output-container">
-            <Preview ssr={isSSR} uno={props.uno} show={curTab === 'preview'}/>
+            <Preview uno={props.uno} show={curTab === 'preview'}/>
             <CodeMirror readonly={true}
                       mode={outMode}
                       show={curTab !== 'preview'}

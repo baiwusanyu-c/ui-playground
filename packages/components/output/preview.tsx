@@ -67,7 +67,7 @@ export default function Preview(props: IPreviewProps){
     )
   }
   async function updatePreview() {
-    let isSSR = props.ssr
+    let isSSR = fileStore.isSSRCompile
     try {
       // 注入 ui组件库css依赖
       const injectUICssRes = injectUICSS(depsStore.depsCss)
@@ -113,7 +113,6 @@ export default function Preview(props: IPreviewProps){
 }
 
 interface IPreviewProps {
-  ssr?: boolean
   show?: boolean
   uno?: boolean
 }
