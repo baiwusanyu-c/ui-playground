@@ -15,7 +15,7 @@ export const presetVueConfig: ICompileConfig = {
       type: 'lib',
     },
     {
-      name: '@vue/server-renderer',
+      name: 'vue/server-renderer',
       pkgName: '@vue/server-renderer',
       indexPath: '/dist/server-renderer.esm-browser.js',
       type: 'lib',
@@ -48,8 +48,8 @@ export const presetVueConfig: ICompileConfig = {
   // output 的编译方法
   compileOutput: async(
     fileST: typeof fileStore,
-    isSSR = false,
-    isProd = false,
+    isSSR ,
+    isProd,
     file: File,
     compiler: Record<string, any>) => {
     // console.log('isProd', isProd)
