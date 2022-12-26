@@ -1,5 +1,5 @@
 import { Input, Modal, Select, Switch, message } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   DeleteOutlined,
   DownloadOutlined, ExclamationCircleFilled,
@@ -60,7 +60,7 @@ export const HeaderSetting = (props: HeaderSettingProps) => {
 
   /** *************** handle deps list *****************************/
   const [depsList, setDepsList] = useState<Array<importItem>>([
-    {
+    /* {
       cdnLink: 'https://cdn.jsdelivr.net/npm/magic-string@0.27.0/dist/magic-string.es.mjs',
       pkgName: 'magic-string',
       key: getUuid(),
@@ -75,18 +75,40 @@ export const HeaderSetting = (props: HeaderSettingProps) => {
       name: '',
       indexPath: '',
       type: 'other',
-    },
+    }, */
   ])
-  function addDepsListItem() {
+  function addDepsListItem(
+    cdnLink = '',
+    pkgName = '',
+    name = '',
+    indexPath = '') {
     setDepsList([...depsList, {
-      cdnLink: '',
-      pkgName: '',
+      cdnLink,
+      pkgName,
       key: getUuid(),
-      name: '',
-      indexPath: '',
+      name,
+      indexPath,
       type: 'other',
     }])
   }
+  function initDeps() {
+    const deps: Array<importItem> = []
+    depsStore.importMap.forEach((dep) => {
+      if (dep.type === 'other') {
+        deps.push({
+          cdnLink: dep.cdnLink,
+          pkgName: dep.pkgName,
+          name: dep.name,
+          indexPath: dep.indexPath,
+          key: getUuid(),
+          type: 'other',
+        })
+      }
+    })
+    setDepsList([...(deps as Array<importItem>)])
+  }
+  useEffect(() => initDeps(), [])
+
   function delDepsListItem(index: number) {
     const depsListInner = depsList
     depsListInner.splice(index, 1)
@@ -233,7 +255,7 @@ export const HeaderSetting = (props: HeaderSettingProps) => {
               SET DEPS:
               <PlusCircleOutlined
                 role="button"
-                onClick={addDepsListItem}
+                onClick={() => addDepsListItem()}
                 style={{ fontSize: '20px' }}
               />
             </div>

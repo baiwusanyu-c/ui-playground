@@ -45,11 +45,15 @@ export function deserialize(text: string): Record<string, any> {
 export function serialize(
   mainFile: string,
   importMap: Array<importItem>,
-  files: Record<string, any>) {
+  files: Record<string, any>,
+  isProdCompile: boolean,
+  isSSRCompile: boolean) {
   const state: Record<string, any> = {
     mainFile,
     importMap,
     files,
+    isProdCompile,
+    isSSRCompile,
   }
   return utoa(JSON.stringify(state))
 }

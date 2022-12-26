@@ -10,13 +10,15 @@ export declare interface IDepsList {
 }
 export const depsStore = {
   importMap: [] as Array<importItem>,
+  importMapCache: [] as Array<importItem>,
   deps: [] as Array<IDepsList>,
   depsCss: {} as Record<string, IDepsList>,
   init(config: Array<importItem>) {
     this.importMap = config
+    this.importMapCache = config
   },
   addDeps(deps: Array<importItem>) {
-    this.importMap = this.importMap.concat(deps)
+    this.importMap = this.importMapCache.concat(deps)
   },
   // 根据 CDN 和当前版本设置依赖
   // 只会触发 lib 类型和 ui 类型,最终作依赖在 depStore 中 deps

@@ -21,8 +21,10 @@ export const PlayGround = (props: PlayGroundProps) => {
     config.importMap = urlFileInfo.importMap
     config.mainFile = urlFileInfo.files[urlFileInfo.mainFile]
     fileStore.setFiles(urlFileInfo.files)
+    fileStore.isProdCompile = urlFileInfo.isProdCompile
   }
   depsStore.init(config.importMap)
+  const ssr = urlFileInfo.isSSRCompile !== undefined ? urlFileInfo.isSSRCompile : config.isSSR
   fileStore.init(
     config.mainFile,
     config.compileOutput,
@@ -30,13 +32,19 @@ export const PlayGround = (props: PlayGroundProps) => {
     config.compileInject,
     config.hooks,
     config.presetType,
-    config.isSSR,
+    ssr,
   )
   function replaceState() {
     history.replaceState(
       {},
       '',
-        `#${serialize(config.mainFile.filename, config.importMap, fileStore.files)}`)
+        `#${serialize(
+          config.mainFile.filename,
+          depsStore.importMap,
+          fileStore.files,
+          fileStore.isProdCompile,
+          fileStore.isSSRCompile,
+        )}`)
   }
   replaceState()
   // 开启预览监听 接受来自 fileStore/ header setting 交互的通知信息，更新 url
@@ -51,11 +59,11 @@ export const PlayGround = (props: PlayGroundProps) => {
       }}
     >
       <div className="play-ground">
-        <PlayHeader config={config.headerOption} isSSR={config.isSSR} />
+        <PlayHeader config={config.headerOption} isSSR={ssr} />
         <PlayMain
           layout={config.layout}
           useUno={config.useUno}
-          isSSR={config.isSSR}
+          isSSR={ssr}
         />
       </div>
     </ConfigProvider>
