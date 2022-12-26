@@ -45,7 +45,7 @@ export const fileStore = {
     compileInject: TCompileModule,
     hooks: IHooks,
     presetType: presetTypes,
-    ssr: boolean
+    ssr: boolean,
   ) {
     this.mainFile = file.filename
     this.activeFile.filename = file.filename

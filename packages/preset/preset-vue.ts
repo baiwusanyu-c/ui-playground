@@ -48,7 +48,7 @@ export const presetVueConfig: ICompileConfig = {
   // output 的编译方法
   compileOutput: async(
     fileST: typeof fileStore,
-    isSSR ,
+    isSSR,
     isProd,
     file: File,
     compiler: Record<string, any>) => {

@@ -31,7 +31,6 @@ const msg = ref('Hello Onu UI!')
 <script setup lang="ts">
 import { ref, version as vueVersion } from 'vue'
 
-
 const msg = ref('Hello Onu UI!')
 </script>
 
@@ -40,7 +39,6 @@ const msg = ref('Hello Onu UI!')
     <h1>{{ msg }}</h1>
 
     <p>Vue {{ vueVersion }}</p>
-
   </div>
 </template>
 
@@ -49,4 +47,3 @@ const msg = ref('Hello Onu UI!')
   padding: 20px;
 }
 </style>
-

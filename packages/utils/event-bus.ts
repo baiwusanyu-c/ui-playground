@@ -15,13 +15,12 @@ export default {
       this.eventMap[eventName] = []
 
     let isHas = false
-    let len = this.eventMap[eventName].length
+    const len = this.eventMap[eventName].length
     for (let i = 0; i < len; i++) {
-      if(this.eventMap[eventName][i].toString() === fn.toString()){
+      if (this.eventMap[eventName][i].toString() === fn.toString())
         isHas = true
-      }
     }
-    if(isHas) return
+    if (isHas) return
     this.eventMap[eventName].push(fn)
   },
 

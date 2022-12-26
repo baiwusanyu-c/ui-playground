@@ -11,9 +11,11 @@ import { jsdelivrLink } from '../../utils/constant'
 import { getUuid } from '../../utils'
 import { fileStore } from '../../store/file'
 import evtBus from '../../utils/event-bus'
+import { depsStore } from '../../store/deps'
 import { downloadProject } from './download/download'
 import type React from 'react'
-import type { ISetting } from '../../play.config'
+import type { ISetting, importItem } from '../../play.config'
+
 export interface ICDNItems {
   label: string
   key: string
@@ -57,29 +59,32 @@ export const HeaderSetting = (props: HeaderSettingProps) => {
   }
 
   /** *************** handle deps list *****************************/
-  const [depsList, setDepsList] = useState([
+  const [depsList, setDepsList] = useState<Array<importItem>>([
     {
-      cdnLink: 'www.github.com',
-      pkgName: 'unocss',
+      cdnLink: 'https://cdn.jsdelivr.net/npm/magic-string@0.27.0/dist/magic-string.es.mjs',
+      pkgName: 'magic-string',
       key: getUuid(),
+      name: '',
+      indexPath: '',
+      type: 'other',
     },
     {
-      cdnLink: 'www.tailwindcss.com',
-      pkgName: 'tailwindcss',
+      cdnLink: 'https://cdn.jsdelivr.net/npm/@jridgewell/sourcemap-codec@1.4.14/dist/sourcemap-codec.mjs',
+      pkgName: '@jridgewell/sourcemap-codec',
       key: getUuid(),
+      name: '',
+      indexPath: '',
+      type: 'other',
     },
-    {
-      cdnLink: 'www.windicss.com',
-      pkgName: 'windicss',
-      key: getUuid(),
-    },
-
   ])
   function addDepsListItem() {
     setDepsList([...depsList, {
       cdnLink: '',
       pkgName: '',
       key: getUuid(),
+      name: '',
+      indexPath: '',
+      type: 'other',
     }])
   }
   function delDepsListItem(index: number) {
@@ -133,9 +138,11 @@ export const HeaderSetting = (props: HeaderSettingProps) => {
 
   const handleOk = () => {
     setIsModalOpen(false)
-    console.log(cdn)
-    console.log(isDev)
-    console.log(depsList)
+    depsList.forEach((value) => {
+      value.name = value.pkgName
+    })
+
+    depsStore.addDeps(depsList as Array<importItem>)
     props.handleSelectCDN(cdn.value, cdn.type)
     evtBus.emit('fileMessage', 'update_file')
   }

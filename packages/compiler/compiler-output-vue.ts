@@ -12,7 +12,7 @@ export async function compileVue(
   isProd: boolean,
   compiler: Record<string, any>,
   options: Record<string, any>) {
-  if(!compiler['@vue/compiler-sfc']) return
+  if (!compiler['@vue/compiler-sfc']) return
   // create the ast by file（.vue）
   const {
     descriptor,
@@ -71,8 +71,8 @@ export async function compileVue(
   // only need dedicated compilation if not using <script setup>
   if (
     descriptor.template
-    && (!descriptor.scriptSetup ||
-          options?.script?.inlineTemplate === false || !isProd)
+    && (!descriptor.scriptSetup
+          || options?.script?.inlineTemplate === false || !isProd)
   ) {
     const clientTemplateResult = await doCompileVueTemplate(
       ctx,
@@ -132,7 +132,7 @@ export async function compileVue(
 
   // styles
   const [css, styleSuccess] = await doCompileSFCStyle(file, descriptor,
-    id,  isProd, compiler['@vue/compiler-sfc'], options)
+    id, isProd, compiler['@vue/compiler-sfc'], options)
   if (!styleSuccess)
     return
 
@@ -255,7 +255,7 @@ async function doCompileVueTemplate(
     slotted: descriptor.slotted,
     ssr,
     ssrCssVars: descriptor.cssVars,
-    isProd:false,
+    isProd: false,
     compilerOptions: {
       isProd,
       ...options?.template?.compilerOptions,
@@ -284,7 +284,7 @@ async function doCompileSFCStyle(
   file: File,
   descriptor: Record<string, any>,
   id: string,
-  isProd:boolean,
+  isProd: boolean,
   compiler: Record<string, any>,
   options: Record<string, any>,
 ) {

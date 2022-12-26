@@ -43,6 +43,7 @@ export declare interface importItem {
   indexPath: string
   type: 'lib' | 'ui' | 'other' | 'css'
   cdnLink?: string // 'other' 类型才传
+  key?: string
 }
 export declare interface IHooks {
   beforeCompileOutput?: Function
