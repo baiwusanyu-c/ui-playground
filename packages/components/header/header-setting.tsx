@@ -2,7 +2,8 @@ import { Input, Modal, Select, Switch, message } from 'antd'
 import { useEffect, useState } from 'react'
 import {
   DeleteOutlined,
-  DownloadOutlined, ExclamationCircleFilled,
+  DownloadOutlined,
+  ExclamationCircleFilled,
   PlusCircleOutlined,
   ShareAltOutlined,
 } from '@ant-design/icons'

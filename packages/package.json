@@ -20,6 +20,7 @@
   "devDependencies": {
     "@types/codemirror": "^5.60.2",
     "@types/file-saver": "^2.0.5",
+    "@unocss/vite": "^0.48.0",
     "codemirror": "^5.62.3",
     "fflate": "^0.7.3",
     "hash-sum": "^2.0.0",

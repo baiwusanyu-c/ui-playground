@@ -8,8 +8,8 @@ import { deserialize, serialize } from '../utils'
 import { PlayMain } from './main'
 import { PlayHeader } from './header'
 import type { playConfig } from '../play.config'
-import '../asset/index.scss'
-import '../asset/theme.scss'
+import '../assets/index.scss'
+import '../assets/theme.scss'
 import 'antd/dist/reset.css'
 
 export declare interface PlayGroundProps {

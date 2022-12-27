@@ -3,7 +3,7 @@
 // css -> 从 .css、.vue
 // js/ssr -> .vue .js  .jsx .ts .tsx
 
-import '../../asset/filer-selector.scss'
+import '../../assets/filer-selector.scss'
 import type { FC } from 'react'
 import React, { useState } from 'react'
 import { Tabs } from 'antd'

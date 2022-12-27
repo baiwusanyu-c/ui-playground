@@ -1,5 +1,5 @@
 // @ts-expect-error 加载图片
-import logo from '../play/asset/logo.png'
+import logo from './assets/img/logo.png'
 import {
   homePage,
   jsdelivrLink,

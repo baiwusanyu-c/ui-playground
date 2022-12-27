@@ -1,5 +1,5 @@
 import CodeMirror from 'codemirror'
-import '../../asset/codemirror.scss'
+import '../../assets/codemirror.scss'
 
 // modes
 import 'codemirror/mode/javascript/javascript.js'

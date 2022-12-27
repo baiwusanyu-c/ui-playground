@@ -13,20 +13,20 @@ async function load() {
     console.error(e)
   }
 }
-await load()
-const compilerInjectUnocss = createGenerator({}, defaultConfig)
 
-export async function generate(html: string, cb: Function) {
+async function generate(html: string, cb: Function) {
+  const compilerInjectUnocss = createGenerator({}, defaultConfig)
   const output = await compilerInjectUnocss.generate(html || '')
   cb(output.css)
 }
 
-export function compilerUNOCSS(iframeElm: HTMLIFrameElement) {
+export async function compilerUNOCSS(iframeElm: HTMLIFrameElement) {
+  await load()
   const iframeWin = iframeElm.contentWindow
   if (iframeWin) {
     const iframeWinContainer = iframeWin.document.getElementById('app')
     const innerHTML = iframeWinContainer ? iframeWinContainer.innerHTML : ''
-    generate(innerHTML, (css: string) => {
+    await generate(innerHTML, (css: string) => {
       const iframeWinStyle = iframeWin.document.getElementById('play_styles')
       if (iframeWinStyle)
         iframeWinStyle.innerHTML = iframeWinStyle.innerHTML + css

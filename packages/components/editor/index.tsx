@@ -1,4 +1,4 @@
-import '../../asset/editor.scss'
+import '../../assets/editor.scss'
 import { useState } from 'react'
 import { useEventEmitter } from 'ahooks'
 import { CodeMirror } from '../code-mirror'

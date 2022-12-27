@@ -129,9 +129,9 @@ export function injectUICSS(depsCss: Record<string, IDepsList>) {
 }
 
 // 注入unocss
-export function injectUNOCSS(useUno = false, iframeElm: HTMLIFrameElement) {
+export async function injectUNOCSS(useUno = false, iframeElm: HTMLIFrameElement) {
   if (useUno)
-    compilerUNOCSS(iframeElm)
+    await compilerUNOCSS(iframeElm)
 
   runHooks(fileStore.hooks, 'sandBoxMounted', iframeElm)
 }

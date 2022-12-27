@@ -4,7 +4,7 @@ import srcdoc from './preview-sandbox.html?raw'
 import {createPreviewProxy, createSandBoxImportMap, PreviewProxy} from "./PreviewProxy";
 import {fileStore} from "../../store/file";
 import evtBus from "../../utils/event-bus";
-import '../../asset/preview.scss'
+import '../../assets/preview.scss'
 import {createSandBox, isEmptyObj, runHooks, sendException} from "../../utils";
 import {injectClient, injectSandBoxMounted, injectSSRServer, injectUICSS} from "../../runtime/runtime";
 import {depsStore} from "../../store/deps";

@@ -1,4 +1,4 @@
-import '../../asset/output.scss'
+import '../../assets/output.scss'
 import {useEffect, useState} from 'react'
 import { CodeMirror } from '../code-mirror'
 import { fileStore } from '../../store/file'

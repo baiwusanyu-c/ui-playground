@@ -1,4 +1,4 @@
-import '../../asset/layout.scss'
+import '../../assets/layout.scss'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import { useSafeState } from 'ahooks'
