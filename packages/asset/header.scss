@@ -1,14 +1,14 @@
 .play-header{
     min-height: 60px;
-    background: var(--bg);
+    background: var(--bg-header);
     padding: .5rem 1rem;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    border-bottom: 1px solid var(--color-branding);
-    font-weight: var(--font-code);
+    border-bottom: 1px solid var(--color-branding-header);
+    font-family: var(--font-code);
     transition: background-color .3s;
 
 }
@@ -48,7 +48,7 @@
     }
 }
 .dark .play-header{
-    background-color: var(--bg);
+    background-color: var(--bg-header);
     .version-label,.icon, h1{
         color: var(--text-light);
     }
