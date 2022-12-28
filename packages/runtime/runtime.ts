@@ -58,7 +58,7 @@ export async function injectClient(fileST: typeof fileStore, isSSR?: boolean) {
       isSSR,
     )
     // 将源码编译，得到编译后结果(这里会根据虚拟文件分割模块)
-    const modules = await fileST.compileModule!(fileST, isSSR, true)
+    const modules = await fileST.compileModule!(fileST, false, true)
     runPresetTransform(
       fileST.presetType,
       fileST,
