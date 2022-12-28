@@ -1,6 +1,6 @@
 import type { fileStore } from '../store/file'
 
-export const transformVue = (fileST: typeof fileStore, isSSR: boolean, modules: string[]) => {
+export const transformVue = (fileST: typeof fileStore, isSSR: boolean, isClient: boolean, modules: string[]) => {
   //  modules.forEach((value, index) => {
   //    value = value.replace('from \'vue\'', 'from \'@vue/runtime-dom\'')
   //    value = value.replace('from "vue"', 'from \'@vue/runtime-dom\'')

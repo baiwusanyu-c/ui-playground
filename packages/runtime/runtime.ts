@@ -13,11 +13,12 @@ export async function injectSSRServer(fileST: typeof fileStore, isSSR: boolean) 
       fileST,
       isSSR,
     )
-    const ssrModules = await fileST.compileModule!(fileST, isSSR)
+    const ssrModules = await fileST.compileModule!(fileST, isSSR, false)
     runPresetTransform(
       fileST.presetType,
       fileST,
       isSSR,
+      false,
       ssrModules,
     )
     runHooks(
@@ -34,7 +35,7 @@ export async function injectSSRServer(fileST: typeof fileStore, isSSR: boolean) 
       isSSR,
       ssrModules,
     )
-    const injectRes = await fileST.compileInject!(fileST, isSSR, ssrModules)
+    const injectRes = await fileST.compileInject!(fileST, isSSR, false, ssrModules)
     runHooks(
       fileST.hooks,
       'createdInject',
@@ -57,11 +58,12 @@ export async function injectClient(fileST: typeof fileStore, isSSR?: boolean) {
       isSSR,
     )
     // 将源码编译，得到编译后结果(这里会根据虚拟文件分割模块)
-    const modules = await fileST.compileModule!(fileST, isSSR)
+    const modules = await fileST.compileModule!(fileST, isSSR, true)
     runPresetTransform(
       fileST.presetType,
       fileST,
       isSSR!,
+      true,
       modules,
     )
     runHooks(
@@ -78,7 +80,7 @@ export async function injectClient(fileST: typeof fileStore, isSSR?: boolean) {
       isSSR,
       modules,
     )
-    const injectRes = await fileST.compileInject!(fileST, isSSR, modules)
+    const injectRes = await fileST.compileInject!(fileST, isSSR, true, modules)
     runHooks(
       fileST.hooks,
       'createdInject',
@@ -100,9 +102,10 @@ export function runPresetTransform(
   type: presetTypes,
   fileST: typeof fileStore,
   isSSR: boolean,
+  isClient: boolean,
   modules: string[]) {
   if (type === 'vue')
-    transformVue(fileST, isSSR, modules)
+    transformVue(fileST, isSSR, isClient, modules)
 }
 
 export function injectUICSS(depsCss: Record<string, IDepsList>) {

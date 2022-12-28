@@ -79,10 +79,12 @@ export declare type TCompileOutput = (
 export declare type TCompileInject = (
   fileST: typeof fileStore,
   isSSR: boolean,
+  isClient: boolean,
   modules: Array<string>) => Array<string>
 export declare type TCompileModule = (
   fileST: typeof fileStore,
   isSSR: boolean,
+  isClient: boolean,
 ) => Array<string>
 export declare type presetTypes = 'vue' | 'react' | 'svelte' | 'unknown'
 export declare interface ICompileConfig {

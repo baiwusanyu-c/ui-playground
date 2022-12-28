@@ -3,9 +3,10 @@ import type { fileStore } from '../store/file'
 export function compilerInjectVue(
   fileST: typeof fileStore,
   isSSR: boolean,
+  isClient: boolean,
   modules: Array<string>) {
   const { mainFile } = fileST
-  if (isSSR) {
+  if (isSSR && !isClient) {
     return [
       'const __modules__ = {};',
       ...modules,
