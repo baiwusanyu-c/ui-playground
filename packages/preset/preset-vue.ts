@@ -74,7 +74,8 @@ export const presetVueConfig: ICompileConfig = {
   },
   hooks: {
     eval: async(evalFn: Function) => {
-      evalFn && await (evalFn)('console.log("inject script running")')
+      console.log(evalFn)
+      // evalFn && await (evalFn)('console.log("inject script running")')
     },
   },
 }
