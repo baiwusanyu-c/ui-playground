@@ -109,7 +109,19 @@ export const defaultConfig: playConfig = {
   layout: {
     vertical: false,
   },
+
   presetType: 'unknown',
+  mainFile: {
+    filename: '',
+    code: '',
+  },
+  importMap: [],
+
+  hooks: {},
+  // compileOutput:()=>{},
+  // compileInject:()=>{},
+  // compileModule:()=>{},
+
   headerOption: {
     title: 'UI',
     subTitle: 'playground',
@@ -119,18 +131,7 @@ export const defaultConfig: playConfig = {
     uiVersionLink,
     uiVersion: latestVersion,
     uiMinVersion,
-
-    iconList: [
-      /* {
-        url: reactLogo,
-        link: react,
-      },
-      {
-        url: vueLogo,
-        link: vue,
-      }, */
-    ],
-
+    iconList: [],
     dark: false,
     cdnList: [
       {
@@ -147,7 +148,6 @@ export const defaultConfig: playConfig = {
       version: string,
       indexPath: string,
     ) => `${link}${pkgName}@${version}${indexPath}`,
-
     setting: {
       ssr: true,
       share: true,
@@ -157,12 +157,7 @@ export const defaultConfig: playConfig = {
       userDeps: true,
     },
   },
-  hooks: {},
-  mainFile: {
-    filename: '',
-    code: '',
-  },
-  importMap: [],
+
 }
 
 export const mergeConfig = (config: playConfig, defaultConfigs = defaultConfig) => {

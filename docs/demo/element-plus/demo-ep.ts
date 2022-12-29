@@ -34,9 +34,8 @@ export const demoEp = () => {
   },
   {
     name: '@element-plus/css',
-    pkgName: '@element-plus/css',
+    pkgName: 'element-plus',
     indexPath: '/dist/index.css',
-    cdnLink: `${jsdelivrLink}/element-plus@latest/dist/index.css`,
     type: 'css',
   },
   )

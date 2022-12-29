@@ -41,6 +41,11 @@ export const depsStore = {
         version: '',
       }
       if (value.type === 'css') {
+        depsItem.path = formatCDNLink(
+          cdnLink,
+          value.pkgName,
+          uiVersion,
+          value.indexPath)
         this.depsCss[depsItem.name] = depsItem
         return
       }

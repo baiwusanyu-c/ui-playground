@@ -1,10 +1,10 @@
 
 import '../assets/scss/App.css'
 import { PlayGround } from 'ui-playground'
-import { demoOnu } from '../../../docs/demo/onu-ui/demo-onu'
-const playConfig = demoOnu()
+import { demoEp } from '../../../docs/demo/element-plus/demo-ep'
+const playConfig = demoEp()
 playConfig.useUno = false
-playConfig.isSSR = true
+playConfig.isSSR = false
 console.log(playConfig)
 const App = () => {
   return (
