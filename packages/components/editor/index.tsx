@@ -5,13 +5,15 @@ import { CodeMirror } from '../code-mirror'
 import { debounce, isEmptyObj } from '../../utils'
 import { fileStore } from '../../store/file'
 import evtBus from '../../utils/event-bus'
+import { depsStore } from '../../store/deps'
 import { FileSelector } from './file-selector'
 const Editor = () => {
   // 获取 CodeMirror 编辑器传来的当前选择的虚拟文件代码内容
   const handleChange = debounce((code: string) => {
     // 更新到 store 中的当前文件代码属性上
     fileStore.activeFile.code = code
-    if (!isEmptyObj(fileStore.compiler))
+    if (!isEmptyObj(fileStore.compiler)
+      && Object.keys(fileStore.compiler).length === depsStore.deps.length)
       fileStore.compileFile(fileStore.activeFile, false)
   }, 250)
 
