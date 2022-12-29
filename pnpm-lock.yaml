@@ -53,9 +53,9 @@ importers:
 
   docs:
     specifiers:
-      islandjs: ^0.7.19
+      islandjs: ^0.7.23
     dependencies:
-      islandjs: 0.7.19_rollup@2.79.1
+      islandjs: 0.7.23_rollup@2.79.1
 
   packages:
 
@@ -1072,23 +1072,23 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /@islandjs/plugin-backtop/0.7.19_islandjs@0.7.19:
-    resolution: {integrity: sha512-WVsKsENmvB5ktyP9NM1+ebl46HVahRmDVNmNRxzLYsCjCgPxxFclLpmzQ+zTytuUfvvJNQt5GnmrlYF4QTZmzw==}
+  /@islandjs/plugin-backtop/0.7.23_islandjs@0.7.23:
+    resolution: {integrity: sha512-ZWh5rsWnOCN+bSo0v2/L27ThBlKdqJXDIDhrdvcNDMUbtSeJYFd7PTeMO81UhLbOLwqXxfAjPf/wlr9xZsucMQ==}
     peerDependencies:
-      islandjs: 0.7.19
+      islandjs: 0.7.23
     dependencies:
       b-tween: 0.3.3
-      islandjs: 0.7.19_rollup@2.79.1
+      islandjs: 0.7.23_rollup@2.79.1
       lodash-es: 4.17.21
     dev: false
 
-  /@islandjs/plugin-search/0.7.19_islandjs@0.7.19:
-    resolution: {integrity: sha512-HSEgvFArQM3qGbBg3YktZfL1Qfb6DyG/+IwY2bgJdPuv87w3K3anNgY7KldxMMFXZactt/HWSwYeiXGRXF3X4g==}
+  /@islandjs/plugin-search/0.7.23_islandjs@0.7.23:
+    resolution: {integrity: sha512-UVWinUq8pJVauys8jEp7a/lg8usa1CY8GpO/fXNxQ6stE5ViewuHWVMGEC5JI0Yux1fXfRyS54EshPZwv+wbCA==}
     peerDependencies:
-      islandjs: 0.7.19
+      islandjs: 0.7.23
     dependencies:
       flexsearch: 0.6.32
-      islandjs: 0.7.19_rollup@2.79.1
+      islandjs: 0.7.23_rollup@2.79.1
       lodash-es: 4.17.21
     dev: false
 
@@ -5203,16 +5203,16 @@ packages:
   /isexe/2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
 
-  /islandjs/0.7.19_rollup@2.79.1:
-    resolution: {integrity: sha512-N08BcKD/IDtrt6LvZy4EVBRwrcCQU575IkHRi8lpAjdcVRNCk9VtT+fKIIpbDlAQ7LPBk3TtAAsJ5NB7D+IrAQ==}
+  /islandjs/0.7.23_rollup@2.79.1:
+    resolution: {integrity: sha512-V5ZmWMUvr+6C/PvW3A7x1bu1XFSoc+yocoT5AoiTaacHjKvSHIfE8xME+SWIfaII4PJHqGX4VbaM03qtRUZCZA==}
     hasBin: true
     dependencies:
       '@babel/core': 7.19.0
       '@babel/helper-plugin-utils': 7.19.0
       '@babel/preset-react': 7.18.6_@babel+core@7.19.0
       '@iconify-json/carbon': 1.1.8
-      '@islandjs/plugin-backtop': 0.7.19_islandjs@0.7.19
-      '@islandjs/plugin-search': 0.7.19_islandjs@0.7.19
+      '@islandjs/plugin-backtop': 0.7.23_islandjs@0.7.23
+      '@islandjs/plugin-search': 0.7.23_islandjs@0.7.23
       '@mdx-js/mdx': 2.1.3
       '@mdx-js/react': 2.1.3_react@18.2.0
       '@mdx-js/rollup': 2.1.5_rollup@2.79.1

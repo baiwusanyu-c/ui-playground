@@ -1,4 +1,5 @@
 import { defineConfig, DefaultTheme } from 'islandjs';
+
 function getI18nHelper(lang: 'zh' | 'en') {
   const cn = lang === 'zh';
   const prefix = cn ? '/zh' : '/en';
