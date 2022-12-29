@@ -2,32 +2,28 @@ import { defineConfig } from 'islandjs'
 
 export default defineConfig({
   title: 'ui-playground',
+  icon: '/logo.png',
   themeConfig: {
     nav: [
       {
-        text: 'Home',
-        link: '/',
-        activeMatch: '^/$|^/'
+        text: 'Guide',
+        link: '/guide/getting-started',
+        activeMatch: '/guide/'
       },
       {
-        text: 'guide',
-        link: '/guide',
-        activeMatch: '^/$|^/guide'
+        text: 'Config',
+        link: '/config/',
+        activeMatch: '/config/'
       },
       {
-        text: 'config',
-        link: '/config',
-        activeMatch: '^/$|^/config'
-      },
-      {
-        text: 'example',
+        text: 'Example',
         link: '/example',
-        activeMatch: '^/$|^/example'
+        activeMatch: '/example/'
       },
       {
-        text: 'playground',
+        text: 'Playground',
         link: '/playground',
-        activeMatch: '^/$|^/playground'
+        activeMatch: '/playground/'
       }
     ],
     sidebar: {
@@ -83,14 +79,15 @@ export default defineConfig({
       ] ,
       '/config/': [
         {
-          text: 'header config',
+          text: '配置项',
           items: [
             {
-              text: 'Getting Started',
-              link: '/guide/getting-started'
+              text: 'Header 配置项',
+              link: '/config/config-header'
             }
           ]
         }],
+
       '/example/': [
         {
           text: 'vue',
@@ -104,7 +101,7 @@ export default defineConfig({
     },
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2022-present Xingyuan Yang'
+      copyright: 'Copyright © 2022-present baiwusanyu-c'
     }
   }
 })

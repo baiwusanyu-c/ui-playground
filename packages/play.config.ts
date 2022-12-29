@@ -4,9 +4,9 @@ import {
   homePage,
   jsdelivrLink,
   latestVersion,
-  react,
-  reactLogo,
-  uiMinVersion, uiVersionLink, unpkgLink, vue, vueLogo,
+  uiMinVersion,
+  uiVersionLink,
+  unpkgLink,
 } from './utils/constant'
 import { extend } from './utils'
 import type { File, fileStore } from './store/file'
@@ -20,7 +20,6 @@ export declare interface CDNItem {
 }
 
 export declare interface headerOption {
-  useVersion: boolean
   title: string
   subTitle: string
   logo: string
@@ -36,6 +35,7 @@ export declare interface headerOption {
   cdnList: Array<CDNItem>
   cdnSet: (link: string, pkgName: string, version: string, indexPath: string) => string
   setting: ISetting
+  useVersion: boolean
 }
 export declare interface importItem {
   name: string
@@ -121,14 +121,14 @@ export const defaultConfig: playConfig = {
     uiMinVersion,
 
     iconList: [
-      {
+      /* {
         url: reactLogo,
         link: react,
       },
       {
         url: vueLogo,
         link: vue,
-      },
+      }, */
     ],
 
     dark: false,
