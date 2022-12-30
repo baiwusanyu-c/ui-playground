@@ -58,9 +58,11 @@ export function serialize(
   return utoa(JSON.stringify(state))
 }
 
-export const extend = (
-  objFir: Record<string, any>,
-  objSec: Record<string, any>): Record<string, any> => {
+export const extend = <
+  T extends Record<string, any>,
+  U extends Record<string, any>>(
+    objFir: T,
+    objSec: U): T & U => {
   return Object.assign({}, objFir, objSec)
 }
 

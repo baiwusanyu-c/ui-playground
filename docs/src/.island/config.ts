@@ -162,7 +162,7 @@ function getSidebar(lang: 'zh' | 'en'): DefaultTheme.Sidebar {
           },
           {
             text: getText('钩子函数', 'Hook Function'),
-            link: getLink('/config/config-base')
+            link: getLink('/config/func-hooks')
           },
         ]
       },],
