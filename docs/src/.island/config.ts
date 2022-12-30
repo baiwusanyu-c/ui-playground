@@ -176,15 +176,15 @@ function getSidebar(lang: 'zh' | 'en'): DefaultTheme.Sidebar {
         items: [
           {
             text: 'element-plus',
-            link: getLink('/config/config-header')
+            link: getLink('/example/ep')
           },
           {
             text: 'arco design vue',
-            link: getLink('/config/config-header')
+            link: getLink('/example/arco')
           },
           {
             text: 'onu-ui',
-            link: getLink('/config/config-header')
+            link: getLink('/example/onu')
           }
         ]
       }],
