@@ -3,13 +3,17 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import Unocss from '@unocss/vite'
 const pkgPath = resolve(__dirname, 'index.ts')
+import {visualizer } from 'rollup-plugin-visualizer'
 export default defineConfig({
-  plugins: [react(), Unocss()],
+  plugins: [react(), Unocss(),visualizer()],
   server: {
     host: true,
   },
   optimizeDeps: {
     exclude: [
+      'react',
+      'react-dom',
+      'prop-types',
       '@iconify/utils/lib/loader/fs',
       '@iconify/utils/lib/loader/install-pkg',
       '@iconify/utils/lib/loader/node-loader',
@@ -28,7 +32,9 @@ export default defineConfig({
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖
       external: [
+        'prop-types',
         'react',
+        'react-dom',
         '@iconify/utils/lib/loader/fs',
         '@iconify/utils/lib/loader/install-pkg',
         '@iconify/utils/lib/loader/node-loader',
@@ -38,6 +44,8 @@ export default defineConfig({
         // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
         globals: {
           react: 'react',
+          'prop-types': 'prop-types',
+          'react-dom': 'react-dom',
         },
       },
     },
