@@ -164,6 +164,10 @@ function getSidebar(lang: 'zh' | 'en'): DefaultTheme.Sidebar {
             text: getText('钩子函数', 'Hook Function'),
             link: getLink('/config/func-hooks')
           },
+          {
+            text: getText('编译函数', 'Compiler Function'),
+            link: getLink('/config/func-compiler')
+          },
         ]
       },],
     [getLink('/example/')]: [
