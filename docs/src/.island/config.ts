@@ -83,10 +83,14 @@ function getSidebar(lang: 'zh' | 'en'): DefaultTheme.Sidebar {
   return {
     [getLink('/guide/')]: [
       {
-        text: getText('介绍', 'Getting Started'),
+        text: getText('快速开始', 'Getting Started'),
         items: [
           {
-            text: getText('快速开始', 'Getting Started'),
+            text: getText('安装', 'Install'),
+            link: getLink('/guide/getting-started')
+          },
+          {
+            text: getText('使用教程', 'Tutorial'),
             link: getLink('/guide/getting-started')
           }
         ]
@@ -144,10 +148,6 @@ function getSidebar(lang: 'zh' | 'en'): DefaultTheme.Sidebar {
             link: getLink('/config/config-dep')
           },
           {
-            text: getText('钩子函数', 'Hook Function'),
-            link: getLink('/config/config-base')
-          },
-          {
             text: getText('Header 配置项', 'Header Config'),
             link: getLink('/config/config-header')
           }
@@ -157,7 +157,11 @@ function getSidebar(lang: 'zh' | 'en'): DefaultTheme.Sidebar {
         text: getText('方法', 'Function'),
         items: [
           {
-            text: getText('对外方法', 'Base Function'),
+            text: getText('公共方法', 'Base Function'),
+            link: getLink('/config/config-base')
+          },
+          {
+            text: getText('钩子函数', 'Hook Function'),
             link: getLink('/config/config-base')
           },
         ]
