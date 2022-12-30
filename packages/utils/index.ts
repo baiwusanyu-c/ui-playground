@@ -14,7 +14,7 @@ export function debounce(fn: Function, n = 100) {
   }
 }
 
-// 转码，用于将 虚拟文件的代码等信息转化为 base46，并挂在 url 哈希上
+// 转码，用于将虚拟文件的代码等信息转化为 base46，并挂在 url 哈希上
 export function utoa(data: string): string {
   const buffer = strToU8(data)
   const zipped = zlibSync(buffer, { level: 9 })
@@ -58,7 +58,9 @@ export function serialize(
   return utoa(JSON.stringify(state))
 }
 
-export const extend = (objFir: any, objSec: any) => {
+export const extend = (
+  objFir: Record<string, any>,
+  objSec: Record<string, any>): Record<string, any> => {
   return Object.assign({}, objFir, objSec)
 }
 

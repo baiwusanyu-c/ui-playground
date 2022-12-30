@@ -7,4 +7,5 @@ export {
   deserialize,
   serialize,
   extend,
+  checkFileType,
 } from './utils/index'

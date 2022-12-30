@@ -3,7 +3,8 @@ import { defaultConfig } from '../play.config'
 import { latestVersion, vueVersion, vueVersionLink } from '../utils/constant'
 import { presetVueConfig } from './preset-vue'
 import type { presetTypes } from '../play.config'
-export const getPlayPreset = (type: presetTypes) => {
+
+export function getPlayPreset(type: presetTypes) {
   if (type === 'vue') {
     const config = extend(defaultConfig, presetVueConfig)
     config.headerOption.libVersion = latestVersion
@@ -19,4 +20,6 @@ export const getPlayPreset = (type: presetTypes) => {
   // TODO svelte 预设
   if (type === 'svelte')
     return extend(defaultConfig, presetVueConfig)
+
+  return defaultConfig
 }

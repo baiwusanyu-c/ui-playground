@@ -157,8 +157,8 @@ function getSidebar(lang: 'zh' | 'en'): DefaultTheme.Sidebar {
         text: getText('方法', 'Function'),
         items: [
           {
-            text: getText('公共方法', 'Base Function'),
-            link: getLink('/config/config-base')
+            text: getText('公共方法', 'Common Function'),
+            link: getLink('/config/func-common')
           },
           {
             text: getText('钩子函数', 'Hook Function'),
