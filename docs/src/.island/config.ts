@@ -140,17 +140,42 @@ function getSidebar(lang: 'zh' | 'en'): DefaultTheme.Sidebar {
             link: getLink('/config/config-base')
           },
           {
+            text: getText('入口文件及初始依赖', 'File & Dep Config'),
+            link: getLink('/config/config-dep')
+          },
+          {
+            text: getText('钩子函数', 'Hook Function'),
+            link: getLink('/config/config-base')
+          },
+          {
             text: getText('Header 配置项', 'Header Config'),
             link: getLink('/config/config-header')
           }
         ]
-      }],
+      },
+      {
+        text: getText('方法', 'Function'),
+        items: [
+          {
+            text: getText('对外方法', 'Base Function'),
+            link: getLink('/config/config-base')
+          },
+        ]
+      },],
     [getLink('/example/')]: [
       {
         text: 'vue',
         items: [
           {
             text: 'element-plus',
+            link: getLink('/config/config-header')
+          },
+          {
+            text: 'arco design vue',
+            link: getLink('/config/config-header')
+          },
+          {
+            text: 'onu-ui',
             link: getLink('/config/config-header')
           }
         ]
