@@ -62,7 +62,7 @@ export const PlayGround = (props: PlayGroundProps) => {
       <div className="play-ground">
         <PlayHeader config={config.headerOption} isSSR={ssr} />
         <PlayMain
-          layout={config.layout}
+          vertical={config.vertical}
           useUno={config.useUno}
           isSSR={ssr}
         />

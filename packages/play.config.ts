@@ -55,9 +55,7 @@ export declare interface IHooks {
   sandBoxMounted?: Function
   eval?: Function
 }
-export declare interface ILayoutConfig {
-  vertical: boolean
-}
+
 export declare interface IMainFile {
   filename: string
   code: string
@@ -97,7 +95,7 @@ export declare interface ICompileConfig {
   hooks: IHooks
 }
 export declare interface playConfig extends ICompileConfig{
-  layout: ILayoutConfig
+  vertical: boolean
   isSSR: boolean
   useUno: boolean
   headerOption: headerOption
@@ -106,9 +104,7 @@ export declare interface playConfig extends ICompileConfig{
 export const defaultConfig: playConfig = {
   isSSR: false,
   useUno: false,
-  layout: {
-    vertical: false,
-  },
+  vertical: false,
 
   presetType: 'unknown',
   mainFile: {
