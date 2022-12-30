@@ -136,6 +136,10 @@ function getSidebar(lang: 'zh' | 'en'): DefaultTheme.Sidebar {
         text: getText('配置项', 'Config'),
         items: [
           {
+            text: getText('基础配置项', 'Base Config'),
+            link: getLink('/config/config-base')
+          },
+          {
             text: getText('Header 配置项', 'Header Config'),
             link: getLink('/config/config-header')
           }

@@ -5,7 +5,7 @@
 - Type: `string`
 - Default: `'UI'`
 
-playground 的主标题
+`playground` 的主标题
 
 ```js
 import { getPlayPreset } from 'ui-playground'
@@ -23,7 +23,7 @@ export const demoConfig = () => {
 - Type: `string`
 - Default: `'playground'`
 
-playground 的副标题
+`playground` 的副标题
 
 ```js
 import { getPlayPreset } from 'ui-playground'
@@ -41,7 +41,7 @@ export const demoConfig = () => {
 - Type: `string`
 - Default: `-`
 
-playground 的logo地址
+`playground` 的logo地址
 
 ```js
 import { getPlayPreset } from 'ui-playground'
@@ -59,7 +59,7 @@ export const demoConfig = () => {
 - Type: `string`
 - Default: `-`
 
-playground 的logo点击的跳转首页地址，例如你自己有一个组件库，那么这个地址就是你引流的首页地址
+`playground` 的 `logo` 点击的跳转首页地址，例如你自己有一个组件库，那么这个地址就是你引流的首页地址
 
 ```js
 import { getPlayPreset } from 'ui-playground'
@@ -77,7 +77,7 @@ export const demoConfig = () => {
 - Type: `string`
 - Default: `-`
 
-playground 进行组件库版本切换时，获取版本号列表的地址
+`playground` 进行组件库版本切换时，获取版本号列表的地址
 
 ```js
 import { getPlayPreset } from 'ui-playground'
@@ -95,7 +95,7 @@ export const demoConfig = () => {
 - Type: `string`
 - Default: `-`
 
-playground 进行组件库版本切换时，默认使用的版本号
+`playground` 进行组件库版本切换时，默认使用的版本号
 
 ```js
 import { getPlayPreset } from 'ui-playground'
@@ -113,7 +113,7 @@ export const demoConfig = () => {
 - Type: `string`
 - Default: `-`
 
-playground 进行组件库版本切换时，支持的最小版本号
+`playground` 进行组件库版本切换时，支持的最小版本号
 
 ```js
 import { getPlayPreset } from 'ui-playground'
@@ -131,7 +131,7 @@ export const demoConfig = () => {
 - Type: `string`
 - Default: `https://data.jsdelivr.com/v1/package/npm/vue`
 
-playground 进行框架（vue）版本切换时，获取版本号列表的地址
+`playground` 进行框架（`vue`）版本切换时，获取版本号列表的地址
 
 ```js
 import { getPlayPreset } from 'ui-playground'
@@ -149,7 +149,7 @@ export const demoConfig = () => {
 - Type: `string`
 - Default: `latest`
 
-playground 进行框架（vue）版本切换时，默认使用的版本号
+`playground` 进行框架（`vue`）版本切换时，默认使用的版本号
 
 ```js
 import { getPlayPreset } from 'ui-playground'
@@ -167,7 +167,7 @@ export const demoConfig = () => {
 - Type: `string`
 - Default: `3.2.0`
 
-playground 进行框架（vue）版本切换时，支持的最小版本号
+`playground` 进行框架（`vue`）版本切换时，支持的最小版本号
 
 ```js
 import { getPlayPreset } from 'ui-playground'
@@ -185,7 +185,7 @@ export const demoConfig = () => {
 - Type: `boolean`
 - Default: `true`
 
-playground 是否开启版本切换
+`playground` 是否开启版本切换
 
 ```js
 import { getPlayPreset } from 'ui-playground'
@@ -203,7 +203,7 @@ export const demoConfig = () => {
 - Type: `boolean`
 - Default: `false`
 
-playground 是否开启dark模式切换
+`playground` 是否开启 `dark` 模式切换
 
 ```js
 import { getPlayPreset } from 'ui-playground'
@@ -221,7 +221,7 @@ export const demoConfig = () => {
 - Type: `Array<iconItem>`
 - Default: `[]`
 
-playground 右侧需要展示的 icon 列表，通常是引流的网站图标，比如 github 地址
+`playground` 右侧需要展示的 `icon` 列表，通常是引流的网站图标，比如 `github` 地址
 ```ts
 interface iconItem {
   // logo 地址
@@ -258,7 +258,7 @@ export const demoConfig = () => {
   link: 'https://unpkg.com/',
   }]`
 
-playground 获取 ui 组件库和框架库以及其他依赖的 cdn 列表
+`playground` 获取 `ui` 组件库和框架库以及其他依赖的 `cdn` 列表
 ```ts
 interface iconItem {
   // cdn 名称
@@ -294,7 +294,7 @@ export const demoConfig = () => {
   indexPath: string,
   ) => ‘${link}${pkgName}@${version}${indexPath}’,`
 
-对于某些非标准格式的 cdn 地址，你需要通过传入这个函数，来准确的返回依赖地址
+对于某些非标准格式的 `cdn` 地址，你需要通过传入这个函数，来准确的返回依赖地址
 
 ```js
 import { getPlayPreset } from 'ui-playground'
@@ -323,7 +323,7 @@ export const demoConfig = () => {
    cdn: true,
    userDeps: true}`
 
-对于某些非标准格式的 cdn 地址，你需要通过传入这个函数，来准确的返回依赖地址
+对于某些非标准格式的 `cdn` 地址，你需要通过传入这个函数，来准确的返回依赖地址
 ```typescript
 interface ISetting {
   ssr: boolean // 是否开启 ssr 切换
