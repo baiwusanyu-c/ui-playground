@@ -2,10 +2,10 @@ import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import Unocss from '@unocss/vite'
+import { visualizer } from 'rollup-plugin-visualizer'
 const pkgPath = resolve(__dirname, 'index.ts')
-import {visualizer } from 'rollup-plugin-visualizer'
 export default defineConfig({
-  plugins: [react(), Unocss(),visualizer()],
+  plugins: [react(), Unocss(), visualizer()],
   server: {
     host: true,
   },
@@ -43,7 +43,7 @@ export default defineConfig({
       output: {
         // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
         globals: {
-          react: 'react',
+          'react': 'react',
           'prop-types': 'prop-types',
           'react-dom': 'react-dom',
         },

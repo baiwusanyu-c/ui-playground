@@ -1,0 +1,152 @@
+@property --xPoint {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 400px;
+}
+@property --yPoint {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 300px;
+}
+@property --x2Point {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 500px;
+}
+@property --y2Point {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 300px;
+}
+
+
+
+.wrap {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100%;
+ background:
+         conic-gradient(
+                         from -45deg at var(--xPoint) var(--yPoint),
+                         hsla(170deg, 100%, 70%, .7),
+                         transparent 50%,
+                         hsla(219deg, 90%, 80%, .5) 100%),
+         conic-gradient(
+                         from 180deg at var(--x2Point) var(--y2Point),
+                         hsla(170deg, 100%, 70%, .7),
+                         transparent 50%,
+                         hsla(219deg, 90%, 80%, .5) 100%),
+         linear-gradient(-45deg, rgba(252, 0, 71, 0), rgba(217, 225, 248, 0));
+  animation: pointMove 2.5s infinite alternate linear;
+  overflow: hidden;
+}
+
+.shadowLeft {
+  position: absolute;
+  top: -300px;
+  left: -330px;
+  width: 430px;
+  height: 300px;
+  background: #fff;
+  transform-origin: 100% 100%;
+  transform: rotate(225deg);
+  clip-path: polygon(-100% 100%, 200% 100%, 200% 500%, -100% 500%);
+  box-shadow:
+          0px 0 .5px hsla(170deg, 95%, 80%, 1),
+          0px 0 1px hsla(170deg, 91%, 80%, .95),
+          0px 0 2px hsla(171deg, 91%, 80%, .95),
+          0px 0 3px hsla(171deg, 91%, 80%, .95),
+          0px 0 4px hsla(171deg, 91%, 82%, .9),
+          0px 0 5px hsla(172deg, 91%, 82%, .9),
+          0px 0 10px hsla(173deg, 91%, 84%, .9),
+          0px 0 20px hsla(174deg, 91%, 86%, .85),
+          0px 0 40px hsla(175deg, 91%, 86%, .85),
+          0px 0 60px hsla(175deg, 91%, 86%, .85);
+  animation: scale 2.5s infinite alternate linear;
+  mix-blend-mode: hard-light;
+}
+
+.shadowRight {
+  position: absolute;
+  top: -300px;
+  right: -330px;
+  width: 430px;
+  height: 300px;
+  background: #fff;
+  transform-origin: 100% 100%;
+  transform: rotate(225deg);
+  clip-path: polygon(-100% 100%, 200% 100%, 200% 500%, -100% 500%);
+  box-shadow:
+          0px 0 .5px hsla(170deg, 95%, 80%, 1),
+          0px 0 1px hsla(170deg, 91%, 80%, .95),
+          0px 0 2px hsla(171deg, 91%, 80%, .95),
+          0px 0 3px hsla(171deg, 91%, 80%, .95),
+          0px 0 4px hsla(171deg, 91%, 82%, .9),
+          0px 0 5px hsla(172deg, 91%, 82%, .9),
+          0px 0 10px hsla(173deg, 91%, 84%, .9),
+          0px 0 20px hsla(174deg, 91%, 86%, .85),
+          0px 0 40px hsla(175deg, 91%, 86%, .85),
+          0px 0 60px hsla(175deg, 91%, 86%, .85);
+  animation: scale 2.5s infinite alternate linear;
+  mix-blend-mode: hard-light;
+}
+
+.shadowBottom {
+  position: absolute;
+  top: 300px;
+  left: 500px;
+  width: 400px;
+  height: 300px;
+  background: #000;
+  transform-origin: 0 100%;
+  clip-path: polygon(0 -100%, -200% -100%, -200% 200%, 0 200%);
+  box-shadow:
+          0px 0 .5px hsla(170deg, 95%, 80%, 1),
+          0px 0 1px hsla(170deg, 91%, 80%, .95),
+          0px 0 2px hsla(171deg, 91%, 80%, .95),
+          0px 0 3px hsla(171deg, 91%, 80%, .95),
+          0px 0 4px hsla(171deg, 91%, 82%, .9),
+          0px 0 5px hsla(172deg, 91%, 82%, .9),
+          0px 0 10px hsla(173deg, 91%, 84%, .9),
+          0px 0 20px hsla(174deg, 91%, 86%, .85),
+          0px 0 40px hsla(175deg, 91%, 86%, .85),
+          0px 0 60px hsla(175deg, 91%, 86%, .85);
+  animation: scaleBottom 2.5s infinite -2.5s alternate linear;
+  mix-blend-mode: hard-light;
+}
+
+@keyframes scale {
+  50%,
+  100% {
+    transform: rotate(225deg) scale(0);
+  }
+}
+
+@keyframes scaleBottom {
+  50%,
+  100% {
+    transform: scale(0);
+  }
+}
+
+@keyframes pointMove {
+  0% {
+    --x2Point: 500px;
+    --y2Point: 600px;
+  }
+  50% {
+    --xPoint: 100px;
+    --yPoint: 0;
+    --x2Point: 500px;
+    --y2Point: 600px;
+  }
+  100% {
+    --xPoint: 100px;
+    --yPoint: 0;
+    --x2Point: 500px;
+    --y2Point: 300px;
+  }
+}

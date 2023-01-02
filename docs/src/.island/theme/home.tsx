@@ -1,7 +1,7 @@
 
 import './home.scss'
-import LeftBg from '../../public/left-bg.svg'
-import RightBg from  '../../public/right-bg.svg'
+import './animation-bg.scss'
+
 export function HomeLayout (){
   
   return (
@@ -17,22 +17,11 @@ export function HomeLayout (){
         <a href='/zh/guide/install'>✨ 安装使用</a>
       </button>
     </div>
-    <div className='bgs'> 
-    <LeftBg style={{
-      position: 'absolute',
-      left: '0px',
-      bottom: '60px',
-      width:  '25%',
-      height:  '25%', 
-    }}/>
 
-    <RightBg style={{
-      position: 'absolute', 
-      right: '0px',
-      top: '100px',
-      width: '25%',
-      height:  '25%',
-    }}/>
+    <div className="wrap">
+      <div className="shadowLeft"></div>
+      <div className="shadowRight"></div>
+      <div className="shadowBottom"></div>
     </div>
     
   </div>
