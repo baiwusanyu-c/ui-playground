@@ -87,7 +87,7 @@ function getSidebar(lang: 'zh' | 'en'): DefaultTheme.Sidebar {
         items: [
           {
             text: getText('安装', 'Install'),
-            link: getLink('/guide/getting-started')
+            link: getLink('/guide/install')
           },
           {
             text: getText('使用教程', 'Tutorial'),
