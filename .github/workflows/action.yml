@@ -65,3 +65,11 @@ jobs:
 
       - name: Build Docs
         run: cd docs && pnpm build
+        
+      - name: Deploy document to netlify
+        uses: netlify/actions/cli@master
+        with:
+          args: deploy --dir=docs/src/.island/dist
+        env:
+          NETLIFY_SITE_ID: ${{ secrets.DEV_NETLIFY_SITE_ID }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
