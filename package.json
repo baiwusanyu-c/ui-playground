@@ -3,6 +3,7 @@
   "version": "1.0.3",
   "description": "",
   "main": "index.js",
+ "packageManager": "pnpm@6.32.4",
   "scripts": {
     "init": "pnpm install",
     "dev": "pnpm run --filter @ui-playground/play dev",
