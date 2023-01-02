@@ -31,7 +31,7 @@
  background:
          conic-gradient(
                          from -45deg at var(--xPoint) var(--yPoint),
-                         hsla(170deg, 100%, 70%, .7),
+                         hsl(0deg 100% 70%),
                          transparent 50%,
                          hsla(219deg, 90%, 80%, .5) 100%),
          conic-gradient(
@@ -55,21 +55,21 @@
   transform: rotate(225deg);
   clip-path: polygon(-100% 100%, 200% 100%, 200% 500%, -100% 500%);
   box-shadow:
-          0px 0 .5px hsla(170deg, 95%, 80%, 1),
-          0px 0 1px hsla(170deg, 91%, 80%, .95),
-          0px 0 2px hsla(171deg, 91%, 80%, .95),
-          0px 0 3px hsla(171deg, 91%, 80%, .95),
-          0px 0 4px hsla(171deg, 91%, 82%, .9),
-          0px 0 5px hsla(172deg, 91%, 82%, .9),
-          0px 0 10px hsla(173deg, 91%, 84%, .9),
-          0px 0 20px hsla(174deg, 91%, 86%, .85),
-          0px 0 40px hsla(175deg, 91%, 86%, .85),
-          0px 0 60px hsla(175deg, 91%, 86%, .85);
+          0px 0 0.5px hsl(0deg 95% 80%),
+          0px 0 1px hsl(0deg 91% 80% / 95%),
+          0px 0 2px hsl(0deg 91% 80% / 95%),
+          0px 0 3px hsl(0deg 91% 80% / 95%),
+          0px 0 4px hsl(0deg 91% 82% / 90%),
+          0px 0 5px hsl(0deg 91% 82% / 90%),
+          0px 0 10px hsl(0deg 91% 84% / 90%),
+          0px 0 20px hsl(0deg 91% 86% / 85%),
+          0px 0 40px hsl(0deg 91% 86% / 85%),
+          0px 0 60px hsl(0deg 91% 86% / 85%);
   animation: scale 2.5s infinite alternate linear;
   mix-blend-mode: hard-light;
 }
 
-.shadowRight {
+/*.shadowRight {
   position: absolute;
   top: -300px;
   right: -330px;
@@ -92,7 +92,7 @@
           0px 0 60px hsla(175deg, 91%, 86%, .85);
   animation: scale 2.5s infinite alternate linear;
   mix-blend-mode: hard-light;
-}
+}*/
 
 .shadowBottom {
   position: absolute;
