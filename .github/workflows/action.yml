@@ -65,20 +65,29 @@ jobs:
 
       - name: Build Docs
         run: cd docs && pnpm build
+        
   deploy:
-    runs-on: ubuntu-latest
+   runs-on: ubuntu-latest
+   steps:
+      - uses: actions/checkout@v3
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: pnpm/action-setup@v2
 
-      - name: Setup node
-        uses: actions/setup-node@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: '12'
-      - run: npm install
-      - run: npm run build
+          node-version: 18
+          cache: pnpm
 
+      - name: Setup
+        run: pnpm i -g @antfu/ni
+
+      - name: Install
+        run: nci
+
+      - name: Lint
+        run: nr lint:fix
+        
       - name: Deploy to netlify
         uses: netlify/actions/cli@master
         env:
