@@ -12,60 +12,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: pnpm/action-setup@v2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: pnpm
-
-      - name: Setup
-        run: pnpm i -g @antfu/ni
-
-      - name: Install
-        run: nci
-
-      - name: Lint
-        run: nr lint:fix
-
-  build:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        node-version: [14.19.0, 16.x, 18]
-      fail-fast: false
-
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: pnpm/action-setup@v2
-
-      - name: Set node ${{ matrix.node }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: pnpm
-
-      - name: Setup
-        run: pnpm i -g @antfu/ni
-
-      - name: Install
-        run: nci
-
-      - name: Build
-        run: nr build
-
-      - name: Build Docs
-        run: cd docs && pnpm build
-        
   deploy:
    runs-on: ubuntu-latest
    steps:
@@ -84,9 +30,6 @@ jobs:
 
       - name: Install
         run: nci
-
-      - name: Lint
-        run: nr lint:fix
         
       - name: Deploy to netlify
         uses: netlify/actions/cli@master
