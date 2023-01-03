@@ -13,8 +13,8 @@ on:
 
 jobs:
   deploy:
-   runs-on: ubuntu-latest
-   steps:
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/checkout@v3
 
       - uses: pnpm/action-setup@v2
@@ -30,10 +30,10 @@ jobs:
 
       - name: Install
         run: nci
-        
+
       - name: Build Docs
         run: cd docs && pnpm build
-        
+
       - name: Deploy to netlify
         uses: netlify/actions/cli@master
         env:

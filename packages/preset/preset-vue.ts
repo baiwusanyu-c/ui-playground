@@ -77,7 +77,7 @@ export const presetVueConfig: ICompileConfig = {
     return compilerInjectVue(fileST, isSSR, isClient, modules)
   },
   hooks: {
-    eval: async(evalFn: Function) => {
+    eval: async(evalFn) => {
       evalFn && await (evalFn)('console.log("inject script running")')
     },
   },

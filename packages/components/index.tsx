@@ -28,12 +28,12 @@ export const PlayGround = (props: PlayGroundProps) => {
   const ssr = urlFileInfo.isSSRCompile !== undefined ? urlFileInfo.isSSRCompile : config.isSSR
   fileStore.init(
     config.mainFile,
+    config.presetType,
+    ssr,
     config.compileOutput,
     config.compileModule,
     config.compileInject,
     config.hooks,
-    config.presetType,
-    ssr,
   )
   function replaceState() {
     history.replaceState(

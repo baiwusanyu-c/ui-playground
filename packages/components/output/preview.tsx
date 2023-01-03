@@ -87,12 +87,11 @@ export default function Preview(props: IPreviewProps){
       proxy && await proxy.eval(injectClientRes)
 
       evtBus.emit('showLoading',false)
-
+      let proxyEvalFn = proxy && await proxy.eval.bind(proxy)
       runHooks(
         fileStore.hooks,
         'eval',
-        proxy && await proxy.eval.bind(proxy)
-        )
+        proxyEvalFn)
     } catch (e) {
       console.error(e)
       sendException((e as Error).message,'error')

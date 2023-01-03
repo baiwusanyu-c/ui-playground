@@ -14,7 +14,10 @@ export interface File {
     ssr: string // ssr 编译结果
   }
 }
-
+export declare interface IMainFile {
+  filename: string
+  code: string
+}
 export const fileStore = {
   activeFile: {
     filename: '',
@@ -39,22 +42,22 @@ export const fileStore = {
   isProdCompile: false,
   isSSRCompile: false,
   async init(
-    file: File,
-    compileOutput: TCompileOutput,
-    compileModule: TCompileInject,
-    compileInject: TCompileModule,
-    hooks: IHooks,
+    file: IMainFile,
     presetType: presetTypes,
     ssr: boolean,
+    compileOutput?: TCompileOutput,
+    compileModule?: TCompileModule,
+    compileInject?: TCompileInject,
+    hooks?: IHooks,
   ) {
     this.mainFile = file.filename
     this.activeFile.filename = file.filename
     this.activeFile.code = file.code
     this.files[file.filename] = { ...this.activeFile }
-    this.compileOutput = wrapperCustomCompiler(compileOutput)
-    this.compileModule = wrapperCustomCompiler(compileModule)
-    this.compileInject = wrapperCustomCompiler(compileInject)
-    this.hooks = hooks
+    compileOutput && (this.compileOutput = wrapperCustomCompiler(compileOutput))
+    compileModule && (this.compileModule = wrapperCustomCompiler(compileModule))
+    compileInject && (this.compileInject = wrapperCustomCompiler(compileInject))
+    hooks && (this.hooks = hooks)
     this.isSSRCompile = ssr
     this.presetType = presetType
   },

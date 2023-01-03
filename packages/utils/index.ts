@@ -1,6 +1,7 @@
 import { strFromU8, strToU8, unzlibSync, zlibSync } from 'fflate'
 import evtBus from './event-bus'
-import type { fileStore } from '../store/file'
+import type { File, fileStore } from '../store/file'
+
 import type { IHooks, importItem } from '../play.config'
 // 防抖 没啥好说的
 export function debounce(fn: Function, n = 100) {
@@ -121,10 +122,56 @@ export function wrapperCustomCompiler(compileFunc: Function) {
     }
 }
 
-export function runHooks(hooks: IHooks, name: string, ...arg: Array<any>) {
-  const hookFunc = hooks[name as keyof typeof hooks]
+export function runHooks(
+  hooks: IHooks,
+  name: keyof typeof hooks,
+  iframeElm: HTMLIFrameElement): void
+
+export function runHooks(
+  hooks: IHooks,
+  name: keyof typeof hooks,
+  evalFn: ((script: string | string[]) => Promise<unknown>) | null): void
+
+export function runHooks(
+  hooks: IHooks,
+  name: keyof typeof hooks,
+  fileST: typeof fileStore,
+  isSSR: boolean): void
+
+export function runHooks(
+  hooks: IHooks,
+  name: keyof typeof hooks,
+  fileST: typeof fileStore,
+  isSSR: boolean,
+  modules: Array<string>): void
+
+export function runHooks(
+  hooks: IHooks,
+  name: keyof typeof hooks,
+  fileST: typeof fileStore,
+  file: File,
+  injectRes: Array<string> | string): void
+
+export function runHooks(
+  hooks: IHooks,
+  name: keyof typeof hooks,
+  fileST: typeof fileStore,
+  file: File,
+  compiler: Record<string, any>): void
+
+export function runHooks(
+  hooks: IHooks,
+  name: keyof typeof hooks,
+  ctx: ((script: string | string[]) => Promise<unknown>) | null | typeof fileStore | HTMLIFrameElement,
+  isSSRAndFile?: File | boolean,
+  modulesAndInject?: Array<string> | string | Record<string, any>,
+) {
+  const hookFunc = hooks[name as keyof typeof hooks] as (
+    ctx: ((script: string | string[]) => Promise<unknown>) | null | typeof fileStore | HTMLIFrameElement,
+    isSSRAndFile?: File | boolean,
+    modulesAndInject?: Array<string> | string | Record<string, any>) => void
   if (typeof hookFunc === 'function')
-    hooks[name as keyof typeof hooks]!(...arg)
+    hookFunc(ctx, isSSRAndFile, modulesAndInject)
 }
 
 export function sendException(msg: string, type: 'error' | 'warning') {

@@ -5,7 +5,7 @@ import { transformVue } from './transform-vue'
 import type { IDepsList } from '../store/deps'
 import type { presetTypes } from '../play.config'
 
-export async function injectSSRServer(fileST: typeof fileStore, isSSR: boolean) {
+export async function injectSSRServer(fileST: typeof fileStore, isSSR = false) {
   try {
     runHooks(
       fileST.hooks,
@@ -49,7 +49,7 @@ export async function injectSSRServer(fileST: typeof fileStore, isSSR: boolean) 
   }
 }
 
-export async function injectClient(fileST: typeof fileStore, isSSR?: boolean) {
+export async function injectClient(fileST: typeof fileStore, isSSR = false) {
   try {
     runHooks(
       fileST.hooks,

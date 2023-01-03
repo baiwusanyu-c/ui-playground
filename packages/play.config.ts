@@ -46,14 +46,41 @@ export declare interface importItem {
   key?: string
 }
 export declare interface IHooks {
-  beforeCompileOutput?: Function
-  compiledOutput?: Function
-  beforeCompileModule?: Function
-  compiledModule?: Function
-  beforeCreateInject?: Function
-  createdInject?: Function
-  sandBoxMounted?: Function
-  eval?: Function
+  beforeCompileOutput?: (
+    fileST: typeof fileStore,
+    file: File,
+    compiler: Record<string, any>
+  ) => void
+  compiledOutput?: (
+    fileST: typeof fileStore,
+    file: File,
+    compiler: Record<string, any>
+  ) => void
+  beforeCompileModule?: (
+    fileST: typeof fileStore,
+    isSSR: boolean
+  ) => void
+  compiledModule?: (
+    fileST: typeof fileStore,
+    isSSR: boolean,
+    modules: Array<string>
+  ) => void
+  beforeCreateInject?: (
+    fileST: typeof fileStore,
+    isSSR: boolean,
+    modules: Array<string>
+  ) => void
+  createdInject?: (
+    fileST: typeof fileStore,
+    file: File,
+    injectRes: Array<string> | string
+  ) => void
+  sandBoxMounted?: (
+    iframeElm: HTMLIFrameElement
+  ) => void
+  eval?: (
+    evalFn: ((script: string | string[]) => Promise<unknown>) | null
+  ) => void
 }
 
 export declare interface IMainFile {
