@@ -7,7 +7,8 @@
   "scripts": {
     "init": "pnpm install",
     "dev": "pnpm run --filter @ui-playground/play dev",
-    "build": "pnpm run --filter ui-playground build",
+    "build": "pnpm run build:types && pnpm run --filter ui-playground build",
+    "build:types": "tsc -b ./tsconfig.packages.json",
     "docs:dev": "pnpm run --filter @ui-playground/docs dev",
     "docs:build": "pnpm run --filter @ui-playground/docs build",
     "docs:previwe": "pnpm run --filter @ui-playground/docs previwe",

@@ -16,6 +16,10 @@ export default defineConfig({
           src: './package.json',
           dest: '../dist',
         },
+        {
+          src: './type/types',
+          dest: '../dist/types',
+        },
       ],
     }),
   ],
