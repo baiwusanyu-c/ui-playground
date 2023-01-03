@@ -3,9 +3,22 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import Unocss from '@unocss/vite'
 import { visualizer } from 'rollup-plugin-visualizer'
+import { viteStaticCopy } from 'vite-plugin-static-copy'
 const pkgPath = resolve(__dirname, 'index.ts')
 export default defineConfig({
-  plugins: [react(), Unocss(), visualizer()],
+  plugins: [
+    react(),
+    Unocss(),
+    visualizer(),
+    viteStaticCopy({
+      targets: [
+        {
+          src: './package.json',
+          dest: '../dist',
+        },
+      ],
+    }),
+  ],
   server: {
     host: true,
   },
@@ -22,6 +35,7 @@ export default defineConfig({
   },
   build: {
     target: 'esnext',
+    outDir: '../dist',
     lib: {
       // Could also be a dictionary or array of multiple entry points
       entry: pkgPath,
