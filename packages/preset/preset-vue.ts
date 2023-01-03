@@ -67,7 +67,8 @@ export const presetVueConfig: ICompileConfig = {
     return compileModulesForPreview(fileST, isSSR)
   },
   // Inject 的编译方法
-  compileInject: (fileST: typeof fileStore,
+  compileInject: (
+    fileST: typeof fileStore,
     isSSR = false,
     isClient: boolean,
     modules: Array<string>) => {
