@@ -22,13 +22,13 @@
 
 
 .wrap {
-  position: absolute;
+  position: fixed;
   z-index: -1;
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100%;
- background:
+  height: 100vh;
+  background:
          conic-gradient(
                          from -45deg at var(--xPoint) var(--yPoint),
                          hsl(0deg 100% 70%),
