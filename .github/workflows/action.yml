@@ -27,14 +27,15 @@ jobs:
 
       - name: Install
         run: pnpm install --no-frozen-lockfile
-
-      - name: Build Docs
-        run: cd docs && pnpm build
-
-      - name: Deploy to netlify
-        uses: netlify/actions/cli@master
+        
+      - name: Build docs
+        run: cd docs && pnpm run build
+        
+      - name: Netlify Deploy
+        uses: nwtgck/actions-netlify@v2.0.0
         env:
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         with:
-          args: deploy --dir=docs/src/.island/dist
+           production-branch: master
+           publish-dir: "docs/src/.island/dist"
