@@ -25,11 +25,8 @@ jobs:
           node-version: 18
           cache: pnpm
 
-      - name: Setup
-        run: pnpm i -g @antfu/ni
-
       - name: Install
-        run: nci --no-frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Build Docs
         run: cd docs && pnpm build
