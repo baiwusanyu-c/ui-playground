@@ -1,4 +1,4 @@
-name: Deploy to netlify
+name: 🪷 Deploy docs
 
 on:
   push:
@@ -31,7 +31,7 @@ jobs:
       - name: Build docs
         run: cd docs && pnpm run build
         
-      - name: Netlify Deploy
+      - name: Deploy docs to netlify
         uses: nwtgck/actions-netlify@v2.0.0
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
