@@ -30,7 +30,18 @@ jobs:
 
       - name: Build Docs
         run: cd docs && pnpm build
-
+        
+      - name: Setup
+        run: pnpm install netlify-cli -g
+        
+      - name: Login to netlify
+        run: netlify login
+        
+      - name: Login....
+        run: NETLIFY_AUTH_TOKEN
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        
       - name: Deploy to netlify
         uses: netlify/actions/cli@master
         env:
