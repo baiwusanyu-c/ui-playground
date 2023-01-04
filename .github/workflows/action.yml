@@ -27,12 +27,6 @@ jobs:
 
       - name: Install
         run: pnpm install --no-frozen-lockfile
-
-      - name: Build Docs
-        run: cd docs && pnpm build
-        
-      - name: Setup
-        run: pnpm install netlify-cli -g
         
       - name: Netlify Deploy
         uses: jsmrcaga/action-netlify-deploy@v1.8.2
@@ -45,3 +39,4 @@ jobs:
            NETLIFY_DEPLOY_TO_PROD: true
            # Directory where built files are stored
            build_directory: "docs/src/.island/dist"
+           build_command: pnpm run build:docs
