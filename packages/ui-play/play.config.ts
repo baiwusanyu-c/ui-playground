@@ -1,5 +1,4 @@
-// @ts-expect-error 加载图片
-import logo from './assets/img/logo.png'
+
 import {
   homePage,
   jsdelivrLink,
@@ -148,7 +147,7 @@ export const defaultConfig: playConfig = {
   headerOption: {
     title: 'UI',
     subTitle: 'playground',
-    logo,
+    logo: '',
     homePage,
     useVersion: true,
     uiVersionLink,

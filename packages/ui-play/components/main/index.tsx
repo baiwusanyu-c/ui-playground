@@ -1,4 +1,4 @@
-import '../../assets/main.scss'
+
 import { Layout } from '../layout'
 import Editor from '../editor'
 import Output from '../output'

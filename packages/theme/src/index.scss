@@ -1,0 +1,15 @@
+@import "main";
+@import "codemirror";
+@import "editor";
+@import "filer-selector";
+@import "header";
+@import "layout";
+@import "output";
+@import "preview";
+.play-ground{
+    width: 100vw;
+    height: 100vh;
+}
+body{
+    padding: 0;
+}
