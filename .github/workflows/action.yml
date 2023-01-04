@@ -29,7 +29,7 @@ jobs:
         run: pnpm i -g @antfu/ni
 
       - name: Install
-        run: nci
+        run: nci --no-frozen-lockfile
 
       - name: Build Docs
         run: cd docs && pnpm build
