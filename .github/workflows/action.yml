@@ -28,15 +28,14 @@ jobs:
       - name: Install
         run: pnpm install --no-frozen-lockfile
         
+      - name: Build docs
+        run: cd docs && pnpm run build
+        
       - name: Netlify Deploy
-        uses: jsmrcaga/action-netlify-deploy@v1.8.2
+        uses: nwtgck/actions-netlify@v2.0.0
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         with:
-           # Auth token to use with netlify
-           NETLIFY_AUTH_TOKEN: ${{secrets.NETLIFY_AUTH_TOKEN }}
-           # Your Netlify site id
-           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-           # Should the site be deployed to production?
-           NETLIFY_DEPLOY_TO_PROD: true
-           # Directory where built files are stored
-           build_directory: "docs/src/.island/dist"
-           build_command: cd docs && pnpm run build
+           production-branch: master
+           publish-dir: "docs/src/.island/dist"
