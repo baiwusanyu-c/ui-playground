@@ -34,8 +34,14 @@ jobs:
       - name: Setup
         run: pnpm install netlify-cli -g
         
-      - name: Deploy to netlify
-        env:
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        run: netlify deploy --prod --dir=docs/src/.island/dist
+      - name: Netlify Deploy
+        uses: jsmrcaga/action-netlify-deploy@v1.8.2
+        with:
+           # Auth token to use with netlify
+           NETLIFY_AUTH_TOKEN: NETLIFY_SITE_ID
+           # Your Netlify site id
+           NETLIFY_SITE_ID: NETLIFY_SITE_ID 
+           # Should the site be deployed to production?
+           NETLIFY_DEPLOY_TO_PROD: prod
+           # Directory where built files are stored
+           build_directory: --dir=docs/src/.island/dist
