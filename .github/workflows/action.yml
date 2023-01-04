@@ -34,15 +34,8 @@ jobs:
       - name: Setup
         run: pnpm install netlify-cli -g
         
-      - name: Login to netlify
-        run: netlify login NETLIFY_AUTH_TOKEN
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        
       - name: Deploy to netlify
-        uses: netlify/actions/cli@master
         env:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        with:
-          args: deploy --dir=docs/src/.island/dist
+        run: netlify deploy --prod
