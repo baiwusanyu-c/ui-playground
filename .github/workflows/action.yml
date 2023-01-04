@@ -39,4 +39,4 @@ jobs:
            NETLIFY_DEPLOY_TO_PROD: true
            # Directory where built files are stored
            build_directory: "docs/src/.island/dist"
-           build_command: pnpm run build:docs
+           build_command: cd docs && pnpm run build
