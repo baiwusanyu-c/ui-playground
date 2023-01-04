@@ -44,4 +44,4 @@ jobs:
            # Should the site be deployed to production?
            NETLIFY_DEPLOY_TO_PROD: true
            # Directory where built files are stored
-           build_directory: '--dir=docs/src/.island/dist'
+           build_directory: "docs/src/.island/dist"
