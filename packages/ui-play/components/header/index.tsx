@@ -1,4 +1,4 @@
-import '../../assets/header.scss'
+
 import PropTypes from 'prop-types'
 import { Select } from 'antd'
 import { useEffect, useState } from 'react'

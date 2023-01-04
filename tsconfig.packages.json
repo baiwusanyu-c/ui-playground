@@ -17,9 +17,9 @@
     "skipLibCheck": true
   },
   "include": [
-    "packages/index.ts",
+    "packages/ui-play/index.ts",
     "packages/**/*.d.ts",
-    "packages/**/*.tsx",
+    "packages/**/*.tsx"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

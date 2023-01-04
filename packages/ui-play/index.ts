@@ -1,5 +1,5 @@
 export * from './components'
-export * from './preset/index'
+export * from './preset'
 export * from './play.config'
 export {
   utoa,
@@ -8,4 +8,4 @@ export {
   serialize,
   extend,
   checkFileType,
-} from './utils/index'
+} from './utils'

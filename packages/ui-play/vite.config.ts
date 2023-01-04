@@ -14,7 +14,7 @@ export default defineConfig({
       targets: [
         {
           src: './package.json',
-          dest: '../dist',
+          dest: '../',
         },
         {
           src: './type/types',
@@ -40,13 +40,11 @@ export default defineConfig({
   },
   build: {
     target: 'esnext',
-    outDir: '../dist',
+    outDir: '../../dist/src',
     lib: {
-      // Could also be a dictionary or array of multiple entry points
       entry: pkgPath,
-      name: 'ui-playground',
-      // the proper extensions will be added
-      fileName: 'ui-playground',
+      name: 'index',
+      fileName: 'index',
     },
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖
