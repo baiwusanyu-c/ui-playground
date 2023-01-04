@@ -35,10 +35,7 @@ jobs:
         run: pnpm install netlify-cli -g
         
       - name: Login to netlify
-        run: netlify login
-        
-      - name: Login....
-        run: NETLIFY_AUTH_TOKEN
+        run: netlify login NETLIFY_AUTH_TOKEN
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         
