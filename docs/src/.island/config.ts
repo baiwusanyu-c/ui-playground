@@ -57,7 +57,7 @@ function getNavbar(lang: 'zh' | 'en') {
   return [
     {
       text: getText('指南', 'Guide'),
-      link: getLink('/guide/getting-started'),
+      link: getLink('/guide/install'),
       activeMatch: '/guide/'
     },
     {
@@ -91,7 +91,7 @@ function getSidebar(lang: 'zh' | 'en'): DefaultTheme.Sidebar {
           },
           {
             text: getText('使用教程', 'Tutorial'),
-            link: getLink('/guide/getting-started')
+            link: getLink('/guide/usage')
           }
         ]
       },
