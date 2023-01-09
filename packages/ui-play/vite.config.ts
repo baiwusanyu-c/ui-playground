@@ -2,26 +2,50 @@ import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import Unocss from '@unocss/vite'
-import { visualizer } from 'rollup-plugin-visualizer'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
-const pkgPath = resolve(__dirname, 'index.ts')
+import fs from 'fs-extra'
+import type { PluginOption } from 'vite'
+const indexPath = resolve(__dirname, 'index.ts')
+const transformPkgJson = () => {
+  let isTransform = false
+  return {
+    name: 'ui-playgroun-plugin',
+    async writeBundle() {
+      if(!isTransform){
+        const indexPath = resolve(__dirname, 'package.json')
+        const pkgContent = await fs.readJson(indexPath)
+        pkgContent.main = "./src/index.js"
+        pkgContent.module = "./src/index.js"
+        pkgContent.types = "./types/packages/index.d.ts"
+        pkgContent.style = "./theme/style.css"
+        pkgContent.exports = {
+          ".": {
+            "type": "./types/packages/index.d.ts",
+            "import": "./src/index.js",
+            "require": "./src/index.umd.cjs"
+          },
+          "./theme/style.css": "./theme/style.css"
+        }
+
+        await fs.writeJSON(resolve('../../dist/package.json'), pkgContent, { spaces: 2 })
+        isTransform = true
+      }
+    },
+  }
+}
 export default defineConfig({
   plugins: [
     react(),
     Unocss(),
-    visualizer(),
     viteStaticCopy({
       targets: [
-        {
-          src: './package.json',
-          dest: '../',
-        },
         {
           src: './type/types',
           dest: '../dist/types',
         },
       ],
     }),
+    transformPkgJson() as PluginOption,
   ],
   server: {
     host: true,
@@ -42,7 +66,7 @@ export default defineConfig({
     target: 'esnext',
     outDir: '../../dist/src',
     lib: {
-      entry: pkgPath,
+      entry: indexPath,
       name: 'index',
       fileName: 'index',
     },
