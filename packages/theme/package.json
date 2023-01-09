@@ -23,7 +23,7 @@
     "url": "https://github.com/baiwusanyu-c/ui-playground/issues"
   },
   "homepage": "https://ui-playground.netlify.app/zh/",
-  "main": "index.css",
+  "main": "src/index.scss",
   "unpkg": "index.css",
   "jsdelivr": "index.css",
   "style": "index.css",

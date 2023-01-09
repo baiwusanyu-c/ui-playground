@@ -27,6 +27,6 @@ jobs:
 
       - name: Install
         run: pnpm install --no-frozen-lockfile
-        
+
       - name: lint fix
         run: npm run lint:fix

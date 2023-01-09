@@ -100,7 +100,7 @@ function getSidebar(lang: 'zh' | 'en'): DefaultTheme.Sidebar {
         items: [
           {
             text: getText('Vue 预设', 'Vue Preset'),
-            link: getLink('/guide/getting-started')
+            link: getLink('/guide/preset-vue')
           }
         ]
       },

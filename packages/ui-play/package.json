@@ -23,24 +23,13 @@
     "url": "https://github.com/baiwusanyu-c/ui-playground/issues"
   },
   "homepage": "https://ui-playground.netlify.app/zh/",
-  "main": "./src/index.js",
-  "module": "./src/index.js",
-  "types": "./types/packages/index.d.ts",
-  "style": "./theme/style.css",
+  "main": "index.ts",
   "files": [
     "theme"
   ],
   "sideEffects": [
     "theme/*"
   ],
-  "exports": {
-    ".": {
-      "type": "./types/packages/index.d.ts",
-      "import": "./src/index.js",
-      "require": "./src/index.umd.cjs"
-    },
-    "./theme/style.css": "./theme/style.css"
-  },
   "peerDependencies": {
     "@iconify-json/carbon": "^1.1.9",
     "@iconify-json/fluent-emoji": "^1.1.3",
@@ -54,6 +43,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.8.0",
     "@types/hash-sum": "^1.0.0",
+    "@types/fs-extra": "^9.0.13",
     "ahooks": "^3.7.2",
     "antd": "^5.0.2",
     "compare-versions": "^4.1.3",
@@ -71,7 +61,6 @@
     "hash-sum": "^2.0.0",
     "unocss": "^0.47.5",
     "vite": "^3.2.3",
-    "rollup-plugin-visualizer": "5.9.0",
     "vite-plugin-static-copy": "^0.13.0"
   },
   "browserslist": [

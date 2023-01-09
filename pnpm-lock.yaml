@@ -78,6 +78,7 @@ importers:
       '@iconify/utils': ^2.0.2
       '@types/codemirror': ^5.60.2
       '@types/file-saver': ^2.0.5
+      '@types/fs-extra': ^9.0.13
       '@types/hash-sum': ^1.0.0
       '@unocss/vite': ^0.48.0
       ahooks: ^3.7.2
@@ -103,6 +104,7 @@ importers:
       '@iconify-json/fluent-emoji': 1.1.7
       '@iconify-json/logos': 1.1.19
       '@iconify/utils': 2.0.2
+      '@types/fs-extra': 9.0.13
       '@types/hash-sum': 1.0.0
       ahooks: 3.7.2_react@18.2.0
       antd: 5.0.2_biqbaboplfbrettd7655fr4n2y
@@ -1521,6 +1523,12 @@ packages:
     resolution: {integrity: sha512-zv9kNf3keYegP5oThGLaPk8E081DFDuwfqjtiTzm6PoxChdJ1raSuADf2YGCVIyrSynLrgc8JWv296s7Q7pQSQ==}
     dev: true
 
+  /@types/fs-extra/9.0.13:
+    resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
+    dependencies:
+      '@types/node': 18.11.9
+    dev: false
+
   /@types/hash-sum/1.0.0:
     resolution: {integrity: sha512-FdLBT93h3kcZ586Aee66HPCVJ6qvxVjBlDWNmxSGSbCZe9hTsjRKdSsl4y1T+3zfujxo9auykQMnFsfyHWD7wg==}
     dev: false
@@ -1575,7 +1583,6 @@ packages:
 
   /@types/node/18.11.9:
     resolution: {integrity: sha512-CRpX21/kGdzjOpFsZSkcrXMGIBWMGNIHXXBVFSH+ggkftxg+XYP20TESbh+zFvFj3EQOl5byk0HTRn1IL6hbqg==}
-    dev: true
 
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
