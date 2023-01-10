@@ -27,9 +27,8 @@ export const demoOnu = () => {
   },
   {
     name: 'onu-ui/css',
-    pkgName: 'onu-ui/css',
+    pkgName: 'onu-ui',
     indexPath: '/dist/style.css',
-    cdnLink: 'https://cdn.skypack.dev/onu-ui@latest/dist/style.css',
     type: 'css',
   },
   )

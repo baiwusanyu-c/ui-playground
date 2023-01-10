@@ -1,7 +1,7 @@
 # Example Element Plus
 ![](../../public/ep.png)
-## 1.新建一个 React 项目
-使用 vite 新建一个 React 项目
+## 1. 新建一个 React 项目
+使用 `vite` 新建一个 `React` 项目
 
 ```shell
 pnpm create vite
@@ -20,7 +20,7 @@ Done. Now run:
   pnpm install
   pnpm run dev
 ```
-## 2.导入样式
+## 2. 导入样式
 安装好 `ui-playground` 后，在入口文件导入样式。
 
 ```typescript jsx
@@ -34,21 +34,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 )
 ```
 
-## 2.导入样式
-安装好 `ui-playground` 后，在入口文件导入样式。
-
-```typescript jsx
-// demo-ep/src/main.tsx
-import ReactDOM from 'react-dom/client'
-import App from './views/App'
-import '@ui-playground/theme/index'
-import '@ui-playground/theme'
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <App />,
-)
-```
-
-## 3.编写入口文件与配置脚本
+## 3. 编写入口文件与配置脚本
 编写入口文件 `App.vue`
 
 ```html
@@ -118,7 +104,7 @@ export const demoEp = () => {
 }
 ```
 
-## 在组件中使用
+## 4. 在组件中使用
 你可以在组件( `e.g. App.tsx` )中直接导入组件 `<PlayGround/>` ,并传入配置，最终生成
 `playground`
 
