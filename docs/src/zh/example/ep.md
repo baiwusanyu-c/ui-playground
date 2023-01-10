@@ -1,5 +1,8 @@
-# Example Element Plus
+# 示例 Element Plus
+[源码链接](https://github.com/baiwusanyu-c/ui-playground/tree/master/demo/demo-ep)
+
 ![](../../public/ep.png)
+
 ## 1. 新建一个 React 项目
 使用 `vite` 新建一个 `React` 项目
 

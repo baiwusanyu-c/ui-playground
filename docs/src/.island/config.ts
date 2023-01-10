@@ -122,15 +122,15 @@ function getSidebar(lang: 'zh' | 'en'): DefaultTheme.Sidebar {
         items: [
           {
             text: getText('自定义编译方法', 'Custom Compilation'),
-            link: getLink('/guide/getting-started')
+            link: getLink('/guide/custom-compile')
           },
           {
             text: getText('运行时钩子', 'Runtime Hook'),
-            link: getLink('/guide/getting-started')
+            link: getLink('/guide/runtime-hook')
           },
           {
             text: getText('CDN 配置', 'CDN Settings'),
-            link: getLink('/guide/getting-started')
+            link: getLink('/guide/cdn-settings')
           },
         ]
       }

@@ -4,12 +4,12 @@
 ```shell
 npm install ui-playground -D
 ```
-OR
+或
 
 ```shell
 pnpm add ui-playground -D
 ```
-OR
+或
 
 ```shell
 yarn add ui-playground -D
