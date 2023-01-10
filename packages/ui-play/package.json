@@ -61,7 +61,8 @@
     "hash-sum": "^2.0.0",
     "unocss": "^0.47.5",
     "vite": "^3.2.3",
-    "vite-plugin-static-copy": "^0.13.0"
+    "vite-plugin-static-copy": "^0.13.0",
+    "fs-extra": "^10.0.1"
   },
   "browserslist": [
     "> 1%",

@@ -11,20 +11,21 @@ const transformPkgJson = () => {
   return {
     name: 'ui-playgroun-plugin',
     async writeBundle() {
-      if(!isTransform){
+      if (!isTransform) {
         const indexPath = resolve(__dirname, 'package.json')
         const pkgContent = await fs.readJson(indexPath)
-        pkgContent.main = "./src/index.js"
-        pkgContent.module = "./src/index.js"
-        pkgContent.types = "./types/packages/index.d.ts"
-        pkgContent.style = "./theme/style.css"
+        pkgContent.main = './src/index.js'
+        pkgContent.module = './src/index.js'
+        pkgContent.types = './types/packages/ui-play/index.d.ts'
+        pkgContent.style = './theme/index.css'
         pkgContent.exports = {
-          ".": {
-            "type": "./types/packages/index.d.ts",
-            "import": "./src/index.js",
-            "require": "./src/index.umd.cjs"
+          '.': {
+            type: './types/packages/ui-play/index.d.ts',
+            import: './src/index.js',
+            require: './src/index.umd.cjs',
           },
-          "./theme/style.css": "./theme/style.css"
+          './theme/style': './theme/index.css',
+          './theme': './theme/theme.css',
         }
 
         await fs.writeJSON(resolve('../../dist/package.json'), pkgContent, { spaces: 2 })
