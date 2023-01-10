@@ -91,8 +91,10 @@ export const PlayHeader = (props: IHeaderProps) => {
   function setDarkClass(isInit?: boolean, dark?: boolean) {
     if (isInit) {
       const cache = getStorage('dark')
-      if (!(!cache && cache !== false && cache !== 'false'))
+      if (!(!cache && cache !== false && cache !== 'false')) {
+        setStorage('dark', (props.config.dark!).toString())
         setDark(cache)
+      }
     } else {
       setStorage('dark', (dark!).toString())
       setDark(dark!)
