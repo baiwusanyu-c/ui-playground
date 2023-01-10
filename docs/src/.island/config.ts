@@ -67,7 +67,7 @@ function getNavbar(lang: 'zh' | 'en') {
     },
     {
       text: getText('示例', 'Example'),
-      link: getLink('/example/'),
+      link: getLink('/example/ep'),
       activeMatch: '/Example/'
     },
     {
