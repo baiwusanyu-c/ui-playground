@@ -1,6 +1,6 @@
-# Custom Theme Colors
+# 自定义主题变量
 
-`ui-playgroun` 也只支持在一定程度上对主题颜色进行定制，它主要是通过 `CSS` 变量来实现的
+`ui-playground` 也只支持在一定程度上对主题颜色进行定制，它主要是通过 `CSS` 变量来实现的
 ## light
 支持的`CSS` 变量如下：
 ```scss

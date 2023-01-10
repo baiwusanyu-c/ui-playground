@@ -25,11 +25,11 @@ export function HomeLayout (){
     <img src='/logo.png' />
     <h1 className="proj-title">ui-playground</h1>
     <p className="proj-descr">{pageInfo.descr}</p>
-    <div className="intor-container">
-      <button className="intor-items start">
-        <a href='/zh/guide/getting-started'>🚀 {pageInfo.start}</a>
+    <div className="intro-container">
+      <button className="intro-items start">
+        <a href='/zh/guide/usage'>🚀 {pageInfo.start}</a>
         </button>
-      <button className="intor-items install">
+      <button className="intro-items install">
         <a href='/zh/guide/install'>✨ {pageInfo.install}</a>
       </button>
     </div>

@@ -1,5 +1,8 @@
-# Example Onu UI
+# 示例 Onu UI
+[源码链接](https://github.com/baiwusanyu-c/ui-playground/tree/master/demo/demo-onu)
+
 ![](../../public/onu.png)
+
 ## 1. 新建一个 React 项目
 使用 vite 新建一个 React 项目
 

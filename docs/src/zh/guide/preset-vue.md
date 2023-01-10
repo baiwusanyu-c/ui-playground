@@ -1,6 +1,6 @@
-# Built-In Preset Vue
+# 内置的 Vue 预设
 
-`ui-playgroun` 内置了对 [`vue`](https://cn.vuejs.org/)的支持，开发者可以调用预设，快速构建基于 `vue` 的组件库 `playground`.
+`ui-playground` 内置了对 [`vue`](https://cn.vuejs.org/)的支持，开发者可以调用预设，快速构建基于 `vue` 的组件库 `playground`.
 
 ```javascript
 import { getPlayPreset } from 'ui-playground'

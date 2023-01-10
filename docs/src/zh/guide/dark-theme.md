@@ -1,6 +1,6 @@
-# Built-In Dark Theme
+# 内置的黑暗主题
 
-`ui-playgroun` 内置了黑暗主题，你可以通过配置选项，设置默认展示的主题风格。
+`ui-playground` 内置了黑暗主题，你可以通过配置选项，设置默认展示的主题风格。
 
 在项目的入口文件导入样式文件。
 ```javascript
