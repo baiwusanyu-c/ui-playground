@@ -1,12 +1,11 @@
 
 import '../assets/scss/App.css'
 import { PlayGround } from 'ui-playground'
-import { demoEp } from '../../../docs/demo/element-plus/demo-ep'
-const playConfig = demoEp()
-playConfig.useUno = false
+import { demoArco } from '../../../docs/demo/arco-design-vue/demo-arco'
+const playConfig = demoArco()
 playConfig.isSSR = false
-playConfig.headerOption.dark = true
-console.log(playConfig)
+playConfig.useUno = false
+
 const App = () => {
   return (
     <div className="App">

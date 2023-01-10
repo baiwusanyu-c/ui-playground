@@ -8,15 +8,15 @@ pnpm create vite
 ```
 
 ```shell
-√ Project name: ... demo-ep
+√ Project name: ... demo-onu
 √ Select a framework: » React
 √ Select a variant: » TypeScript
 
-Scaffolding project in C:\Users\baiwusanyu\ep\demo-ep...
+Scaffolding project in C:\Users\baiwusanyu\ep\demo-onu...
 
 Done. Now run:
 
-  cd demo-ep
+  cd demo-onu
   pnpm install
   pnpm run dev
 ```
@@ -24,7 +24,7 @@ Done. Now run:
 安装好 `ui-playground` 后，在入口文件导入样式。
 
 ```typescript jsx
-// demo-ep/src/main.tsx
+
 import ReactDOM from 'react-dom/client'
 import App from './views/App'
 import '@ui-playground/theme/index'
@@ -114,7 +114,6 @@ export const demoOnu = () => {
 钩子函数 `hooks.sandBoxMounted`, 在元素生成后，使用 unocss 进行样式解析，
 再将结果注入到`ui-playground` 的沙盒 `iframe`。
 ( See: [compilerUNOCSS](TODO), [evaluateUserConfig](TODO) )
-
 :::
 
 ## 4. 在组件中使用

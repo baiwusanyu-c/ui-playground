@@ -24,7 +24,7 @@ Done. Now run:
 安装好 `ui-playground` 后，在入口文件导入样式。
 
 ```typescript jsx
-// demo-ep/src/main.tsx
+
 import ReactDOM from 'react-dom/client'
 import App from './views/App'
 import '@ui-playground/theme/index'
