@@ -1,8 +1,8 @@
 import ReactDOM from 'react-dom/client'
 import App from './views/App'
 import './assets/scss/index.css'
-import 'ui-play/theme/style'
-import 'ui-play/theme'
+import '@ui-playground/theme/src/index.scss'
+import '@ui-playground/theme/src/theme.scss'
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <App />,
 )
