@@ -1,6 +1,6 @@
 
 import '../assets/scss/App.css'
-import { PlayGround } from 'ui-playground'
+import { PlayGround } from 'ui-play'
 import { demoEp } from '../../../docs/demo/element-plus/demo-ep'
 const playConfig = demoEp()
 playConfig.useUno = false
