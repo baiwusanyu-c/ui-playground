@@ -1,5 +1,5 @@
 import { getPlayPreset } from 'ui-playground'
-import { compilerUNOCSS } from '../../../play/compiler-inject-unocss'
+import { compilerUNOCSS } from './compiler-inject-unocss'
 // @ts-expect-error 加载demo模板
 import demoEpMain from './demo-onu-main.vue?raw'
 

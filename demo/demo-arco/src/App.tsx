@@ -1,11 +1,8 @@
-
-import '../assets/scss/App.css'
 import { PlayGround } from 'ui-playground'
-import { demoArco } from '../arco-design-vue/demo-arco'
+import { demoArco } from './arco-design-vue/demo-arco'
 const playConfig = demoArco()
-playConfig.isSSR = false
 playConfig.useUno = false
-
+playConfig.isSSR = false
 const App = () => {
   return (
     <div className="App">
@@ -13,5 +10,4 @@ const App = () => {
     </div>
   )
 }
-
 export default App

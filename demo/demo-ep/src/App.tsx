@@ -1,8 +1,6 @@
-
-import '../assets/scss/App.css'
 import { PlayGround } from 'ui-playground'
-import { demoArco } from '../arco-design-vue/demo-arco'
-const playConfig = demoArco()
+import { demoEp } from './element-plus/demo-ep'
+const playConfig = demoEp()
 playConfig.isSSR = false
 playConfig.useUno = false
 
