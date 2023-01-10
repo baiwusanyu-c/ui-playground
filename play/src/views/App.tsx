@@ -6,7 +6,6 @@ const playConfig = demoEp()
 playConfig.useUno = false
 playConfig.isSSR = false
 playConfig.headerOption.dark = true
-
 console.log(playConfig)
 const App = () => {
   return (
