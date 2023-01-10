@@ -1,7 +1,17 @@
 # Built-In Dark Theme
 
-`ui-playgroun` 内置了黑暗主题，你可以通过配置选项，设置默认展示的主题风格
+`ui-playgroun` 内置了黑暗主题，你可以通过配置选项，设置默认展示的主题风格。
 
+在项目的入口文件导入样式文件。
+```javascript
+// main.tsx
+/* ... */
+import '@ui-playground/theme/index'
+import '@ui-playground/theme'
+/* ... */
+```
+
+然后在 `config` 配置中设置黑暗主题默认展示。
 ```javascript
 import { getPlayPreset } from 'ui-playground'
 
