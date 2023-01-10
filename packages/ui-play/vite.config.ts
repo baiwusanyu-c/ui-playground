@@ -2,7 +2,6 @@ import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import Unocss from '@unocss/vite'
-import { viteStaticCopy } from 'vite-plugin-static-copy'
 import fs from 'fs-extra'
 import type { PluginOption } from 'vite'
 const indexPath = resolve(__dirname, 'index.ts')
@@ -38,14 +37,6 @@ export default defineConfig({
   plugins: [
     react(),
     Unocss(),
-    viteStaticCopy({
-      targets: [
-        {
-          src: './type/types',
-          dest: '../dist/types',
-        },
-      ],
-    }),
     transformPkgJson() as PluginOption,
   ],
   server: {

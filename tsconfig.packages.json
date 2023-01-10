@@ -20,6 +20,5 @@
     "packages/ui-play/index.ts",
     "packages/**/*.d.ts",
     "packages/**/*.tsx"
-  ],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  ]
 }

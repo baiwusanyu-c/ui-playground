@@ -1,15 +1,8 @@
 {
   "name": "@ui-playground/theme",
   "private": false,
-  "version": "1.0.1",
   "type": "module",
-  "scripts": {
-    "build": "vite build --emptyOutDir"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/baiwusanyu-c/ui-playground"
-  },
+  "version": "1.0.1",
   "keywords": [
     "react",
     "playground",
@@ -17,18 +10,25 @@
     "vue3",
     "components"
   ],
-  "author": "baiwusanyu-c (https://github.com/baiwusanyu-c)",
   "license": "MIT",
+  "author": "baiwusanyu-c (https://github.com/baiwusanyu-c)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/baiwusanyu-c/ui-playground"
+  },
+  "main": "src/index.scss",
+  "unpkg": "index.css",
+  "jsdelivr": "index.css",
+  "scripts": {
+    "build": "vite build --emptyOutDir"
+  },
   "bugs": {
     "url": "https://github.com/baiwusanyu-c/ui-playground/issues"
   },
   "homepage": "https://ui-playground.netlify.app/zh/",
-  "main": "src/index.scss",
-  "unpkg": "index.css",
-  "jsdelivr": "index.css",
   "style": "index.css",
   "devDependencies": {
-    "vite": "^3.2.3",
-    "sass": "^1.56.1"
+    "sass": "^1.56.1",
+    "vite": "^3.2.3"
   }
 }
