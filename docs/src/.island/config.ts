@@ -108,13 +108,13 @@ function getSidebar(lang: 'zh' | 'en'): DefaultTheme.Sidebar {
         text: getText('定制主题', 'Custom Theme'),
         items: [
           {
-            text: getText('定制主题颜色', 'Custom Theme Colors'),
-            link: getLink('/guide/getting-started')
+            text: getText('内置黑暗主题', 'Built-In Dark Theme'),
+            link: getLink('/guide/dark-theme')
           },
           {
-            text: getText('内置黑暗主题', 'Built-In Dark Theme'),
-            link: getLink('/guide/getting-started')
-          }
+            text: getText('定制主题颜色', 'Custom Theme Colors'),
+            link: getLink('/guide/custom-theme')
+          },
         ]
       },
       {
