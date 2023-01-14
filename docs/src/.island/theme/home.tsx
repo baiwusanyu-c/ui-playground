@@ -11,14 +11,14 @@ export function HomeLayout (){
     install: '安装使用',
   })
   useEffect(()=>{
-    if(pageData.routePath === '/en'){
+    if(pageData && pageData.routePath === '/en'){
       setPageInfo({
         descr: 'Playground components for component library developers',
         start: 'start',
         install: 'install',
       })
     }
-  },[pageData.routePath])
+  },[pageData])
 
   return (
   <div className='home'>
@@ -39,7 +39,7 @@ export function HomeLayout (){
     {/*  <div className="shadowRight"></div>*/}
       <div className="shadowBottom"></div>
     </div>
-    
+
   </div>
   );
 }
