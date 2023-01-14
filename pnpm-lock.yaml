@@ -122,7 +122,7 @@ importers:
       '@iconify-json/logos': 1.1.19
       '@types/react': 18.0.26
       '@types/react-dom': 18.0.9
-      onu-ui: 1.0.12-beta.2_vue@3.2.45
+      onu-ui: 1.0.12-beta.2
       unocss: 0.47.5_vite@3.2.4
       vite: 3.2.4
 
@@ -168,9 +168,11 @@ importers:
       sucrase: ^3.29.0
       unocss: ^0.47.5
       vite: ^3.2.3
-      vite-plugin-static-copy: ^0.13.0
     dependencies:
       '@ant-design/icons': 4.8.0_biqbaboplfbrettd7655fr4n2y
+      '@iconify-json/carbon': 1.1.11
+      '@iconify-json/fluent-emoji': 1.1.7
+      '@iconify-json/logos': 1.1.19
       '@iconify/utils': 2.0.2
       '@types/fs-extra': 9.0.13
       '@types/hash-sum': 1.0.0
@@ -180,13 +182,11 @@ importers:
       file-saver: 2.0.5
       jszip: 3.10.1
       ohmyfetch: 0.4.21
+      prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       sucrase: 3.29.0
     devDependencies:
-      '@iconify-json/carbon': 1.1.11
-      '@iconify-json/fluent-emoji': 1.1.7
-      '@iconify-json/logos': 1.1.19
       '@types/codemirror': 5.60.5
       '@types/file-saver': 2.0.5
       '@unocss/vite': 0.48.0_vite@3.2.4
@@ -194,10 +194,8 @@ importers:
       fflate: 0.7.4
       fs-extra: 10.1.0
       hash-sum: 2.0.0
-      prop-types: 15.8.1
       unocss: 0.47.5_vite@3.2.4
       vite: 3.2.4
-      vite-plugin-static-copy: 0.13.0_vite@3.2.4
 
   play:
     specifiers:
@@ -220,7 +218,7 @@ importers:
       '@iconify-json/logos': 1.1.19
       '@types/react': 18.0.25
       '@types/react-dom': 18.0.9
-      onu-ui: 1.0.12-beta.2
+      onu-ui: 1.0.12-beta.2_vue@3.2.45
       unocss: 0.47.5_vite@3.2.4
       vite: 3.2.4
 
@@ -988,7 +986,7 @@ packages:
       '@types/node': 18.11.9
       chalk: 4.1.2
       cosmiconfig: 7.1.0
-      cosmiconfig-typescript-loader: 2.0.2_wup25etrarvlqkprac7h35hj7u
+      cosmiconfig-typescript-loader: 2.0.2_ogbribeapbbe3nxte2wne3vl54
       lodash: 4.17.21
       resolve-from: 5.0.0
       typescript: 4.9.3
@@ -1154,7 +1152,6 @@ packages:
     resolution: {integrity: sha512-IHkHSNmTM6q6b8DuKSzd+AEMYPZywSxcb+37kZU7ywtcwsGen3aVEvWFykopIWjjwj3xdZ/5UdwJRqhZDQMlNg==}
     dependencies:
       '@iconify/types': 2.0.0
-    dev: true
 
   /@iconify-json/carbon/1.1.8:
     resolution: {integrity: sha512-aSoMgvZyvIXadLbMXcfS+qy8CVxSExvvp8Vd/nCrupLFc0KLKSukRInnVNc63zaHqoe1NBf5xUrgfyRYYfaKWQ==}
@@ -1166,13 +1163,11 @@ packages:
     resolution: {integrity: sha512-nyggdePr01/Y/y/w3HLpyO7LPV4BBCUd0Fn+Y14ruZ9VW75bfIJn9yJym8ivFjhrZCwJT+GnEpqOLOteCUPhvg==}
     dependencies:
       '@iconify/types': 2.0.0
-    dev: true
 
   /@iconify-json/logos/1.1.19:
     resolution: {integrity: sha512-Q2YgFBqI+/7FgUm8ECn8DZLmIMbcQTPK1dVY/1MZiiP6W6jXwkrOluKodVMb8DHbk59L2JsNI7oajV7+sF55Dw==}
     dependencies:
       '@iconify/types': 2.0.0
-    dev: true
 
   /@iconify/types/2.0.0:
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -3241,11 +3236,12 @@ packages:
   /core-util-is/1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
 
-  /cosmiconfig-typescript-loader/2.0.2_wup25etrarvlqkprac7h35hj7u:
+  /cosmiconfig-typescript-loader/2.0.2_ogbribeapbbe3nxte2wne3vl54:
     resolution: {integrity: sha512-KmE+bMjWMXJbkWCeY4FJX/npHuZPNr9XF9q9CIQ/bpFwi1qHfCmSiKarrCcRa0LO4fWjk93pVoeRtJAkTGcYNw==}
     engines: {node: '>=12', npm: '>=6'}
     peerDependencies:
       '@types/node': '*'
+      cosmiconfig: '>=7'
       typescript: '>=3'
     dependencies:
       '@types/node': 18.11.9
@@ -4630,15 +4626,6 @@ packages:
       graceful-fs: 4.2.10
       jsonfile: 6.1.0
       universalify: 2.0.0
-
-  /fs-extra/11.1.0:
-    resolution: {integrity: sha512-0rcTq621PD5jM/e0a3EJoGC/1TC5ZBCERW82LQuwfGnCa1V8w7dpYH1yNu+SLb6E5dkeCBzKEyLGlFrnr+dUyw==}
-    engines: {node: '>=14.14'}
-    dependencies:
-      graceful-fs: 4.2.10
-      jsonfile: 6.1.0
-      universalify: 2.0.0
-    dev: true
 
   /fs-extra/7.0.1:
     resolution: {integrity: sha512-YJDaCJZEnBmcbw13fvdAM9AwNOJwOzrE4pqMqBq5nFiEqXUqHwlK4B+3pUw6JNvfSPtX05xFHtYy/1ni01eGCw==}
@@ -8812,19 +8799,6 @@ packages:
       progress: 2.0.3
       rd: 2.0.1
       vite: 3.2.4
-
-  /vite-plugin-static-copy/0.13.0_vite@3.2.4:
-    resolution: {integrity: sha512-cln+fvKMgwNBjxQ59QVblmExZrc9gGEdRmfqcPOOGpxT5KInfpkGMvmK4L+kCAeHHSSGNU1bM7BA9PQgaAJc6g==}
-    engines: {node: ^14.18.0 || >=16.0.0}
-    peerDependencies:
-      vite: ^3.0.0 || ^4.0.0
-    dependencies:
-      chokidar: 3.5.3
-      fast-glob: 3.2.12
-      fs-extra: 11.1.0
-      picocolors: 1.0.0
-      vite: 3.2.4
-    dev: true
 
   /vite/3.1.8_sass@1.54.5:
     resolution: {integrity: sha512-m7jJe3nufUbuOfotkntGFupinL/fmuTNuQmiVE7cH2IZMuf4UbfbGYMUT3jVWgGYuRVLY9j8NnrRqgw5rr5QTg==}
