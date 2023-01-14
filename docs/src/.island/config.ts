@@ -72,7 +72,7 @@ function getNavbar(lang: 'zh' | 'en') {
     },
     {
       text: getText('演练场', 'Playground'),
-      link: getLink('/playground/'),
+      link: getLink('/playground/index'),
       activeMatch: '/playground/'
     },
   ];
